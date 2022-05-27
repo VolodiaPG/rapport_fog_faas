@@ -748,283 +748,54 @@ After synthesizing the knowledge in \cref{tab:placement}, new questions are rais
 	\item the integration of \gls{FaaS} and their inherent constraints in the Fog;
 	\item the place of security and privacy.
 \end{enumerate*}
+
+\section{Committing to solving problems}
+
+In \ref{sec:curated} we identified four main axis of improvements in the field. All are connected through one gap: comparison. Currently, comparison is not enabled in the field. How would one know the performance gap between MEC and Fog to steer the latter in the right direction. We are lacking the proper experimental framework. Simulations show metrics one could gain considering Fog. However it does not highlight real implementation challenges, limitations and needed improvements to use the technology. At last, simulation does not enable the study of real use cases. Currently there are none serious.
+
+What this calls for is a framework. A piece of open software sufficiently maleable for anyone to measure the differences of the propositions against other's.
+
+\subsection{A framework}
+
+Currently, not much has been done in that regard. FogFlow is the sole competitor. It has been developed on the iteration of papers. Meaning this software is a candidate solution to the problem rather than a tool to find the best. Additionnaly, it also uses its own contenarization and orchestrator. Meaning that time has to be dedicated to enable an application to work exclusively on that platform. This goes a bit against the idea of the Fog continuum that enables Fog applications to be run in the Cloud. Theoretically there even should be no difference running Cloud applications in the Fog.
+
+This introduces the idea of a new open framework that enables scientists to both develop real world usage for the Fog as well as test their ideas for placement and scheduling of such applications. Ideally this platforms begs to use \gls{FaaS} as its underlying paradigm for guest applications, or should I say functions.
+
+From an engineering perspective, this task is challenging for a number of reasons:
+\begin{enumerate}
+	\item I would reasonably assume I am the only maintainer
+	\item Time for the documentation will lack
+	\item The technology stack needs to enable cooperation
+	\item Being a scientific piece of software, it should be expected to perform some shortcuts \footnote{For instance implement a routing mechanism instead of using a production one in the cluster. This both simplified development and would enable better monitoring and debug afterwards.}
+\end{enumerate}
+
+For those reasons I went with Rust as the development language. The novelty of the language and paradigm make the toolchain a breeze to use on any computer. Additionally the paradigm itself bans any developer errors from the project, especially when considering error handling mechanisms (Exceptions are not a necessary evil). To finish, Rust's compiler is the only one sufficienty advanced to actually help with errors, race conditions, etc. Plus it is performant enough so that the developed applications is not confined to a control role but can also take part in the data plane. Which is handy when it comes to developing a simple and understandable solution.
+
+The project has been available on Github from the day-0. Being a REST-based suite of applications. All the documentation is compatible with the OpenAPI v3 standard. A must when it comes to sharing any applications. This makes the project compliant with the reproducible science mantra.
+
+The framework is composed of two parts: the fog node part and the market part. The fog node is the part that communicates with both Kubernetes and OpenFaaS of the node (being the Cloud or any other node). The market part is the trusted one, taking the final placement decision and handling the economics of the auctions. For now, auctions are not involving any relations of money, as this platform is purely experimental.
+
+
+\section{Evaluation}
+
+One main goal of developing a framework from within a scientific team is the focus brought on evaluation. Even though this report is due too early to really have measured impacts of the framework. It has been engineering around the idea of using the latest library for Grid5000.
+
+Grid5000 is a grid of clusters situated at different locations all around France. The idea is to let scientitic use its nodes for demanding applications or experiments. It even has been engineering towards this particular end by making sure most if not all variations are monitored and mastered. EnoLib is a tool developed in my team, at Myriads that allows for a simpler control of the workflows sent to the nodes. Instead of having to deal with connections issues and bash scripts all around the place, it offers a Python API that does it for us. We can now concentrate on purely the experiment and its settings instead of having to deal with issues in Grid5000's documentation. Which is sweet, because it is easier to deal with missing documentation in a Python library instead of whatever is Grid5000.
+
+So the project has two scripts using EnosLib
+
+The first one is dedicated to builing a full docker image from the framework: one for the fog node software and the other for the market's. Both are then shipped and hosted on Github for latter retrieval.
+
+Then the second script allows to use Grid5000's nodes to connect then and emulate a Fog architecture. Granted it is quite basic for now, as it is only a hierarchical one, but is only the beginning and able to do so much more. So that script then deploys Kubernetes clusters \footnote{Actually those are Rancher's K3S cluster, much lighter – and Fog-suited – versions of Kubernetes. }. On top of that it installs OpenFaaS. It finally install our application and configure the cluster and authorizations according to our needs. Then testing and experimenting can start.
+
+It is planned to add prometheus endpoints to both the market and the fog node softwares in order to enable metric collection. While EnosLib is mostly used here to setup the experimental setup, it can do much more. And it can shine when spinning a prometheus instance that can be used to collect data from all other the nodes and centralize them for collection and analysis. So the plan would be to use that capability for easier experiments. One would then be able to collect data about the auctions, the prices, the number of nodes responding, how the messages are routed. And about the functions, how they are interacting with each other,  how the pings between the nodes are changes, etc.
+
+
+
+\section{Conclusion*}
+
+
 \printbibliography
 
 \end{document}
 
-\iffalse
-	\begin{table}
-		\fontsize{9}{8}\selectfont
-		\begin{tabular}{
-			| l<{\hspace{\tabred}}
-			| >{\hspace{\tabred}}c<{\hspace{\tabred}}
-			>{\nullfont\hspace{\tabred}}c<{\hspace{\tabred}}
-			| >{\hspace{\tabred}}c<{\hspace{\tabred}}
-			| >{\centering\hspace{\tabred}}p{3cm}<{\hspace{\tabred}}
-			| >{\centering\hspace{\tabred}}p{3cm}<{\hspace{\tabred}}
-			| >{\centering\hspace{\tabred}}p{6cm}<{\hspace{\tabred}}
-			| >{\hspace{\tabred}}c<{\hspace{\tabred}}
-			| >{\hspace{\tabred}}c<{\hspace{\tabred}}
-			>{\nullfont\hspace{\tabred}}c<{\hspace{\tabred}}
-			|}
-			\hline
-			%\diagbox[dir=NW]{\rule{0mm}{4.2cm}\rule{0.9cm}{0cm}Article}{Feature}
-			 & \rot{Centralization}                                                                               % 1
-			 & \rot{Control level}                                                                                % 2
-			 & \rot{Isolation mechanism}                                                                          % 3
-			 & \rot{Placement optimization  goals}                                                                % 4
-			 & \rot{Allocation mechanisms}                                                                        % 5
-			 & \rot{Scheduling metrics}                                                                           % 6
-			 & \rot{SLA or SLO support}                                                                           % 7
-			 & \rot{Ownership}                                                                                    % 8
-			 & \rot{Security}
-			\\
-
-			%\midrule
-			\hline
-			\cite{cheng_fog_2019}
-			 & C
-			 & Functions and data
-			 & Co
-			 & Data centric programming model
-			 & data flow optimality
-			 & data i/o, geoscope, priority, SLAè
-			 & SLO
-			 & 1
-			 & -
-			\\
-			\cite{baresi_paps_2019, baresi_towards_2019, baresi_paps_2021}
-			 & D
-			 & Functions
-			 & Co
-			 & latency
-			 & multilayered, with a leader at each step
-			 & Inter-node latency, network topology, response time, availability, workload, clients, geo-location
-			 & SLA  \& SLO
-			 & 1
-			 & -
-			\\
-			%\cite{lee_trustful_2020}  
-			%& D    
-			%& Resource-level provisioning    
-			%& -    
-			%& minimizes use of computational resources    
-			%& maximization of the utility/profit    
-			%& one-shot \acrshort{VCG}   
-			%& -    
-			%& -   
-			%& blockchain to trace transactions 
-			%\\
-			\cite{cicconetti_decentralized_2021}
-			 & D
-			 & Function
-			 & -
-			 & response-time
-			 & routing algorithm
-			 & network congestion, response-time
-			 & -
-			 & $n$
-			 & -
-			\\
-			\cite{wang_lass_2021}
-			 & F
-			 & resource provisioning
-			 & Co
-			 & latency
-			 & provisionning, deflation
-			 & SLO
-			 & -
-			 & -
-			 & -
-			\\
-			\cite{tasiopoulos_fogspot_2019}
-			 & D
-			 & allocation or not
-			 & VM
-			 & Revenue or highest possible volume of requests
-			 & Real-time Dutch auctions
-			 & -
-			 & -
-			 & $n$
-			 & -
-			\\
-			\cite{mutichiro_qos-based_2021, palade_swarm-based_2020}
-			 & F
-			 & Functions
-			 & Co
-			 & -
-			 & Ant Colony Optimization
-			 & node (CPU, RAM) utilization, service-time, scheduling cost
-			 & -
-			 & -
-			 & -
-			\\
-			\cite{rausch_optimized_2021}
-			 & C
-			 & Functions
-			 & Co
-			 & -
-			 & Greedy multi-criteria decision making
-			 & image locality, data locality, hardware, Egde/Cloud-bound
-			 & -
-			 & -
-			 & -
-			\\
-			\cite{bermbach_auctionwhisk_2021}
-			 & D
-			 & Functions
-			 & Co
-			 & -
-			 & Auction
-			 & storage bid, processing bid
-			 & -
-			 & $n$
-			 & -
-			\\
-			%& \rot{Centralization} % 1
-			%& \rot{Control level} % 2
-			%& \rot{Isolation mechanism} % 3
-			%& \rot{Placement optimization goals} % 4
-			%& \rot{Allocation mechanisms} % 5
-			%& \rot{Scheduling metrics} % 6
-			%& \rot{SLA or SLO support} % 7
-			%& \rot{Ownership} % 8
-			%& \rot{Security}\\
-			\cite{elgamal_droplet_2018}
-			 & C
-			 & Application's functions
-			 & -
-			 & Completion time
-			 & Shortest path
-			 & communication delays cost, execution time cost, queuing delay cost
-			 & -
-			 & -
-			 & -
-			\\
-			\hline
-		\end{tabular}
-		\caption*{\fontsize{9}{8}\selectfont{\emph{Legend.} (F) Federated (C) Centralized (D) Decentralized/Distributed \\
-				(VM) \gls{VM} (Co) Container}}
-		\caption{Prominent comparison points between placement frameworks}
-		% \label{tab:placement}
-	\end{table}
-\fi
-
-%\rot{\shortstack[l]{Stakeholder\\Management}}
-% \begin{table}[t] \centering
-% 	\fontsize{10}{8}\selectfont
-% 	\begin{tabular}{@{} cl*{2}c|*{7}c|p{7cm} @{}}
-% 		 &                                                                & \multicolumn{2}{r}{Architecture}  & \multicolumn{7}{c}{Scheduling metrics} & \multicolumn{1}{c}{Comments}                                                                                                                                          \\[2ex]
-% 		 &                                                                & \rot{Decentralized}               & \rot{SLA/SLO support}                  & \rot{Geo-aware}
-% 		 & \rot{Latency}                                                  & \rot{\shortstack[l]{Service-costs                                                                                                                                                                                                                  \\(RAM, CPU...)}} & \rot{Network}
-% 		 & \rot{Data locality}                                            & \rot{Hardware}                    & \rot{Image registry aware}             &                                                                                                                                                                       \\
-% 		\cmidrule{2-12}
-% 		 & \cite{cheng_fog_2019}                                          &                                   & \OK                                    & \OK                          &     &     &     & \OK &     &     & Concentrates on data-flow                                                                          \\
-% 		 & \cite{baresi_paps_2019, baresi_towards_2019, baresi_paps_2021} &                                   & \OK                                    &                              & \OK & \OK & \OK &     &     &     & Multilayered organization                                                                          \\
-% 		 & \cite{cicconetti_decentralized_2021}                           & \OK                               &                                        &                              & \OK &     & \OK &     &     &     & Routing-based algorithm                                                                            \\
-% 		 & \cite{wang_lass_2021}                                          &                                   & \OK                                    &                              & \OK &     &     &     &     &     & Provisioning, deflation of containers                                                              \\
-% 		 & \cite{tasiopoulos_fogspot_2019}                                & \OK                               &                                        &                              & \OK &     & \OK &     &     &     & Auction on the value of QoS improvements                                                           \\
-% 		 & \cite{mutichiro_qos-based_2021, palade_swarm-based_2020}       &                                   &                                        &                              & \OK & \OK &     &     &     &     & \acrshort{ACO} on a small node cluster                                                             \\
-% 		\rot{\rlap{~Contributions}}
-% 		 & \cite{rausch_optimized_2021}                                   &                                   &                                        &                              &     & \OK &     & \OK & \OK & \OK & Greedy multi-criteria decision making  on top of the Kubernetes scheduler                          \\
-% 		 & \cite{bermbach_auctionwhisk_2021}                              & \OK                               &                                        &                              & \OK & \OK &     & \OK &     & \OK & Scheduled from bids made on storage and processing                                                 \\
-% 		 & \cite{elgamal_droplet_2018}                                    & \rot{Geo-aware}                   &                                        &                              &     & \OK & \OK &     &     &     & \OK                                                                       & Shortest path on graph \\
-% 		\cmidrule[1pt]{2-12}
-% 	\end{tabular}
-% 	\caption{Prominent comparison points between placement frameworks mentioned in \cref{sec:literature_review}}
-% \end{table}
-
-%\subsection{Charateristics}
-%Introduce to the different hightlighted differences between all the methods
-%\begin{itemize}
-%    \item centralized vs decentralized
-%    \item coarse grained vs fine grained
-%    \item isolation mechanism (VM, container, WASM, etc.)
-%    \item Placement aim (latency, trhoughtput, cost reduction, redundancy, etc.). What does it optimize?
-%    \item Allocation mechanism (fair, always a wninner, utility optimization, auctions, etc.)
-%    \item Used metrics for scheduling
-%    \item SLA support, or any kind of agreements
-%    \item Multi landlord environement?
-%    \item Security, cf Figure 16 of \citeposs{ieee_standards_association_ieee_2018} openfog standard
-%\end{itemize}
-%\begin{itemize}
-%    \item Usually more popupar in the litterature
-%    \item Simplifies the problem by considering the infrastructure owned by the same actor
-%    \item Simplifies the layered model: Cloud, then Edge often as a horizontal layer
-%    \item Was developed and advertised before the Fog
-%    
-%\end{itemize}
-%
-%
-%Usually these approach rely on a scheduler mastering a subset or the whole node network. This is the approach that is the most optimal as the master knows the whole state of the system
-%\begin{itemize}
-%    \item matrix chain ordering problem \citet{elgamal_droplet_2018}
-%    \item \citeposs{palade_swarm-based_2020} defines Multi-acccess Edge Computing. A server acts as an intermediary between the cloud and other sub-nodes. This is a sort of master of the underlying network. The scheduler is cloud based.
-%\end{itemize}
-%
-%\begin{itemize}
-%    \item \citeposs{wang_lass_2021} Developped a platform that uses fair share allocation mechanisms. This guarantees a minimum allocated resources to each function, in case of an overload of the node. Their platform is recommended by the authors for highly dynamic predictible workloads as it utilizes aggressive approaches to reclaim resources at the scale of hundreds of milliseconds. Sadly, this approach is tested for the edge, with more computing power than in fog. Another critic is that it only focuses on a single node.
-%    \item Not all papers are about managing the behaviours of the Fog, some focus on optimization of the execution of the functions themselves, such approches are explored by \citet{shen_defuse_2021} that utilizes mining pattern to extract execution dependencies, thus optimizing along the way.
-%\end{itemize}
-%\begin{itemize}
-%    \item \citeposs{mutichiro_qos-based_2021} tested an approched focuses solely on QoS optimization
-%\end{itemize}
-%
-%\begin{itemize}
-%    \item \citet{lee_trustful_2020} utilizes VCG auctions to allocate computing resources. The transactions are secured using blockchain contracts. The paper is only about a simulation as a proof of feasability and lacks proper load verification.
-%    \item {Approach of blockchain, w/ replacement of the Proof-of-Work with something lighter, as highlighted by \citet{xie_when_2021} in their survey of applied auctions an blockchained. \begin{enumerate}
-%        \item \citet{zavodovski_decloud_2019} created a distributed auction platform
-%        \item \citet{debe_blockchain-based_2020} explores reverse bidding
-%        \item \citet{yu_building_2019} makes sure to find a winner in the edge nodes for every requests submitted
-%        \item There are also mentions about deep learning-based auctions, that are optimal
-%        \item \citeposs{mutichiro_qos-based_2021} tested an approched focuses solely on QoS optimization
-%    \end{enumerate} }
-%\end{itemize}
-%
-%%\subsection{Centralized vs Decentralized}
-%%\subsubsection{Centralized}
-%%\begin{itemize}
-%%    \item \citet{cheng_fog_2019} defines \textit{Fog functions} as a \gls{FaaS} platform. Nodes are edge-base or cloud-based and running the same software. Discovery and orchestration is centralized to a particular node. The orchestrator is made aware of the data flowing to its nodes. It then decides where to execute the function. Data is then sent to that node so processing can take place.
-%%\end{itemize}
-%%
-%%\subsubsection{Decentralized}
-%%\begin{itemize}
-%%    \item{ \citet{baresi_towards_2019} theorised an edge-only platform that would collaborate with others. Their goal is to optimize latency and trhoughtputs of the applications they execute. Their platform would both be able to orchestrate the swarm vertically and horizontally, the later one being prioritized to maximize robustness and availability. \citeposs{baresi_paps_2019} \gls{PAPS} automatic platform is an application of their principles, at a superiror scales from their perspective. They can execute 100 functions on an intense workload. The platform divides itself into 3 layers.
-%%    \begin{enumerate*}
-%%        \item A supervisor node that knows the global topology. Its responsability is to form communities
-%%        \item A community is an aggregation of nodes with a reduced communication delay (under a defined threshold). It has been assembled by the Supervisor node and is in charge of making sure \glspl{SLO} are reached and \glspl{SLA} not violated. The functions processed by the community are allocated by a leader. This centralized approach avoids the need of a more complex protocol while using well known optimal centralized techniques. The authors note the utilization of containers in \gls{PAPS} make reactivity challenging.
-%%        \item The community leader passes the responsabilty to the local node, alongside the allocated resources. Then it is up to that local node to make sure \gls{SLO} is not broken. So each node actually micro-manage its allocated functions and their fluctuations the best they can, while still respectinf the leader's decision and global view.
-%%    \end{enumerate*}
-%%    }
-%%\end{itemize}
-%
-%\subsection{Control level}
-%
-%\subsection{Isolation mechanism}
-%%\begin{itemize}
-%%    \item \cite{cheng_fog_2019} uses Docker to isolate each functions.
-%%\end{itemize}
-%
-%\subsection{Placement optimization goal}
-%%\begin{itemize}
-%%    \item \cite{cheng_fog_2019} tries to respect \gls{SLO} at runtime
-%%\end{itemize}
-%
-%\subsection{Allocation mechanism}
-%\subsection{Scheduling underlaying metrics}
-%
-%\hypersetup{linkcolor=}
-%\subsection{\acrfull{SLA} support}
-%A \acrfull{SLA} is an agreement between the cloud provider and the client specifying uptimes, responsiveness, performance-level, issue resolution timeframe \cite{wikipedia_service-level_2021}. In short what the client expects from what the provider advertised. This cloud native contract would provide a well-known framework to define what to expect from a Fog network. Because Fog is decentralized, one would however need to leverage the correct toolset to make the contract known by all. Such a mechanism can be contributed by smart contracts \cite{hang_sla-based_2019, di_pascale_smart_2017, zhou_trustworthdiay_2018}.
-%\subsection{Ownership: living in a multi landlord ecosystem}
-%\subsection{Security}
-%\subsubsection{Physical attacks}
-%Compromised hardware can be a possibility, however harming the provider.
-%\subsubsection{Anything else}
-%Other risks are known, from exploitation of resource contrained policies to more problematic auxilary attacks. To not over-extend this research domain, Fog computing would only worsen issues such as coverting attacks as desmonstrated by \citet{maurice_hello_2017}. If before the cloud provider was in charge of the virtual machine distribution to a certain extent, Fog introduces geographic constraints. Those would theoretically enable geographically-located attacks.
-%This is a critical aspect as \citet{ieee_standards_association_ieee_2018} also points out.
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: t
-%%% End:
