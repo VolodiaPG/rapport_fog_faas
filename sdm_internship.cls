@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{sdm}[2015/02/02 v0.1
+\ProvidesClass{sdm_internship}[2015/02/02 v0.1
 LaTeX document class for 
 Université Rennes 1]
 
@@ -23,23 +23,23 @@ Université Rennes 1]
 \begin{center}
 
 % Upper part of the page
-\includegraphics[width=0.8\textwidth]{./assets/header}\\[1cm]
+\includegraphics[width=0.8\textwidth]{./header}\\[1cm]
 \textsc{\Large Master research Internship}
 \vspace{1cm}
 
-\includegraphics[width=0.09\textwidth]{./assets/rennes1}
-\includegraphics[width=0.09\textwidth]{./assets/ens-Rennes}
-\includegraphics[width=0.1\textwidth]{./assets/insa-rennes}
-\includegraphics[width=0.08\textwidth]{./assets/supelec}
-\includegraphics[width=0.06\textwidth]{./assets/esir}
-\includegraphics[width=0.07\textwidth]{./assets/enssat} 
-\includegraphics[width=0.05\textwidth]{./assets/logoUbs}
+\includegraphics[width=0.09\textwidth]{./rennes1}
+\includegraphics[width=0.09\textwidth]{./ens-Rennes}
+\includegraphics[width=0.1\textwidth]{./insa-rennes}
+\includegraphics[width=0.08\textwidth]{./supelec}
+\includegraphics[width=0.06\textwidth]{./esir}
+\includegraphics[width=0.07\textwidth]{./enssat} 
+\includegraphics[width=0.05\textwidth]{./logoUbs}
 
 
 
 \vspace{1cm} 
-%\textsc{\Large Bibliographic report }\\[0.5cm]
 \textsc{\Large Internship report }\\[0.5cm]
+%\textsc{\Large Internship report }\\[0.5cm]
 
 % The title of your report
 \HRule \\[0.4cm]
@@ -68,7 +68,7 @@ Université Rennes 1]
 %
 % name(s) of your supervisor(s)
 \@supervisorOne\\
-%\@supervisorTwo\\
+\@supervisorTwo\\
 % Name of your team
 \@team
 \end{flushright}
@@ -80,7 +80,7 @@ Université Rennes 1]
 % INCLUDE HERE THE LOGO OF YOUR INSTITUTION
 %\textbf{INSERT ``\%'' IN FRONT OF ALL THE LOGO YOU DO NOT NEED - A SINGLE ONE SHOULD REMAIN AT THE BOTTOM OF THIS PAGE}
 \begin{flushleft}
-\includegraphics[width=0.09\textwidth]{./assets/\@school}
+\includegraphics[width=0.09\textwidth]{\@school}
 \end{flushleft}
 \end{center}
 \end{titlepage}
@@ -92,7 +92,6 @@ Université Rennes 1]
 %\newpage
 
 % compile twice to get the table of contents
-\hypersetup{linkcolor=}
 \tableofcontents
 \thispagestyle{empty}
 \newpage
