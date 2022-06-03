@@ -1,5 +1,6 @@
 \documentclass[11pt]{sdm}
-\usepackage{xcolor}
+%\usepackage{xcolor}
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
 \usepackage{hyperref}
 \definecolor{default-linkcolor}{HTML}{A50000}
 \definecolor{default-filecolor}{HTML}{A50000}
@@ -36,6 +37,14 @@
 \usepackage{makecell, caption, booktabs}
 \usepackage{booktabs}
 \usepackage{pifont}
+
+\usepackage{xargs} 
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
 
 \usepackage{cleveref}
 \crefname{section}{section}{sections}
@@ -214,9 +223,15 @@
 \newacronym{QoE}{QoE}{Quality of Experience}
 \newacronym{SoC}{SoC}{System-on-a-Chip}
 \newacronym{ISP}{ISP}{Internet Service Provider}
+\newacronym{API}{API}{Application Programming Interface}
 
 \begin{document}
+\listoftodos[Notes]
+
+\newpage
+
 \maketitle
+
 
 %*****************************************************************%
 
@@ -572,21 +587,80 @@ The result is \cref{tab:placement}, from which we can highlight limitations of e
 	\item[Security and privacy] as the baseline. Security of both hardware and software is required, to trust the node and the function executing on that node, i.e., making sure an ill-intentioned payload doesn't escape from its enclosure \cite{maurice_hello_2017}. Privacy is another point of interest that is especially relevant when designing auctions, as a node could take advantage of knowing the true valuation it was given by the function. Those two features that should be implemented \emph{by-design} are not currently supported in \cref{tab:placement}.
 \end{description}
 
+\section{Plan}
+
+Lack of SLA + Auctions + FaaS specific mechanisms
+
+For an internship -> only 2 firsts could be done in time
+
+Introducing our framework
+
+What do we consider as a context: tree shaped Fog, need for a trusted marketplace
+
+How would one use our framework
+
+Is there any related work particularly work on which we could have been based: Fogflow \cite{smartfog_fogflow_2022} (history ?) + FogBus \cite{deng_fogbus2_2021} as retained candidates (maybe list the others?)
+
+How is this framework working under the hood: fog nodes, marketplace, why rust (language, quality of code, size, performance -> always the Fog in focus + independence from the platform [the code could run on a more embedded device wihtout troubles instead of being limited to Cloud only platform]), the arch using clean architecture, the routing mechanism, the REST \gls{API}, using openAPI + why it is important + open science (have citations for this trend)
+
+How do we run the framework (development using mutlipass, then using grid5000 + Enos \cite{cherrueau_enoslib_2022}) -> what do the script do
+
+What are its benefits
+
+What are its limitations
+
+How do we plan to evaluate it, to validate or not both of the benefits and limitations = two levels for a paper
+
+What are the plans for the future (Thesis + Terra Forma \cite{longuevergne_terra_2022})
+
 \section{Taking action}
 
-In \ref{sec:curated} we identified four main axis of improvements in the field of Fog computing:
+We think \gls{FaaS}-enabled Fog is a promising approach to enabling real world usage of the Fog. However, as depicted in \ref{sec:curated} we identified four main axes of improvements to go this particular direction:
 \begin{enumerate}
-	\item Lack of \gls{SLA}
-	\item Smarter auction-based placement mechanisms
-	\item FaaS-specific mechanisms
-	\item Security and privacy
+	\item lack of \gls{SLA}
+	\item smarter auction-based placement mechanisms
+	\item \gls{FaaS}-specific mechanisms
+	\item security and privacy
 \end{enumerate}.
 
- One is still missing from this list: scientific comparison. The field currently lacks the ability to compare algorithms, placement decisions and so on. Crucial is also the ability to adapt the \gls{FaaS} paradigm as we test algorithms in order to identify and measure the room for improvement and the challenges. As we saw earlier the field does not lack ideas to place functions but lacks ways to test them on real problems rather than simulations.
+We need to add “scientific comparison” to this list also. Indeed the community presents promising placement solutions but fails to both compare them and to test them on real scenarios instead of relying extensively on simulations. Another benefit of in-situ testing is the ability to face development challenges not identified from a higher algorithmic viewpoint.
+
+In the next subsections we will examine our proposed placement mechanism. We will detail the work done toward a framework. Finally we will detail how we plan to evaluate this solution and platform against state-of-the-art solutions.
+
 
 This is why I worked on this framework that I am presenting. This piece of open software is aimed to be fully opened and modifiable by any peer.
 
-\subsection{A framework}
+\subsection{Placing functions in The Fog}
+
+This internship mainly focuses on the implementation of a new idea for placing functions – parts of applications – in the Fog. To do so we developed our own idea focusing on economical whereabouts of the Fog. After introducing our view of the Fog, we will detail our placement behaviors, how and why we chose to implement our own framework and the evaluation plans regarding this work.
+
+\subsubsection{Context and challenges}
+
+The Fog is a distributed network made of fog nodes – computers – that work together to bring latency and bandwidth benefits to the Cloud customer. In time, Fog will be so entangled with the Cloud that clients should not be able to make the difference between executing their applications on the edge or on the Cloud. This means pricing is indistinguishable from the current offerings. This also means logistics are on point: Fog nodes are present everywhere not to degrade the usage of any applications.
+
+So the goal is to achieve a global coverage for anyone to jump in the Fog from anywhere. This means the client could contract with any providers, not being locked to only one as we currently observer in the Cloud. It is however interesting to note this “vendor lock-in” is bothering users that are trying to find solutions less dependent on a single provider.
+
+In our work, we consider fog nodes are owned by different actors. This way, both private (enterprises) and public (cities) can provide computational resources to the community excepting sufficient gains to be able to sustain this sharing. The more fog nodes join the network, the more competition and the more affordable it is to execute applications gaining from the benefits of the Fog.
+
+Considering this ownership of fog nodes, as introduced earlier, a good mechanism to introduce competition in a controlled manner are auctions. \improvement{Add info about benefits and properties of auctions}
+
+\subsubsection{Placing functions}
+
+
+
+\subsubsection{Limitations of existing frameworks}
+
+\subsubsection{A framework to rule them all}
+
+\subsubsection{Benefits and limitations}
+
+\subsection{Evaluating the framework}
+
+\subsubsection{Running the framework}
+
+\subsubsection{Our evaluation plan}
+
+\subsubsection{Plans of evolution and future research work}
 
 We can identify at most one serious other Fog framework.
 
@@ -604,28 +678,34 @@ We address all those points through the development of a simple yet efficient fr
 
 \subsubsection{The proposal}
 
-
-
 Currently, not much has been done in that regard. FogFlow is the sole competitor. It has been developed on the iteration of papers. Meaning this software is a candidate solution to the problem rather than a tool to find the best. Additionnaly, it also uses its own contenarization and orchestrator. Meaning that time has to be dedicated to enable an application to work exclusively on that platform. This goes a bit against the idea of the Fog continuum that enables Fog applications to be run in the Cloud. Theoretically there even should be no difference running Cloud applications in the Fog.
 
-This introduces the idea of a new open framework that enables scientists to both develop real world usage for the Fog as well as test their ideas for placement and scheduling of such applications. Ideally this platforms begs to use \gls{FaaS} as its underlying paradigm for guest applications, or should I say functions.
+This introduces the idea of a new open framework that enables the research community to both develop real world usages for the Fog as well as to test their ideas for placement and scheduling of such applications. Ideally, this platforms begs to use \gls{FaaS} as its underlying paradigm for guest applications, or should I say functions.
 
 From an engineering perspective, this task is challenging for a number of reasons:
 \begin{enumerate}
 	\item I would reasonably assume I am the only maintainer
 	\item Time for the documentation will lack
-	\item The technology stack needs to enable cooperation
-	\item Being a scientific piece of software, it should be expected to perform some shortcuts \footnote{For instance implement a routing mechanism instead of using a production one in the cluster. This both simplified development and would enable better monitoring and debug afterwards.}
+	\item The technology stack needs to enable cooperation as much as a clean code
+	\item Being a scientific piece of software, it should be expected to perform some shortcuts \footnote{For instance implement a routing mechanism instead of using a production one in the cluster. This both simplified development and would enable better monitoring and debugging afterwards. It would also enable tweaking of said router as well as maintaining the cost of running the application low, since we are still bound by the resources available in the Fog.}
 \end{enumerate}
 
-For those reasons I went with Rust as the development language. The novelty of the language and paradigm make the toolchain a breeze to use on any computer. Additionally the paradigm itself bans any developer errors from the project, especially when considering error handling mechanisms (Exceptions are not a necessary evil). To finish, Rust's compiler is the only one sufficienty advanced to actually help with errors, race conditions, etc. Plus it is performant enough so that the developed applications is not confined to a control role but can also take part in the data plane. Which is handy when it comes to developing a simple and understandable solution.
+For those reasons I went with Rust as the development language. The novelty of the language and paradigm makes the toolchain a breeze to use on any computer. It also enables the compilation target to be easily changed if in the future we consider running the framework on real Fog nodes. Additionally the paradigm itself bans any unintentional developer errors from the project, especially when considering error handling mechanisms (exceptions are not a necessary evil). The only errors left are from the algorithm itself and not from a misinterpretation or wrong use of the language. To finish, Rust's compiler is the only one sufficiently advanced to actually help with errors, race conditions, etc. Plus, it is efficient enough so that the developed applications is not confined to a control role but can also take part in the data plane. Which is handy when it comes to developing a simple and understandable solution.
 
-The project has been available on Github from the day-0. Being a REST-based suite of applications. All the documentation is compatible with the OpenAPI v3 standard. A must when it comes to sharing any applications. This makes the project compliant with the reproducible science mantra.
+This project is aligned with the OpenScience idea. It has been available on Github from day 1. It also features a REST API documentation compliant with the OpenAPI v3 standard. A must when it comes to sharing any applications.
 
-The framework is composed of two parts: the fog node part and the market part. The fog node is the part that communicates with both Kubernetes and OpenFaaS of the node (being the Cloud or any other node). The market part is the trusted one, taking the final placement decision and handling the economics of the auctions. For now, auctions are not involving any relations of money, as this platform is purely experimental.
+\subsubsection{Architecture}
+
+The framework is divided into two parts: the fog node and the market. 
+
+The fog node is the part communicates with both Kubernetes and OpenFaaS that run on the node (being the Cloud or any other node). 
+
+The market part is trusted by all, taking the final placement decision and handling the economics of the auctions. For now, auctions are not involving any relations of money, as this platform is purely experimental.
 
 
 \section{Evaluation}
+
+As the framework has been deemed sufficient to start experimenting, I started looking into a way to run it at scale on a testbed. The goal will then be dividing into two levels. First level is testing our approach against a naive one, second level is comparing against state-of-art approaches \cite{bermbach_auctionwhisk_2021, tasiopoulos_fogspot_2019}
 
 One main goal of developing a framework from within a scientific team is the focus brought on evaluation. Even though this report is due too early to really have measured impacts of the framework. It has been engineering around the idea of using the latest library for Grid5000.
 
