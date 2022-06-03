@@ -1,5 +1,6 @@
 \documentclass[11pt]{sdm}
 %\usepackage{xcolor}
+%\usepackage[utf8]{inputenc}
 \usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
 \usepackage{hyperref}
 \definecolor{default-linkcolor}{HTML}{A50000}
@@ -27,7 +28,7 @@
 \usepackage[acronym]{glossaries}
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex}
 \usepackage{utf8}
-\usepackage{lscape} 
+\usepackage{lscape}
 
 \usepackage{diagbox} %table split headers
 %\usepackage{longtable}
@@ -628,7 +629,7 @@ We need to add “scientific comparison” to this list also. Indeed the communi
 
 In the next subsections we will examine our proposed placement mechanism. We will detail the work done toward a framework. Finally we will detail how we plan to evaluate this solution and platform against state-of-the-art solutions.
 
-
+ at 4:29 P
 This is why I worked on this framework that I am presenting. This piece of open software is aimed to be fully opened and modifiable by any peer.
 
 \subsection{Placing functions in The Fog}
@@ -684,16 +685,63 @@ In the community, two frameworks caught our eyes:
 
 \subsubsection{A framework to rule them all}
 
+I coded this framework in Rust. The use of this modern language present several benefits, in no particular order:\improvement{Put an order}
+\begin{itemize}
+	\item the use of a modern toolchain enables multiple compilation targets such as x86 (when testing on Grid'5000) and ARM (when testing on Raspberry Pi clusters in the future)
+	\item Rust enables the developer to be confident in his code, e.g., where Python allows typo in its code, Rust forbids them
+	\item the compiler is helpful: it is able to detect race condition on variable access in multithreading environment
+	\item Rust toolset as well as its design enables a high level of coding standard, making it ideal for community sharing
+	\item Rust is efficient without without being a low-level coding language such as C, making it ideal if the framework ever need to accomplish high efficiency tasks such as routing \improvement{Add a citation to the appropriate section}.
+	\item 
+\end{itemize}
+
 \subsubsection{Benefits and limitations}
 
 \subsection{Evaluating the framework}
 
 \subsubsection{Running the framework}
 
+We planned from the beginning to run this framework on Grid'5000 \improvement{introduce grid5000}. This way we can benefit from a controlled environment on which to run reproducible experiments. \change{the sentence is bad} Another key point is scalability. We could expand our Fog network to any arbitrary number of nodes. The addition of both benefits allow us to select the resources allowed per fog nodes as well as network conditions in between the nodes. For our use we focus primarily on bandwidth and latency.
+
+\todo{More about grid5000 and why it is interesting}
+
+Using Grid'5000 can be achieved a few ways. The first – the legacy one – is through ssh and the execution of a number of bash scripts that create and control both the environment and the flow of the experiment.
+Another way as been introduced thanks the development of EnosLib \cite{cherrueau_enoslib_2022}. This library allow the complete use of Grid'5000 as the legacy, with one catch. One does not have to cope with the documentation of Grid'5000 and to learn its specific points and its trick to make things work. Everything is included in this Python library. Of course, documentation is still necessary to understand the various functionnalities, but when lacking, one does have another way to solve his problem than to rely on bothering people through a mailing list: the source code is available and sufficient to understand the implementation. \change{Introduce the goal of the library}
+Thanks to this library, a command line wrapper can be developed easily. This script is simpler than using a bunch of bash scripts, especially since it is executed on the developer's hardware. Every ssh tricks, copy, redirection and even standard installations are handled. For example, using docker is as simple as instantiating a Python context stating to run docker.
+However, executing bash commands is still an available option, but now, one does not need to care about the specifities of the nodes such as their IP, whether or not they are running a virtual machine, etc. Commands are automatically dispatched to the appropriate machines given their role — a tag.
+
+So this fasten development time a lot. Another interesing feature that I will be using in the extremely near future is the data collection. This library is though to be running experiments, and as such simplifies the data collection. One interesting aspect is the use of prometheus endpoints. \improvement{What is prometheus. Intro needed}. Through the use of appropriate crates (libraries) in Rust, I would be able to produce endpoints connected to certain interesting metrics: latency between nodes, load on the node, number of instanciated functions, etc. And to connect those endpoints automatically to EnosLib, this way at the end of the experiment, I would be able to retrieve all those metrics in a simple way.
+
+
 \subsubsection{Our evaluation plan}
+
+We plan to evaluate the framework in order to publish a paper by the end of my internship \improvement{State the end of the internship in the introduction}. To do so, we divided our strategy into two levels, in order to at least be able to publish a statement to tell the community that a framework is in the works.
+
+\begin{description}
+	\item[Level 1]{is the comparison of our auctioning approach with naive Fog fillings. Such fillings are filling the network from the top, or respectively, from the bottom. This way benefits of our approach and proof of the extensibility of the framework could be measured.}
+	\item[Level 2]{ is the comparison against state-of-the-art placement algorithms. Our goal is to identify and measure the key differences of our approach with \cite{bermbach_auctionwhisk_2022} and \cite{tasiopoulos_fogspot_2021}.}
+\end{description}
+
+Our criteria would be:
+\begin{itemize}
+	\item deployment time
+	\item \gls{QoS}
+	\item economic efficiency
+	\item fairness of the auctions
+	\item scaling potential
+\end{itemize}
+
+Economic efficiency aims at looking whether or not the fog node earns enough “money” to be profitable. Profitability would be an incentive for the node to stay in the network. One experience could look at “what happens when unprofitable nodes leave the network because they went bankrupt?”
+
 
 \subsubsection{Plans of evolution and future research work}
 
+“Flexible resource allocation for \gls{FaaS} applications in the Fog” is the title of my thesis.
+I earned the funding through the XXXXX. \todo{Put the name of the contest} thanks to the good advice of Nikos, under whose supervision I will research this topic.
+
+The plan always has been to use the developed framework in order to be able to experiment and develop a real-world Fog platform economically viable. Of course, we will start focused on \gls{FaaS} as well as auctions, as we believe they offer promising benefits to this goal.
+
+\iffalse
 We can identify at most one serious other Fog framework.
 
 \subsubsection{FogFlow}
@@ -710,7 +758,7 @@ We address all those points through the development of a simple yet efficient fr
 
 \subsubsection{The proposal}
 
-Currently, not much has been done in that regard. FogFlow is the sole competitor. It has been developed on the iteration of papers. Meaning this software is a candidate solution to the problem rather than a tool to find the best. Additionnaly, it also uses its own contenarization and orchestrator. Meaning that time has to be dedicated to enable an application to work exclusively on that platform. This goes a bit against the idea of the Fog continuum that enables Fog applications to be run in the Cloud. Theoretically there even should be no difference running Cloud applications in the Fog.
+Currently, not much has been done in that regard. FogFlow is the sole competitor. It has been developed on the iteration of papers. Meaning this software is a candidate solution to the problem rather than a tool to find the best. Additionally, it also uses its own contenarization and orchestrator. Meaning that time has to be dedicated to enable an application to work exclusively on that platform. This goes a bit against the idea of the Fog continuum that enables Fog applications to be run in the Cloud. Theoretically there even should be no difference running Cloud applications in the Fog.
 
 This introduces the idea of a new open framework that enables the research community to both develop real world usages for the Fog as well as to test their ideas for placement and scheduling of such applications. Ideally, this platforms begs to use \gls{FaaS} as its underlying paradigm for guest applications, or should I say functions.
 
@@ -745,12 +793,13 @@ Grid5000 is a grid of clusters situated at different locations all around France
 
 So the project has two scripts using EnosLib
 
-The first one is dedicated to builing a full docker image from the framework: one for the fog node software and the other for the market's. Both are then shipped and hosted on Github for latter retrieval.
+The first one is dedicated to building a full docker image from the framework: one for the fog node software and the other for the market's. Both are then shipped and hosted on Github for latter retrieval.
 
 Then the second script allows to use Grid5000's nodes to connect then and emulate a Fog architecture. Granted it is quite basic for now, as it is only a hierarchical one, but is only the beginning and able to do so much more. So that script then deploys Kubernetes clusters \footnote{Actually those are Rancher's K3S cluster, much lighter – and Fog-suited – versions of Kubernetes. }. On top of that it installs OpenFaaS. It finally install our application and configure the cluster and authorizations according to our needs. Then testing and experimenting can start.
 
 It is planned to add prometheus endpoints to both the market and the fog node softwares in order to enable metric collection. While EnosLib is mostly used here to setup the experimental setup, it can do much more. And it can shine when spinning a prometheus instance that can be used to collect data from all other the nodes and centralize them for collection and analysis. So the plan would be to use that capability for easier experiments. One would then be able to collect data about the auctions, the prices, the number of nodes responding, how the messages are routed. And about the functions, how they are interacting with each other,  how the pings between the nodes are changes, etc.
 
+\fi
 
 \section{Conclusion}
 % Financial cooperation as key
