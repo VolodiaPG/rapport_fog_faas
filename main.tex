@@ -94,6 +94,7 @@
   \textcites}
 
 \addbibresource{biblio.bib} %added
+\addbibresource{biblio-internship.bib} %added
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
@@ -646,9 +647,23 @@ Considering this ownership of fog nodes, as introduced earlier, a good mechanism
 
 \subsubsection{Placing functions}
 
+Placing functions is a challenge. Adding that Fog nodes are independent actors that choose to join the network adds a difficulty layer: fog nodes are able to specify their prices. Auctions helps to make sure competition is maintained and as such prices are not artificial \change{Specify what is the danger of having artificial prices}
 
+Auctions also help translating what is considered important by a fog node in a single metric: money – that being virtual or real. As an example, fog nodes near the \gls{IoT} sources could have more concerns about energy usage than fog nodes running off a data-center.
+
+With money in the equation, fog nodes will not trust each other, as such we need to introduce the first component of our architecture: the \emph{marketplace}.
+
+This piece of software is the place that will handle the auctioning process and the designation of a winner. We do not care about payment at the time, this method being purely for testing purposes \footnote{However, we still anticipate the implementation of such behavior, which is why we introduce this trusted third-party.}\change{Rephrase to represent the marketplace better}
+
+\todo{finish the introduction of the marketplace}
+
+\todo{make a nice schema with the steps of the method}
+
+I coded this method in a framework.
 
 \subsubsection{Limitations of existing frameworks}
+
+
 
 \subsubsection{A framework to rule them all}
 
