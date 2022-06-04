@@ -695,6 +695,34 @@ I coded this framework in Rust. The use of this modern language present several 
 	\item 
 \end{itemize}
 
+\subsubsection{The framework itself}
+
+As a first approach, we simplified the Fog network topology to be a tree instead of a graph. 
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=1\textwidth]{./assets/OurPlacement.drawio.png}
+	\caption{Basic steps of our placement with auctions and multi-ownership of the Fog}
+	\label{fig:our_placement}
+\end{figure}
+\improvement{Fix the figure location}
+\todo{cite AmethystDesign, Amethyst Prime, SBTS2018, bsd, freepik as artist for drone + CCTV + contract + salary/money}
+
+Figure \ref{fig:our_placement} is a high-level view of the four main steps our algorithm.
+
+\begin{description}
+	\item[Step 0]{has nothing innovative. It simply answers to the question: “how do the application is made aware the necessary \gls{IoT} devices are connected to run properly”. 
+	The answer is through a simple “ping” informing the Deployment Manager that part of its hardware is connected.
+	}
+	\item[Step 1] {packs more features: \gls{SLA}. When the Deployment Manager wants to provision a new function on the Fog network, it will be his responsibility to split his applications and constitute the functions that will be executed on the Fog. Those functions are then described by a \gls{SLA} that describes multiple points such as CPU, RAM, latency. This contract represents guarantees to the execution of the function. A key point is that we consider everything has a price in the Fog, as such any need will be able to be provided, however the cost may be infinitely high.
+	Once the \gls{SLA} is ready, it is sent to the Marketplace which starts the auctioning process. The first action taken is to sent the contract to an arbitrary Fog node in the network. Every node will then relay the \gls{SLA} until one requirement is broken.
+	}
+	\item[Step 2] {is the bidding process. Every fog node takes a look at the \gls{SLA} and bids. Thanks to an appropriate \improvement{Ref the appropriate auction mecha} auctioning mechanisms, it will represent the actual value – the truthful value – of the function through the eyes of the Fog node. Once this process has been done, the bid is returned back to the Marketplace.}
+	\item[Step 3] {is the final step. Here, the Marketplace received all the bids of all the suitable Fog node to execute the function. The auction takes place and the winner is given to the Deployment Manager for further action. Two options are available: not to pay and find another strategy to achieve its goal. Or to pay the Marketplace that in turn will pay the Fog node that will provision the function and so, make the application work. Of course, payment will not travel to the Fog node but in parallel in order to save on precious bandwidth.}
+				
+\end{description}
+
+
 \subsubsection{Benefits and limitations}
 
 \subsection{Evaluating the framework}
@@ -778,11 +806,7 @@ This project is aligned with the OpenScience idea. It has been available on Gith
 
 The framework is divided into two parts: the fog node and the market. 
 
-/todo{cite AmethystDesign, Amethyst Prime as artist for drone + CCTV}
-
 The fog node is the part communicates with both Kubernetes and OpenFaaS that run on the node (being the Cloud or any other node).
-
-As a first approach, we simplified the Fog network topology to be a tree instead of a graph. 
 
 The market part is trusted by all, taking the final placement decision and handling the economics of the auctions. For now, auctions are not involving any relations of money, as this platform is purely experimental.
 
