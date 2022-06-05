@@ -651,17 +651,20 @@ Considering this ownership of fog nodes, as introduced earlier, a good mechanism
 
 \subsubsection{Placing functions}
 
-Placing functions is a challenge. Adding that Fog nodes are independent actors that choose to join the network adds a difficulty layer: fog nodes are able to specify their prices. Auctions help to make sure competition is maintained and as such prices are not artificial \change{Specify what is the danger of having artificial prices}
+Placing functions is a challenge. Adding that Fog nodes are independent actors that choose to join the network adds a difficulty layer. Especially since Fog nodes are able to specify their prices and independently choose their behaviors. Auctions help to make sure competition is maintained and as such prices are not artificially set that would harm the final client.
 
-Auctions also help translating what is considered important by a fog node in a single metric: money – that being virtual or real. As an example, fog nodes near the \gls{IoT} sources could have more concerns about energy usage than fog nodes running off a data-center.
+Auctions also help translating what metrics are considered important by a fog node in a single number: the price – that being virtual or real. As an example, Fog nodes near the \gls{IoT} sources – at the edge of the network – could have more concerns about energy usage than fog nodes running off a data-center, and as such make high energy consuming clients pay more.
 
-With money in the equation, fog nodes will not trust each other, as such we need to introduce the first component of our architecture: the \emph{marketplace}.
+With money in the equation, Fog nodes will not trust each other, as such we need to introduce the first component of our architecture: the \emph{marketplace}. It is the only software that is trusted by all Fog nodes.
 
-This piece of software is the place that will handle the auctioning process and the designation of a winner. We do not care about payment at the time, this method being purely for testing purposes \footnote{However, we still anticipate the implementation of such behavior, which is why we introduce this trusted third-party.}\change{Rephrase to represent the marketplace better}
+This piece of the framework is the place that will handle the auctioning process and so, the designation of a winner. We do not care about payment at the time, this method being purely for testing purposes \footnote{However, we still anticipate the implementation of such behavior, which is why we introduce this trusted third-party.}
 
-\todo{finish the introduction of the marketplace}
+The marketplace is the component of the framework which is accessible to the public. It can be though as a middle-ware acting as a high-level gateway to the consumer that wants to deploy and manage his functions. 
 
-As a first approach, we simplified the Fog network topology to be a tree instead of a graph.
+As the marketplace offers to only manage functions, clients may need a higher-level solution to manage their applications, introducing the “Deployment Manager”. This piece of software would – in the future – be responsible of managing the deployment of the client's application on the Fog. It would be aware of what \gls{IoT} devices are expected as it would know which one are currently connected to the Fog. Its role would then to ask the Marketplace to provision functions as it would be deemed necessary from his programming. The idea is to externalize the application managing from the Fog network and function execution management. That way, in case of failure or inability to provision part of the application, the task would be handled by a policy specified by the client. This would especially be relevant in case of a critical application that would need to be aware it simply cannot be executed and has to transmit the information to a human, for example. Or in a more simple fashion, needs to consider changing its requirements to be more adequate.
+
+
+Because we are developing from scratch, we simplified the Fog network topology to be a tree instead of a graph.
 
 \begin{figure}[H]
 	\centering
