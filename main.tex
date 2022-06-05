@@ -620,34 +620,34 @@ What are the plans for the future (Thesis + Terra Forma \cite{longuevergne_terra
 
 \section{Taking action}
 
-We think \gls{FaaS}-enabled Fog is a promising approach to enabling real world usage of the Fog. However, as depicted in \ref{sec:curated} we identified four main axes of improvements to go this particular direction:
+\gls{FaaS}-enabled Fog would enable an applied real world usage of the Fog. However, as depicted in \ref{sec:curated} we identified four main axes of necessary improvements to go this direction:
 \begin{enumerate}
-	\item lack of \gls{SLA}
-	\item smarter auction-based placement mechanisms
-	\item \gls{FaaS}-specific mechanisms
+	\item introduce \glspl{SLA} that enables the users to set their expectations and have them respected
+	\item smarter auction-based placement mechanisms that enable full-scale incentives to both join and compete on the Fog
+	\item \gls{FaaS}-specific mechanisms adapted to the Fog
 	\item security and privacy
 \end{enumerate}.
+As this is a research work, we expect “scientific comparison” to be listed
 
-We need to add “scientific comparison” to this list also. Indeed the community presents promising placement solutions but fails to both compare them and to test them on real scenarios instead of relying extensively on simulations. Another benefit of in-situ testing is the ability to face development challenges not identified from a higher algorithmic viewpoint.
+Indeed the community presents promising placement solutions but fails to both compare them against each other and to test them on real scenarios instead of relying extensively on simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework able to be experimented upon instead of simulated. A second key point is to be able to face implementation issues that would – through simulation – not be observed and solved.
 
-In the next subsections we will examine our proposed placement mechanism. We will detail the work done toward a framework. Finally we will detail how we plan to evaluate this solution and platform against state-of-the-art solutions.
+In the next subsections we examine our proposed placement mechanism. We will detail the work done on our own open framework. Finally, we will detail how we plan to evaluate this solution and platform against state-of-the-art solutions.
 
- at 4:29 P
-This is why I worked on this framework that I am presenting. This piece of open software is aimed to be fully opened and modifiable by any peer.
+\todo{Explain the development of existing functions as well as looking for existing framework + application list (usually not Fog friendly)}
 
 \subsection{Placing functions in The Fog}
 
-This internship mainly focuses on the implementation of a new idea for placing functions – parts of applications – in the Fog. To do so we developed our own idea focusing on economical whereabouts of the Fog. After introducing our view of the Fog, we will detail our placement behaviors, how and why we chose to implement our own framework and the evaluation plans regarding this work.
+This internship focuses on the implementation of a new idea for placing functions in the Fog using economics as the main layer of dialogue between actors, much like what is already in place in the Cloud. After introducing our view of the Fog, we will detail our placement behaviors, how and why we chose to implement our own framework and the evaluation contributions regarding this work.
 
 \subsubsection{Context and challenges}
 
-The Fog is a distributed network made of fog nodes – computers – that work together to bring latency and bandwidth benefits to the Cloud customer. In time, Fog will be so entangled with the Cloud that clients should not be able to make the difference between executing their applications on the edge or on the Cloud. This means pricing is indistinguishable from the current offerings. This also means logistics are on point: Fog nodes are present everywhere not to degrade the usage of any applications.
+The Fog is a distributed network made of fog nodes – computers – that work together to bring latency and bandwidth benefits to the Cloud customer. In time, Fog will be so entangled with the Cloud that clients should not be able to make the difference between executing their applications on the edge or on the Cloud. At least when they do not have any explicit requirements making them Fog-dependent, latency would be one. This means pricing should be indistinguishable from the current offerings. This also means logistics should be on point: Fog nodes are present everywhere not to degrade the usage of any applications explicitly relying on them.
 
-So the goal is to achieve a global coverage for anyone to jump in the Fog from anywhere. This means the client could contract with any providers, not being locked to only one as we currently observer in the Cloud. It is however interesting to note this “vendor lock-in” is bothering users that are trying to find solutions less dependent on a single provider.
+This indicates a need to avoid the “vendor lock-in” nightmare, where multiple resource providers are on a market, but as each one proposes the same kind of service, each one still manages to do it in a proprietary manner, making a multiple-provider scenario impossible. This is what we are observing currently in the Cloud, with global companies trying to rely on multiple providers to avoid downtime, security issues, and to benefit from the best of each platform. Such as problem in Fog would be highly inefficient. It would only mean two things: either all providers are present at the same location, thus putting a lot of Fog nodes at the same place for no further benefits than to compete; or it would mean that geographical zones would be exclusive of a handful providers. In each case, it would be a nightmare for the client to deploy an application, let's say at an European-level for example.
 
-In our work, we consider fog nodes are owned by different actors. This way, both private (enterprises) and public (cities) can provide computational resources to the community excepting sufficient gains to be able to sustain this sharing. The more fog nodes join the network, the more competition and the more affordable it is to execute applications gaining from the benefits of the Fog.
+In our work, we consider fog nodes are owned by different actors. This way, both private (enterprises) and public (cities) can provide computational resources to the community, while expecting sufficient gains to be able to sustain this sharing, or to make benefits. The more fog nodes join the network, the more competition and the more affordable it is for clients willing to execute applications gaining. We consider that any provider can be in competition, but using a standard platform to do so, so that it doesn't hurt the client nor makes the technology useless.
 
-Considering this ownership of fog nodes, as introduced earlier, a good mechanism to introduce competition in a controlled manner are auctions. \improvement{Add info about benefits and properties of auctions}
+Considering this ownership of fog nodes, as introduced earlier, a good mechanism to introduce competition in a controlled, independent and objective manner are auctions. \improvement{Add info about benefits and properties of auctions}
 
 \subsubsection{Placing functions}
 
@@ -725,7 +725,7 @@ Our criteria were the followings:
 
 One key aspect we kept in mind was the time and efforts necessary to understand and re-purpose a framework to fit our needs versus the time we would need to develop our own solution.
 
-In the community, two frameworks caught our eyes:
+In the community, two frameworks caught our eye²s:
 \todo{The comparison of frameworks}
 \todo{Add more details about fogbus 2}
 \begin{description}
@@ -863,6 +863,8 @@ It is planned to add prometheus endpoints to both the market and the fog node so
 
 \section{Conclusion}
 % Financial cooperation as key
+
+\todo{add internship to conclusion}
 
 Serverless, and especially \gls{FaaS}, enables the transfer of resource provisioning responsibilities to the platform provider. Thus, this model enables orchestration optimizations in resource-usage, data transfers, virtualization, etc. The model could be viable in the Fog because functions are light enough to be provisioned on multiple constrained devices, and when placed strategically, scale dynamically over the network by design.
 
