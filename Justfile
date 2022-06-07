@@ -7,11 +7,11 @@ build: tidy insa sif
 
 # Build the SIF report
 sif:
-	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode sif.tex
+	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode -pvc sif.tex
 
 # Build the INSA report
 insa:
-	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode insa.tex
+	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode -pvc insa.tex
 
 # Indent the code of main.tex
 indent:

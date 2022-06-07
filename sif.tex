@@ -217,16 +217,12 @@
 % }
 \hypersetup{linkcolor=}
 \abstract{
-	\Gls{FaaS} applications could harness the distributed nature of Fog and take advantage of Fog's benefits, such as real-time processing and reduced bandwidth. The \gls{FaaS} programming paradigm allows applications to be divided in independent units named functions. However, deciding how to place those units in the Fog is challenging. The reason is that the Fog contains diverse, potentially resource-constrained nodes spanning from the Cloud to the network edge. These nodes must be efficiently shared between the multiple applications that will require to use the Fog.\\
-	Much research has concentrated on finding appropriate function placement strategies that provision the necessary resources while taking into account, for example, distribution, data-locality, and latency. \\
-	This bibliographic report analyses the existing literature and identifies open research directions, paving the way toward the M.Sc. internship. We will pay attention to various placement architectures, methods, and metrics as well as make a case for using auction-based placement mechanisms. \\
-	We think auctions -- and bidding -- paired with contracts such as \glspl{SLA} would be useful in considering the needs of an application's functions and in enabling efficient exploitation of the Fog by correctly provisioning those functions. Furthermore, auctions could consider \gls{FaaS}-specific challenges (cold-start, function storage, input data) and make security and privacy a priority.
-	\change{Modify abstract}
+\input{abstract}
 }
 
 
 % \makeglossaries   
-\include{glossary}
+\input{glossary}
 
 \begin{document}
 \listoftodos[Notes]
@@ -237,7 +233,7 @@
 
 %*****************************************************************%
 
-\include{content}
+\input{content}
 
 \printbibliography
 

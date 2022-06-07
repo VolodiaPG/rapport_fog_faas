@@ -105,11 +105,11 @@
 \setlength{\footskip}{0.9cm} % set space between footnote and page bottom
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={\textit{Fuzzing} en « boîte noire »},
+  pdftitle={Function placement for FaaS applications in the fog},
   pdfauthor={\name{Volodia PAROL-GUARINO}},
   pdflang={fr},
-  pdfsubject={Rappor de stage},
-  pdfkeywords={INFO, Sécurité, Programmation, vulnérabilité, rapport, stage, mediakind, fuzzing, test},
+  pdfsubject={Internship report},
+  pdfkeywords={INFO, Fog, FaaS, function, serverless, research, edge, cloud, MEC, IoT, auction, placement},
   colorlinks=true,
   linkcolor=default-linkcolor,
   filecolor=default-filecolor,
@@ -622,24 +622,25 @@ I am indebted to the INSA and all the people involved for these wonderful 5 year
 
 \pagestyle{eisvogel-header-footer}
 \pagenumbering{arabic}
-\include{glossary}
-\include{content}
+\input{glossary}
+\input{content}
 
-\pagenumbering{roman}
+% \pagenumbering{roman}
 
 %\include{annexes}
 
 \clearpage
-%\printglossary[type=\acronymtype, title={Acronymes}]
-\printglossary[type=\acronymtype]
+% \input{glossary}
+% %\printglossary[type=\acronymtype, title={Acronymes}]
+% \printglossary[type=\acronymtype]
 
-\clearpage
+% \clearpage
 %\printglossary[title={Glossaire}]
-\printglossary
+% \printglossary
 
-\clearpage
-\phantomsection
-\addcontentsline{toc}{section}{References}
+% \clearpage
+% \phantomsection
+% \addcontentsline{toc}{section}{References}
 %\renewcommand\refname{Références}
 %\bibliography{internship}
 
@@ -647,35 +648,53 @@ I am indebted to the INSA and all the people involved for these wonderful 5 year
 \pagestyle{empty}
 \tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{assets/back.png}};
 \noindent
-\
+
 \vfil
-{\fontsize{9}{10}\selectfont 
-\begin{center}
-Résumé
-\end{center}
-
-\begin{quotation}
-Le fuzzing est un outil de test de bout-à-bout dont les bénéfices sont entrés dans les mœurs \cite{10.1145/96267.96279}. Il est efficace pour des tests de robustesse avec connaissance -- ou non -- du code source. Le fuzzing est attractif puisqu'une fois lancé il « trouve » des bugs automatiquement. C'est ainsi qu'il est perçu par la QA de Mediakind. L'entreprise internationale est mondialement reconnue pour ses services de traitement du flux audiovisuel : encodage, distribution, vod, pubs… La plupart des solutions utilisées par ses clients sont « dans le cloud ». 
-
-Initialement, c'est sur les micro-services composant certains produits que le sujet du stage portait. Le fuzzing devait être réalisé en les compilant avec des outils industriels \cite{AFLplusplus-Woot20}. Trop de dépendances -- de couplage -- ont mené cette piste a être abandonnée. L'alternative -- moins efficace -- est le fuzzing « boîte noire ». Son avantage : il ne nécessite qu'un accès aux fuzzer du produit cible. Elles sont modélisées par des grammaires formelles données aufuzzer. Elles permettent de générer des entrées respectant une syntaxe combinée à de l'aléatoire. Ce mélange espère atteindre la cible en profondeur. Son retour permet de décider d'un bug ou non. 
-
-Dans ma mission j'ai transformé le script de mon collègue stagiaire en un outil dans la manche de la QA. À la fin de mon stage, l'application est structurée et peut s'exécuter sur les plate-formes fuzzer de la QA. La génération des données est un succès : des bugs mineurs ont déjà été détectés. Cependant, quand le fuzzing passe à l'échelle, la quantité de données créées est trop importante et redondante pour une interprétation manuelle. Ce sont des problématiques « big data » qui permettent de trouver des bugs plus « gros ». En abrégeant mon stage après trois mois en faveur de mes études, je n'ai pas entamer les recherches dans ce sens.
-\end{quotation}
-
-\vspace*{2cm}
+{\fontsize{8}{9}\selectfont
 
 \begin{center}
 Abstract
 \end{center}
 
 \begin{quotation}
-fuzzing is an end-to-end testing tool. It already has proven useful \cite{10.1145/96267.96279}. The testing method is efficient to test applications robustessness, with or without relying on the source code. fuzzing is tempting because it finds bugs automatically. That is how Mediakind's QA perceives it. The global company is known for its multimedia stream processing services: encoding, distribution, on-demand video, ads… Most of those are now cloud based.
+\input{abstract}
+\end{quotation}
 
-At first, the interneship aimed to fuzz the micro-services composing those services. It was relying on industrial solutions \cite{AFLplusplus-Woot20} to do heavy-lifting at compile-time. However, too much dependencies and coupling have been observed to be solved in such a short time. The alternative is to switch to a black-boxfuzzer instead. The benefits are not as good, but only an fuzzer access is required. Those fuzzer are modelled using formal grammars given to thefuzzer. They generate inputs fed to the fuzzer that target corner-cases by being partially random to reach deep enough in the target. The ouputs is used tell if a bug has been identified.
+\vspace*{1cm}
 
-During my mission, I transformed my intern colleague's script to a tool available for the QA. At the end of mly internship, this application is structured and executes on the QA's fuzzer platforms. Generation is a success and has already identified minor bugs. However, scaling up is problematic. The amount of generated data is too much to be analyzed by hand. It would require big data tools to find bigger bugs. While I would have had time to start exploring this way, I chose to prematurely end the internship to start a second master's degree.
+\begin{center}
+Résumé
+\end{center}
+
+\begin{quotation}
+\input{resume}
 \end{quotation}
 }
 
 \vfil
+
+% \noindent
+% \
+% \vfil
+% {\fontsize{9}{10}\selectfont 
+% \begin{center}
+% Résumé
+% \end{center}
+
+% \begin{quotation}
+% Toto
+% \end{quotation}
+
+% \vspace*{2cm}
+
+% \begin{center}
+% Abstract
+% \end{center}
+
+% \begin{quotation}
+% toto
+% \end{quotation}
+% }
+
+% \vfil
 \end{document}
