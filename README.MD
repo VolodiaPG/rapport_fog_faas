@@ -7,3 +7,8 @@ Github Actions has been setup to automatically produce the PDF of the report. Th
 # Commands
 
 Use the justfile
+
+
+# Requirements
+
+`yay -S texlive-latexindent-meta`

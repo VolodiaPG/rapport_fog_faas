@@ -237,7 +237,6 @@
 
 \maketitle
 
-
 %*****************************************************************%
 
 \section{Introduction}
@@ -283,28 +282,28 @@ Four concepts related to the Fog currently coexist. They all aim to provide comp
 	\item[Cloudlets] first appeared in \cite{satyanarayanan_case_2009} issued in \citedate{satyanarayanan_case_2009}. The metaphor is to move part of the Cloud as close to the user as possible, e.g., service it in the wireless LAN he is connected to. In this architecture, the mobile user exploits a \gls{VM} quickly instantiated on demand. It allows him to utilize a trusted, resource-rich computer -- or cluster. This computer -- a mobility enhanced, small-scale, cloud data-center located at the edge -- is required to be well-connected to the Internet and available for use by nearby mobile devices. As cloudlets are distributed geographically, one great preoccupation has been to deal with the \gls{VM} instances as the mobile user changes location.
 
 	\item[\acrfull{MEC}] was first introduced under the name \emph{Mobile} Edge Computing. It is an \gls{ETSI} standard backed by Huawei, IBM, Intel, Nokia Networks, NTT DoCoMo, Vodafone, and other companies. The name changed to emphasize on the relevance of this technology for all networks -- and not only the radio-based ones such as 5G networks. The standard is a way to unite both the telco an IT-Cloud worlds \cite{dahmen-lhuissier_etsi_nodate-1} as it was first though to implement Cloud at 5G base stations. It enables applications to be hosted in a multi-vendor, multi-access, edge-only computing environment -- on-top of mobile network elements. This is enabled by other emerging technologies such as \gls{NFV} \footnote{\acrfull{NFV} is the ability for networking equipment to rely on software functions rather than hardware ones \cite{redhat_what_2019}. It leverages virtualization as a way towards agility. Use cases include DHCP, firewall, and general execution of routing components, all virtualized.} and \gls{SDN} \footnote{\acrfull{SDN} dynamically routes requests in a centralized fashion. It separates the control plane from the data plane, thus sailing away from classical routing where all nodes participate in both decision-making and data handling \cite{redhat_what_2019}. Centralization helps to achieve optimal routing, especially at the scale of a telco network operator.}. \gls{MEC} is proposed as a trusted vertical solution for \gls{IoT} and mission critical virtualized applications.
-	A gateway decides whether a request of provisioning is granted or not. The accepted request is then forwarded to the orchestrator for further processing. \gls{MEC} works in a centralized way arranged around the orchestrator that knows the topology, available resources and \gls{MEC} services provided.
+		A gateway decides whether a request of provisioning is granted or not. The accepted request is then forwarded to the orchestrator for further processing. \gls{MEC} works in a centralized way arranged around the orchestrator that knows the topology, available resources and \gls{MEC} services provided.
 
-	\begin{figure}[t]
-		\centering
-		\includegraphics[width=0.78\textwidth]{./assets/FogArchitecture.drawio.png}
-		\caption{A typical hierarchical, architecture based on Fog computing \cite{ieee_standards_association_ieee_2018}}
-		\label{fig:fog_archi}
-	\end{figure}
+		\begin{figure}[t]
+			\centering
+			\includegraphics[width=0.78\textwidth]{./assets/FogArchitecture.drawio.png}
+			\caption{A typical hierarchical, architecture based on Fog computing \cite{ieee_standards_association_ieee_2018}}
+			\label{fig:fog_archi}
+		\end{figure}
 
 	\item[Fog computing] is a horizontally distributed architecture aiming to bring both the data plane and the control plane closer to the end-user -- the event producer -- by exploiting all the computing-enabled places along the cloud-to-things continuum. In other words, Fog creates an immersive distribution of computing, where task execution occurs geographically near the producer, while keeping centralized-dependent heavy processes treated in the Cloud, where it is best handled, cf. \cref{fig:fog_archi}. Fog is different from the previous two other edge-only approaches as it provides tools for distributing, orchestrating, managing and securing both resources and services across networks and devices living in the continuum, while also thriving there.
 
-	Back in \citedate{bonomi_fog_2012}, Cisco introduced the key characteristics of Fog thanks to \citeposs{bonomi_fog_2012} paper:
-	\begin{enumerate}[(i)]
-		\item low-latency and location awareness;
-		\item wide-spread geographical distribution;
-		\item mobility;
-		\item very large number of nodes;
-		\item dominance of wireless access;
-		\item real-time and streaming applications as first-class citizens;
-		\item heterogeneity of the nodes (single boards computers or coming with hardware acceleration modules such as a \gls{GPU}, etc.).
-	\end{enumerate}
-	The Fog initiative is now backed by the OpenFog Consortium \cite{ieee_standards_association_ieee_2018} whose members include ARM, Cisco, Dell, Intel, Microsoft and Princeton University \cite{chiang_fog_2016}.
+		Back in \citedate{bonomi_fog_2012}, Cisco introduced the key characteristics of Fog thanks to \citeposs{bonomi_fog_2012} paper:
+		\begin{enumerate}[(i)]
+			\item low-latency and location awareness;
+			\item wide-spread geographical distribution;
+			\item mobility;
+			\item very large number of nodes;
+			\item dominance of wireless access;
+			\item real-time and streaming applications as first-class citizens;
+			\item heterogeneity of the nodes (single boards computers or coming with hardware acceleration modules such as a \gls{GPU}, etc.).
+		\end{enumerate}
+		The Fog initiative is now backed by the OpenFog Consortium \cite{ieee_standards_association_ieee_2018} whose members include ARM, Cisco, Dell, Intel, Microsoft and Princeton University \cite{chiang_fog_2016}.
 \end{description}
 
 The benefits are similar for all the paradigms \cite{ahmed_fog_2019, ai_edge_2018}:
@@ -542,19 +541,19 @@ Other platforms present active management of a node's function execution, e.g., 
 \begin{table}[t] \centering
 	\fontsize{10}{8}\selectfont
 	\begin{tabular}{@{} cl*{3}c|*{3}c|*{9}c @{}}
-		 &                                                                                             & \multicolumn{3}{c}{Architecture} & \multicolumn{3}{c}{Method} & \multicolumn{8}{c}{Scheduling features}                                                                                                                                                                                                                                                                                                                                                                                                                                \\[2ex]
-		 &                                                                                             & \rot{Decentralized}              & \rot{SLA/SLO support}      & \rot{Fog (vs \gls{MEC})}                & \rot{Auction} & \rot{(Meta-)heuristic} & \rot{\shortstack[l]{Multi-landlord \cr compatibility}} & \rot{Geo-aware} & \rot{Execution latency} & \rot{\shortstack[l]{Service-costs \cr (RAM, CPU, etc.)}} & \rot{\shortstack[l]{Network awareness \cr(topology, congestion-aware, etc.)}} & \rot{Data source aware strategy} & \rot{\shortstack[l]{Heterogeneous hardware \cr (GPU, etc.)}} & \rot{Image registry awareness} & \rot{Stateful} & \rot{Security awareness}\\
+		 &                                                                                             & \multicolumn{3}{c}{Architecture} & \multicolumn{3}{c}{Method} & \multicolumn{8}{c}{Scheduling features}                                                                                                                                                                                                                                                                                                                                                                                                                                                                         \\[2ex]
+		 &                                                                                             & \rot{Decentralized}              & \rot{SLA/SLO support}      & \rot{Fog (vs \gls{MEC})}                & \rot{Auction} & \rot{(Meta-)heuristic} & \rot{\shortstack[l]{Multi-landlord \cr compatibility}} & \rot{Geo-aware} & \rot{Execution latency} & \rot{\shortstack[l]{Service-costs \cr (RAM, CPU, etc.)}} & \rot{\shortstack[l]{Network awareness \cr(topology, congestion-aware, etc.)}} & \rot{Data source aware strategy} & \rot{\shortstack[l]{Heterogeneous hardware \cr (GPU, etc.)}} & \rot{Image registry awareness} & \rot{Stateful} & \rot{Security awareness} \\
 		\cmidrule{2-17}
-		 & Cheng \textit{et al.}\cite{cheng_fog_2019}                                                  &                                  & \OK                        & \OK                                     &               &                        &                                                        & \OK             & \OK                     & \OK                                                      &                                                                               & \OK                              &                                                &                                &                &\\
-		 & Baresi \textit{et al.} \cite{baresi_paps_2019, baresi_towards_2019, baresi_paps_2021}       &                                  & \OK                        &                                         &               &                        &                                                        &                 & \OK                     & \OK                                                      & \OK                                                                           &                                  &                                                &                                &                &\\
-		 & Cicconetti \textit{et al.} \cite{cicconetti_decentralized_2021}                             & \OK                              &                            &                                         &               & \OK                    & \OK                                                    &                 & \OK                     &                                                          & \OK                                                                           &                                  &                                                &                                &                &\\
-		 & Wang \textit{et al.} \cite{wang_lass_2021}                                                  &                                  & \OK                        &                                         &               &                        &                                                        &                 & \OK                     &                                                          &                                                                               &                                  &                                                &                                &                &\\
-		 & Tasiopoulos \textit{et al.}\cite{tasiopoulos_fogspot_2019}                                  & \OK                              &                            & \OK                                     & \OK           &                        & \OK                                                    &                 & \OK                     &                                                          & \OK                                                                           &                                  &                                                &                                & \OK            &\\
-		 & Mutichiro \textit{et al.} \cite{mutichiro_qos-based_2021} \& \cite{palade_swarm-based_2020} &                                  &                            &                                         &               & \OK                    &                                                        &                 & \OK                     & \OK                                                      &                                                                               &                                  &                                                &                                &                &\\
+		 & Cheng \textit{et al.}\cite{cheng_fog_2019}                                                  &                                  & \OK                        & \OK                                     &               &                        &                                                        & \OK             & \OK                     & \OK                                                      &                                                                               & \OK                              &                                                              &                                &                &                          \\
+		 & Baresi \textit{et al.} \cite{baresi_paps_2019, baresi_towards_2019, baresi_paps_2021}       &                                  & \OK                        &                                         &               &                        &                                                        &                 & \OK                     & \OK                                                      & \OK                                                                           &                                  &                                                              &                                &                &                          \\
+		 & Cicconetti \textit{et al.} \cite{cicconetti_decentralized_2021}                             & \OK                              &                            &                                         &               & \OK                    & \OK                                                    &                 & \OK                     &                                                          & \OK                                                                           &                                  &                                                              &                                &                &                          \\
+		 & Wang \textit{et al.} \cite{wang_lass_2021}                                                  &                                  & \OK                        &                                         &               &                        &                                                        &                 & \OK                     &                                                          &                                                                               &                                  &                                                              &                                &                &                          \\
+		 & Tasiopoulos \textit{et al.}\cite{tasiopoulos_fogspot_2019}                                  & \OK                              &                            & \OK                                     & \OK           &                        & \OK                                                    &                 & \OK                     &                                                          & \OK                                                                           &                                  &                                                              &                                & \OK            &                          \\
+		 & Mutichiro \textit{et al.} \cite{mutichiro_qos-based_2021} \& \cite{palade_swarm-based_2020} &                                  &                            &                                         &               & \OK                    &                                                        &                 & \OK                     & \OK                                                      &                                                                               &                                  &                                                              &                                &                &                          \\
 		\rot{\rlap{~Contributions}}
-		 & Rausch \textit{et al.} \cite{rausch_optimized_2021}                                         &                                  &                            &                                         &               & \OK                    &                                                        &                 &                         & \OK                                                      &                                                                               & \OK                              & \OK                                            & \OK                            &                &\\
-		 & Bermbach \textit{et al.} \cite{bermbach_auctionwhisk_2021}                                  & \OK                              &                            & \OK                                     & \OK           &                        & \OK                                                    &                 & \OK                     & \OK                                                      &                                                                               &                                  &                                                & \OK                            &                &\\
-		 & Elgamal \textit{et al.} \cite{elgamal_droplet_2018}                                         &                                  &                            & \OK                                     &               &                        &                                                        &                 & \OK                     & \OK                                                      &                                                                               &                                  &                                                & \OK                            &                &\\
+		 & Rausch \textit{et al.} \cite{rausch_optimized_2021}                                         &                                  &                            &                                         &               & \OK                    &                                                        &                 &                         & \OK                                                      &                                                                               & \OK                              & \OK                                                          & \OK                            &                &                          \\
+		 & Bermbach \textit{et al.} \cite{bermbach_auctionwhisk_2021}                                  & \OK                              &                            & \OK                                     & \OK           &                        & \OK                                                    &                 & \OK                     & \OK                                                      &                                                                               &                                  &                                                              & \OK                            &                &                          \\
+		 & Elgamal \textit{et al.} \cite{elgamal_droplet_2018}                                         &                                  &                            & \OK                                     &               &                        &                                                        &                 & \OK                     & \OK                                                      &                                                                               &                                  &                                                              & \OK                            &                &                          \\
 		\cmidrule[1pt]{2-17}
 	\end{tabular}
 	\caption{Prominent comparison points between placement frameworks mentioned in \cref{sec:literature_review}}
@@ -585,40 +584,40 @@ The result is \cref{tab:placement}, from which we can highlight limitations of e
 
 	\item[Smarter auction-based placement mechanisms] would factorize all the complexity of resource availability, demand, interests and transactions (\glspl{SLA}, \glspl{SLO}) between providers and consumers as well as economics, and embed them in a collaborative dynamic that can be decentralized into multiple marketplaces. \Cref{tab:placement} shows auction mechanisms have been successfully proposed towards such a goal. One should now compare different auction mechanisms to enable real-time transactions guaranteeing fairness, truthfulness and other aspects like giving better access to the user providing the most value to the system of Fog nodes and users (reducing the bandwidth usage, executing a real-time application, etc.). \citet{milgrom_redesigning_2017} proposes depreciating licenses in 5G spectrum division to enable users with high valuations to reserve a channel while letting other users have an uncertainty-prone zero-guarantees usage. The model is dynamic enough for the reserved channel owners to change when their values are superseded by a competitor's, thus driving innovation in the particular case of the radio band usages. Truthfulness is guaranteed because the channel is only rented, meaning the user has to pay the value he gives to the band. Maybe such a model could be introduced in the Fog to allow nodes to have priority functions, that are more valuated, while letting other users the opportunistic, less-costly path.
 
-	\item[\gls{FaaS}-specific mechanisms] that would exploit the ``cold-start'' phenomenon: already provisioned applications can be cached or check-pointed \cite{karhula_checkpointing_2019}. 
-	Later executions of check-pointed functions at the same node could be accomplished at a lower cost both in time and resources.
-	Another rarely-supported feature in \cref{tab:placement} is taking advantage of the physical location of the image registry. Functions can be uploaded either by an end-device, a central Cloud-based registry or a Fog-based, decentralized, one. Another linked problem is about versioning of such distributed/decentralized architectures. How to update functions while avoiding downtimes and conflicts (this problem may get harder when considering that part of the application executes centrally in the Cloud)? One could extend this point to the data source locality awareness, as it is also rare in \cref{tab:placement}.
+	\item[\gls{FaaS}-specific mechanisms] that would exploit the ``cold-start'' phenomenon: already provisioned applications can be cached or check-pointed \cite{karhula_checkpointing_2019}.
+		Later executions of check-pointed functions at the same node could be accomplished at a lower cost both in time and resources.
+		Another rarely-supported feature in \cref{tab:placement} is taking advantage of the physical location of the image registry. Functions can be uploaded either by an end-device, a central Cloud-based registry or a Fog-based, decentralized, one. Another linked problem is about versioning of such distributed/decentralized architectures. How to update functions while avoiding downtimes and conflicts (this problem may get harder when considering that part of the application executes centrally in the Cloud)? One could extend this point to the data source locality awareness, as it is also rare in \cref{tab:placement}.
 
 	\item[Security and privacy] as the baseline. Security of both hardware and software is required, to trust the node and the function executing on that node, i.e., making sure an ill-intentioned payload doesn't escape from its enclosure \cite{maurice_hello_2017}. Privacy is another point of interest that is especially relevant when designing auctions, as a node could take advantage of knowing the true valuation it was given by the function. Those two features that should be implemented \emph{by-design} are not currently supported in \cref{tab:placement}.
 \end{description}
 
 \iffalse
 
-\section{Plan}
+	\section{Plan}
 
-Lack of SLA + Auctions + FaaS specific mechanisms
+	Lack of SLA + Auctions + FaaS specific mechanisms
 
-For an internship -> only 2 firsts could be done in time
+	For an internship -> only 2 firsts could be done in time
 
-Introducing our framework
+	Introducing our framework
 
-What do we consider as a context: tree shaped Fog, need for a trusted marketplace
+	What do we consider as a context: tree shaped Fog, need for a trusted marketplace
 
-How would one use our framework
+	How would one use our framework
 
-Is there any related work particularly work on which we could have been based: Fogflow \cite{smartfog_fogflow_2022} (history ?) + FogBus \cite{deng_fogbus2_2021} as retained candidates (maybe list the others?)
+	Is there any related work particularly work on which we could have been based: Fogflow \cite{smartfog_fogflow_2022} (history ?) + FogBus \cite{deng_fogbus2_2021} as retained candidates (maybe list the others?)
 
-How is this framework working under the hood: fog nodes, marketplace, why rust (language, quality of code, size, performance -> always the Fog in focus + independence from the platform [the code could run on a more embedded device wihtout troubles instead of being limited to Cloud only platform]), the arch using clean architecture, the routing mechanism, the REST \gls{API}, using openAPI + why it is important + open science (have citations for this trend)
+	How is this framework working under the hood: fog nodes, marketplace, why rust (language, quality of code, size, performance -> always the Fog in focus + independence from the platform [the code could run on a more embedded device wihtout troubles instead of being limited to Cloud only platform]), the arch using clean architecture, the routing mechanism, the REST \gls{API}, using openAPI + why it is important + open science (have citations for this trend)
 
-How do we run the framework (development using mutlipass, then using grid5000 + Enos \cite{cherrueau_enoslib_2022}) -> what do the script do
+	How do we run the framework (development using mutlipass, then using grid5000 + Enos \cite{cherrueau_enoslib_2022}) -> what do the script do
 
-What are its benefits
+	What are its benefits
 
-What are its limitations
+	What are its limitations
 
-How do we plan to evaluate it, to validate or not both of the benefits and limitations = two levels for a paper
+	How do we plan to evaluate it, to validate or not both of the benefits and limitations = two levels for a paper
 
-What are the plans for the future (Thesis + Terra Forma \cite{longuevergne_terra_2022})
+	What are the plans for the future (Thesis + Terra Forma \cite{longuevergne_terra_2022})
 
 \fi
 
@@ -633,11 +632,9 @@ What are the plans for the future (Thesis + Terra Forma \cite{longuevergne_terra
 \end{enumerate}.
 As this is a research work, we expect “scientific comparison” to be listed
 
-Indeed the community presents promising placement solutions but fails to both compare them against each other and to test them on real scenarios instead of relying extensively on simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework fit to be experimented upon in preference to being simulated. A second key point is to be able to face implementation issues that would—through simulation—not be observed and remedied.
+Indeed, the community presents promising placement solutions but fails to both compare them against each other and to test them on real scenarios instead of relying extensively on simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework fit to be experimented upon in preference to being simulated. A second key point is to be able to face implementation issues that would—through simulation—not be observed and remedied.
 
 In the next subsections, we examine our proposed placement mechanism. We will elaborate on the work done on our own open framework. Finally, we will detail how we plan to evaluate this solution and platform against state-of-the-art behaviors.
-
-\todo{Explain the development of existing functions as well as looking for existing framework + application list (usually not Fog friendly)}
 
 \subsection{Placing functions in the Fog}
 
@@ -647,13 +644,13 @@ This internship focuses on the execution of a new idea for situating functions i
 
 The Fog is a distributed network made of Fog nodes—computers—that work together to bring latency and bandwidth (among others) benefits to the Cloud customer. In time, the Fog will be so entangled with the Cloud that clients should not be able to discern between executing their applications on the Fog or on the Cloud only. At least when they do not have any explicit requirements making them Fog-reliant. This signifies pricing should as well be indistinguishable from the current offerings and as easy to understand. This also means logistics should be on point: Fog nodes are present everywhere not to degrade the usage made by any applications explicitly depending on them.
 
-This indicates a need to escape the “vendor lock-in” nightmare, where large resource providers are on a single market. But as everyone proposes the same kind of service, each still manages to do it in a proprietary manner, making a multiple-provider scenario hard to reach. This is what we are currently observing in the Cloud, with global companies consuming the Cloud and trying to rely on other providers to avoid downtime, security issues and profit from the best features of both platforms. 
+This indicates a need to escape the “vendor lock-in” nightmare, where large resource providers are on a single market. But as everyone proposes the same kind of service, each still manages to do it in a proprietary manner, making a multiple-provider scenario hard to reach. This is what we are currently observing in the Cloud, with global companies consuming the Cloud and trying to rely on other providers to avoid downtime, security issues and profit from the best features of both platforms.
 
 Such a problem in Fog would be highly inefficient. It would only signify two things: either all providers are presents at the same location, thus putting a lot of Fog nodes at the same place for no further benefits than pure pecuniary competition. Or it would mean that geographical zones would be exclusive of a handful of providers. In each case, it would be a nightmare for the customer to deploy an application at a European-level, for example.
 
 In our work, we consider Fog nodes are owned by different economic actors. This way, both private (enterprises) and public (cities) can provide computational resources to the community, while expecting sufficient gains to be able to sustain this sharing, and to make profits. The more Fog nodes join the network, the more rivalry and the more affordable it is for purchasers to execute applications. We consider that any provider can be in competition, but employing a standard platform to do so, so that it does not hurt the client nor makes the technology useless.
 
-Considering this ownership of fog nodes, as proposed earlier, a good mechanism to introduce contest in a controlled, independent and objective manner are auctions. \improvement{Add info about benefits and properties of auctions}
+Considering this ownership of fog nodes, as proposed earlier, a good mechanism to introduce contest in a controlled, independent and objective manner are \emph{auctions}. Well-designed auctions can lead to a maximization of social welfare—increase utility for everyone involved—, let participants freely choose their price while making it pointless to lie about the value of the commodities. One last interesting technique is the fairness of the auctions, aka not constantly electing the same winner when multiple have similar bids. In our case, this would not always mean to allocate the same function on the same Fog node when two functions are similar in terms of requirements and bids \cite{kuo_proportionnet_2020}.
 
 \subsubsection{Placing functions}
 
@@ -665,31 +662,30 @@ With money in the equation, Fog nodes will not believe each other, as such we ne
 
 This piece of the framework is the place that will handle the auctioning process and so, the designation of a winner. We do not care about payment at the time, this method being purely for testing purposes\footnote{However, we still anticipate the implementation of such behavior, which is why we introduce this trusted third-party.}.
 
-The Marketplace is the component of the framework which is accessible to the public. It can be thought as a middleware acting as a top gateway to the consumer that wants to deploy and administer their functions. 
+The Marketplace is the component of the framework which is accessible to the public. It can be thought as a middleware acting as a top gateway to the consumer that wants to deploy and administer their functions.
 
 As the marketplace offers to only oversee functions, clients may need a higher-level solution to coordinate their applications, introducing the “Deployment Manager.” This piece of software would—in the future—be responsible of handling the deployment of the client's application on the Fog. It would be aware of what \gls{IoT} devices are expected as it would know which ones are currently connected to the Fog. Its role would then be to ask the Marketplace to provision functions as it would be deemed necessary from their programming. The idea is to externalize the application managing from the Fog network separates it from the function execution concerns. That way, in case of failure or incapacity to provision part of the application, the task would be handled by a policy specified by the client. This would especially be relevant for the case of a critical application needing to be aware of its ability or inability to be executed. And in such cases transmit the information to a human, for example. Or in a more basic fashion needs to consider changing its requirements to be more adequate to fit the current state of the Fog.
-
 
 Because we are developing from scratch, we simplified the Fog network topology to be a tree instead of a graph.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{./assets/OurPlacementOriginal-Page-1.png}
-	\caption{step 0—\gls{IoT} devices just connected\\		
+	\caption{step 0—\gls{IoT} devices just connected\\
 		\textit{Cameras and a drone make the deployment manager aware of their presence by “pinging” it}}
 	\label{fig:our_placement0}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{./assets/OurPlacementOriginal-Page-2.png}
-	\caption{step 1—\gls{SLA} creation and distribution\\		
+	\caption{step 1—\gls{SLA} creation and distribution\\
 		\textit{The Deployment Manager identifies missing functions to be deployed and creates a \gls{SLA} contract describing their requirements (CPU, RAM, latency, etc.). Then sends it to a Fog node that relays to other Fog nodes until a requirement breaks.}}
 	\label{fig:our_placement1}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{./assets/OurPlacementOriginal-Page-3.png}
-	\caption{step 2—Bidding\\		
+	\caption{step 2—Bidding\\
 		\textit{Upon receiving the \gls{SLA}, each Fog node bid on it and return their price to the marketplace. This represents what they think the function will cost to be executed.}}
 	\label{fig:our_placement2}
 \end{figure}
@@ -704,16 +700,16 @@ Because we are developing from scratch, we simplified the Fog network topology t
 Our placement algorithm work in four main steps\footnote{Thanks to “AmethystDesign”, “Amethyst Prime”, “SBTS2018”, “bsd” and “freepik” for their images downloaded from “flaticon.com”}:
 
 \begin{description}
-	\item[Step 0 (\cref{fig:our_placement0})]{simply answers to the question: “How do the application is made aware the necessary \gls{IoT} devices have joined to run properly?” 
-		The response is through a simple “ping” informing the Deployment Manager that part of its hardware is connected and it may need to take a decision to integrate it in the deployed application.
-	}
+	\item[Step 0 (\cref{fig:our_placement0})]{simply answers to the question: “How do the application is made aware the necessary \gls{IoT} devices have joined to run properly?”
+	            The response is through a simple “ping” informing the Deployment Manager that part of its hardware is connected and it may need to take a decision to integrate it in the deployed application.
+	      }
 	\item[Step 1 (\cref{fig:our_placement1})] {is about the creation of and \gls{SLA}. When the Deployment Manager wants to provision a new function on the Fog network, it will be their responsibility to split their applications and constitute functions that will be run on the Fog. Those functions are then described by a \gls{SLA} wrapping multiple requirements such as CPU, RAM, latency.
-		
+
 		This contract represents guarantees to the execution of the function. A key point is that we consider everything has a price in the Fog, as such, any need will be able to be provided. However the cost may be infinitely high…
-		
+
 		Once the \gls{SLA} is ready, it is sent to the Marketplace which starts the auctioning process. The first action taken is to dispatch the contract to an arbitrary Fog node in the network. Every node will then relay the \gls{SLA} until one requirement is broken.
-	}
-	\item[Step 2 (\cref{fig:our_placement2})] {is the bidding process. Every fog node looks at the \gls{SLA} and bids. Thanks to an appropriate \improvement{Ref the appropriate auction mecha} auctioning mechanism, it will represent the actual value—the truthful value—of the function through the eyes of the Fog node. Once this process has been done, the bid is returned to the Marketplace.}
+		}
+	\item[Step 2 (\cref{fig:our_placement2})] {is the bidding process. Every fog node looks at the \gls{SLA} and bids. Thanks to an appropriate auctioning mechanism, it will represent the actual value—the truthful value—of the function through the eyes of the Fog node. We chose to go with second-price auctions, so as to have those properties when bidding on a single function. However, it is not maintained regarding multiple auctions for the same goods, like in our case. Thus in future works, we will need to consider another auctioning process. Once this process has been done, the bid is returned to the Marketplace.}
 	\item[Step 3 (\cref{fig:our_placement3})] {is the final step. Here, the Marketplace received all the bids of all the suitable Fog node to execute the function. The auction takes place and the winner is given to the Deployment Manager for further action. Two options are available: not to purchase and find another strategy to achieve its goal. Or to pay the Marketplace that in turn will remunerate the Fog node that will provision the function and so, make the application work. Of course, payment will not travel to the Fog node but in parallel in order to save on precious bandwidth.}
 \end{description}
 
@@ -740,7 +736,7 @@ In the community, two frameworks caught our eyes.
 \todo{Add more details about fogbus 2}
 \begin{description}
 	\item[\cite{deng_fogbus2_2021}]{is a research project. However the authors chose to employ their unique implementation of the orchestration system instead of going with Kubernetes. This framework is not sufficient for our needs.
-	}
+	      }
 	\item[\cite{smartfog_fogflow_2022}]{ is a mature framework coming from the research world. It is the result of a long list of papers \improvement{cite the list of fogflow papers?} that make it what it is today: a wonderful open framework for early adopters of the Fog technology. Particularly since the project is part of the Fiware \todo{cite fiware} backed by a number of great enterprises. However, for our needs, the framework is not appropriate. It is too complicated to understand fast, making modifications hard to deal with. Especially since we would have to implement the auctioning mechanisms on top of it, and enable messaging upon its existing stack. For these reasons, the framework is not interesting for us.}
 \end{description}
 
@@ -756,7 +752,7 @@ I coded this framework in Rust. The use of this innovative language present seve
 	\item the compiler is helpful: it can detect race condition on variable access in multithreading environment;
 	\item Rust toolkit—and its design—enables a great level of coding standard, making it perfect for community sharing;
 	\item Rust is efficient without being a low-level coding language such as C, making it ideal if the framework needs to accomplish high efficiency tasks such as routing \improvement{Add a citation to the appropriate section}.
-	\item 
+	\item
 \end{itemize}
 
 \todo{MAybe add things to that section}
@@ -786,7 +782,6 @@ Thanks to this library, a command line wrapper can be created easily. The result
 However, executing bash commands is still an available option, but now, one does not need to care about the specificities of the nodes such as their IP, regardless of whether they are running a virtual machine, etc. Commands are automatically dispatched to the appropriate machines given their role—a tag.
 
 So this fastens development time by a lot. Another compelling feature that I will be employing in the extremely near future is the data gathering. This library has been thought to be managing experiments, and as such, simplifies data collection. This engaging aspect is the use of Prometheus endpoints. \improvement{What is Prometheus. Intro needed}. Through the use of appropriate crates (libraries) in Rust I would be capable to produce endpoints on my framework. Those will be linked to EnosLib and log interesting metrics: latency between Fog nodes, load on the Fog node, number of instantiated functions, etc. And to connect those endpoints automatically to EnosLib, and at the end of the experiment I would be able to retrieve all those metrics in a simple way.
-
 
 \subsubsection{Our evaluation plan}
 
