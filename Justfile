@@ -3,12 +3,19 @@ default:
 	@just --list
 
 # Build the files
-build: tidy
-	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode main.tex
+build: tidy insa sif
+
+# Build the SIF report
+sif:
+	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode sif.tex
+
+# Build the INSA report
+insa:
+	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode insa.tex
 
 # Indent the code of main.tex
 indent:
-	latexindent -m -w main.tex
+	latexindent -m -w content.tex
 
 # Tidy the bib and generate the file used for the report
 tidy:

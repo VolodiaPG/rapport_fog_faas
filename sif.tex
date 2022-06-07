@@ -1,0 +1,246 @@
+\documentclass[11pt]{sdm}
+%\usepackage{xcolor}
+%\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+\usepackage{listings}
+\usepackage{hyperref}
+\definecolor{default-linkcolor}{HTML}{A50000}
+\definecolor{default-filecolor}{HTML}{A50000}
+\definecolor{default-citecolor}{HTML}{A50000}
+\definecolor{default-urlcolor}{HTML}{A50000}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=default-linkcolor,
+    filecolor=default-filecolor,
+    citecolor=default-citecolor,
+    urlcolor=default-urlcolor,
+    breaklinks=true,
+    pdftitle={Function placement for FaaS applications in the fog},
+    pdfauthor={Volodia PAROL-GUARINO},
+    pdflang={en},
+    }
+
+\usepackage{pdfpages}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xstring}
+\usepackage[inline, shortlabels]{enumitem}
+\usepackage[acronym]{glossaries}
+\usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex}
+\usepackage{utf8}
+\usepackage{lscape}
+
+\usepackage{diagbox} %table split headers
+%\usepackage{longtable}
+\usepackage{array}
+%\usepackage{rotating}
+\usepackage{eqparbox}
+\usepackage{makecell, caption, booktabs}
+\usepackage{booktabs}
+\usepackage{pifont}
+
+\usepackage{xargs} 
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\usepackage{cleveref}
+\crefname{section}{section}{sections}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{table}{tables}
+\crefname{lstlisting}{listing}{listings}
+\Crefname{lstlisting}{Listing}{Listings}
+%\newcommand{\crefrangeconjunction}{--}
+% \newcommand{\creflastconjunction}{, and } % optional, for "Oxford comma"
+% \crefrangelabelformat{enumi}{#3#1#4--#5\crefstripprefix{#1}{#2}#6}
+% {enumi}{first}{second}{middle}{last}
+% \crefmultiformat{enumi}%
+% {(items~(#2#1#3)}{ and~#2#1#3}{, #2#1#3}{ and~#2#1#3)}
+
+% \crefrangemultiformat{enumi}%
+% {(items~#3#1#4--#5#2#6}{ and~#3#1#4--#5#2#6)}{, #3#1#4--#5#2#6}{ and~#3#1#4--#5#2#6)}
+
+
+\DeclareNameFormat{labelname:poss}{% Based on labelname from biblatex.def
+  \nameparts{#1}% Not needed if using Biblatex 3.4
+  \ifcase\value{uniquename}%
+    \usebibmacro{name:family}{\namepartfamily}{\namepartgiven}{\namepartprefix}{\namepartsuffix}%
+  \or
+    \ifuseprefix
+      {\usebibmacro{name:first-last}{\namepartfamily}{\namepartgiveni}{\namepartprefix}{\namepartsuffixi}}
+      {\usebibmacro{name:first-last}{\namepartfamily}{\namepartgiveni}{\namepartprefixi}{\namepartsuffixi}}%
+  \or
+    \usebibmacro{name:first-last}{\namepartfamily}{\namepartgiven}{\namepartprefix}{\namepartsuffix}%
+  \fi
+  \usebibmacro{name:andothers}%
+  \ifnumequal{\value{listcount}}{\value{liststop}}{'s}{}}
+\DeclareFieldFormat{shorthand:poss}{%
+  \ifnameundef{labelname}{#1's}{#1}}
+\DeclareFieldFormat{citetitle:poss}{\mkbibemph{#1}'s}
+\DeclareFieldFormat{label:poss}{#1's}
+\newrobustcmd*{\citepossalias}{%
+  \AtNextCite{%
+    \DeclareNameAlias{labelname}{labelname:poss}%
+    \DeclareFieldAlias{shorthand}{shorthand:poss}%
+    \DeclareFieldAlias{citetitle}{citetitle:poss}%
+    \DeclareFieldAlias{label}{label:poss}}}
+\newrobustcmd*{\citeposs}{%
+  \citepossalias%
+  \textcite}
+\newrobustcmd*{\Citeposs}{\bibsentence\citeposs}
+\newrobustcmd*{\citeposss}{%
+  \citepossalias%
+  \textcites}
+
+\addbibresource{internship.bib} %added
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+
+\renewcommand{\arraystretch}{1.7}
+
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{HTML}{a50000}
+\definecolor{backcolour}{HTML}{ffffff}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{codepurple},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+%	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+%numeroter les pages
+\pagestyle{plain}
+
+\title{Function placement for FaaS applications in the fog}
+\author{Volodia \textsc{Parol-Guarino}}
+\supervisorOne{Nikolaos \textsc{Parlavantzas}}
+\supervisorTwo{First\_Name \textsc{Name} of your second supervisor}
+\team{MYRIADS}
+%One of:
+% ens-Rennes  esir    insa-rennes   rennes1  
+% enssat    logoUbs   tsupelec
+%here rennes1 for example
+\school{insa-rennes}
+
+
+% the domain should be one or two of:
+% Technology for Human Learning 
+% Artificial Intelligence 
+% Computer Arithmetic
+% Hardware Architecture
+% Automatic Control Engineering
+% Bioinformatics 
+% Biotechnology
+% Computational Complexity 
+% Computational Engineering, Finance, and Science
+% Computational Geometry 
+% Computation and Language 
+% Cryptography and Security 
+% Computer Vision and Pattern Recognition
+% Computers and Society 
+% Databases 
+% Distributed, Parallel, and Cluster Computing 
+% Digital Libraries
+% Discrete Mathematics 
+% Data Structures and Algorithms 
+% Embedded Systems 
+% Emerging Technologies 
+% Formal Languages and Automata Theory 
+% General Literature 
+% Graphics 
+% Computer Science and Game Theory 
+% Human-Computer Interaction 
+% Computer Aided Engineering 
+% Medical Imaging 
+% Information Retrieval 
+% Information Theory 
+% Ubiquitous Computing 
+% Machine Learning
+% Logic in Computer Science 
+% Multiagent Systems 
+% Mobile Computing
+% Multimedia
+% Modeling and Simulation 
+% Mathematical Software 
+% Numerical Analysis 
+% Neural and Evolutionary Computing 
+% Networking and Internet Architecture 
+% Operating Systems 
+% Performance 
+% Programming Languages 
+% Robotics 
+% Operations Research
+% Symbolic Computation 
+% Sound
+% Software Engineering 
+% Social and Information Networks 
+% Systems and Control 
+% Image Processing 
+% Signal and Image Processing 
+% Document and Text Processing
+% Web
+\domain{Domain:  Distributed, Parallel, and Cluster Computing -- Fog: Cloud after the edge}
+
+%write your abstract here
+% \abstract{
+% 	\gls{FaaS} applications could harness the distributed nature of Fog. This programming paradigm allows applications to be divided in independent units named functions. However, deciding how to place those still remains a challenge. Especially considering Fog is constituted of multiple, computing-enabled (but still constrained) nodes spanning from the Cloud to network edges like access points.\\
+% 	In this combination of models, one can leverage the physical proximity of an application with its users to enable real-time scenarios, reduce bandwidth usage, etc.; however, multiple applications will require doing so, and efficiently.\\
+% 	This is why the examined state-of-the-art literature concentrates on finding a placement strategy, to provision the necessary resources while keeping in mind distribution, data-locality, latency, etc. \\
+% 	This bibliographic report will concentrate on finding open working directions from the literature, paving the way toward an M.Sc. internship. We will pay attention to the metrics taken into account, acknowledging the algorithms as well as making a case for auctions. \\
+% 	We think auction -- and bidding -- paired with a good contracting such as \glspl{SLA} would translate the needs of an application's functions and enable efficient exploitation of the Fog by correctly provisioning those functions. Furthermore, it would provide an introduction in Fog's economics as well as considering \gls{FaaS} challenges (cold-start, function storage, input data) and make security and privacy a priority.
+% }
+\hypersetup{linkcolor=}
+\abstract{
+	\Gls{FaaS} applications could harness the distributed nature of Fog and take advantage of Fog's benefits, such as real-time processing and reduced bandwidth. The \gls{FaaS} programming paradigm allows applications to be divided in independent units named functions. However, deciding how to place those units in the Fog is challenging. The reason is that the Fog contains diverse, potentially resource-constrained nodes spanning from the Cloud to the network edge. These nodes must be efficiently shared between the multiple applications that will require to use the Fog.\\
+	Much research has concentrated on finding appropriate function placement strategies that provision the necessary resources while taking into account, for example, distribution, data-locality, and latency. \\
+	This bibliographic report analyses the existing literature and identifies open research directions, paving the way toward the M.Sc. internship. We will pay attention to various placement architectures, methods, and metrics as well as make a case for using auction-based placement mechanisms. \\
+	We think auctions -- and bidding -- paired with contracts such as \glspl{SLA} would be useful in considering the needs of an application's functions and in enabling efficient exploitation of the Fog by correctly provisioning those functions. Furthermore, auctions could consider \gls{FaaS}-specific challenges (cold-start, function storage, input data) and make security and privacy a priority.
+	\change{Modify abstract}
+}
+
+
+% \makeglossaries   
+\include{glossary}
+
+\begin{document}
+\listoftodos[Notes]
+
+\newpage
+
+\maketitle
+
+%*****************************************************************%
+
+\include{content}
+
+\printbibliography
+
+\end{document}
+

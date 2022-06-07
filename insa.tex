@@ -1,0 +1,677 @@
+%%
+% Copyright (c) 2017 - 2020, Pascal Wagler;
+% Copyright (c) 2014 - 2020, John MacFarlane
+%
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions
+% are met:
+%
+% - Redistributions of source code must retain the above copyright
+% notice, this list of conditions and the following disclaimer.
+%
+% - Redistributions in binary form must reproduce the above copyright
+% notice, this list of conditions and the following disclaimer in the
+% documentation and/or other materials provided with the distribution.
+%
+% - Neither the name of John MacFarlane nor the names of other
+% contributors may be used to endorse or promote products derived
+% from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+% "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+% LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+% FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+% COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+% INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+% BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+% LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+% CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+% LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+% ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+% POSSIBILITY OF SUCH DAMAGE.
+%%
+
+%%
+% This is the Eisvogel pandoc LaTeX template.
+%
+% For usage information and examples visit the official GitHub page:
+% https://github.com/Wandmalfarbe/pandoc-latex-template
+%%
+
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*,table}{xcolor}
+%
+\documentclass[
+  11pt,
+  french,
+  paper=a4,
+,captions=tableheading
+]{scrartcl}
+
+\iffalse
+\newcommand{\name}[1]{#1}
+\else
+\newcommand{\name}[1]{Michel}
+\fi
+
+
+\usepackage{lmodern}
+\usepackage{setspace}
+\setstretch{1.2}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\definecolor{default-linkcolor}{HTML}{A50000}
+%\definecolor{default-linkcolor}{HTML}{0091DA}
+\definecolor{default-filecolor}{HTML}{A50000}
+\definecolor{default-citecolor}{HTML}{A50000}
+\definecolor{default-urlcolor}{HTML}{A50000}
+%\definecolor{default-urlcolor}{HTML}{0091DA}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+% load footmisc in order to customize footnotes (footmisc has to be loaded before hyperref, cf. https://tex.stackexchange.com/a/169124/144087)
+\usepackage[hang,flushmargin,bottom,multiple]{footmisc}
+\setlength{\footnotemargin}{0.8em} % set space between footnote nr and text
+\setlength{\footnotesep}{\baselineskip} % set space between multiple footnotes
+\setlength{\skip\footins}{0.3cm} % set space between page content and footnote
+\setlength{\footskip}{0.9cm} % set space between footnote and page bottom
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={\textit{Fuzzing} en « boîte noire »},
+  pdfauthor={\name{Volodia PAROL-GUARINO}},
+  pdflang={fr},
+  pdfsubject={Rappor de stage},
+  pdfkeywords={INFO, Sécurité, Programmation, vulnérabilité, rapport, stage, mediakind, fuzzing, test},
+  colorlinks=true,
+  linkcolor=default-linkcolor,
+  filecolor=default-filecolor,
+  citecolor=default-citecolor,
+  urlcolor=default-urlcolor,
+  breaklinks=true,
+  pdfcreator={LaTeX via pandoc with the Eisvogel template, slightly modified by \name{Volodia P.-G.}}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=2.5cm,includehead=true,includefoot=true,centering,]{geometry}
+\usepackage[export]{adjustbox}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{dirtree}
+\newcommand{\passthrough}[1]{#1}
+\lstset{defaultdialect=[5.3]Lua}
+\lstset{defaultdialect=[x86masm]Assembler}
+% add backlinks to footnote references, cf. https://tex.stackexchange.com/questions/302266/make-footnote-clickable-both-ways
+\usepackage{footnotebackref}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+% Make use of float-package and set default placement for figures to H.
+% The option H means 'PUT IT HERE' (as  opposed to the standard h option which means 'You may put it here if you like').
+\usepackage{float}
+\floatplacement{figure}{t}
+
+\usepackage{utf8}
+\ifxetex
+    % See issue https://github.com/reutenauer/polyglossia/issues/127
+  \renewcommand*\familydefault{\sfdefault}
+    % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
+  \usepackage{polyglossia}
+  \setmainlanguage[]{french}
+\else
+  \usepackage[shorthands=off,main=french]{babel}
+\fi
+
+%\usepackage[numbers]{natbib}
+\usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex}
+%\bibliographystyle{plain-fr}
+
+\title{\textit{Fuzzing} en « boîte noire » \thanks{Les remerciements}}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Stage d'été 4\textsuperscript{ème} année INFO}
+\author{\name{Volodia PAROL-GUARINO}}
+\date{2021}
+
+
+
+%%
+%% added
+%%
+
+%
+% language specification
+%
+% If no language is specified, use English as the default main document language.
+%
+
+
+\usepackage[pages=all]{background}
+
+%
+% for the background color of the title page
+%
+\usepackage{pagecolor}
+\usepackage{afterpage}
+\usepackage{tikz}
+\usepackage[margin=2.5cm,includehead=true,includefoot=true,centering]{geometry}
+\usepackage[inline, shortlabels]{enumitem}
+
+\DeclareNameFormat{labelname:poss}{% Based on labelname from biblatex.def
+	\nameparts{#1}% Not needed if using Biblatex 3.4
+	\ifcase\value{uniquename}%
+	\usebibmacro{name:family}{\namepartfamily}{\namepartgiven}{\namepartprefix}{\namepartsuffix}%
+	\or
+	\ifuseprefix
+	{\usebibmacro{name:first-last}{\namepartfamily}{\namepartgiveni}{\namepartprefix}{\namepartsuffixi}}
+	{\usebibmacro{name:first-last}{\namepartfamily}{\namepartgiveni}{\namepartprefixi}{\namepartsuffixi}}%
+	\or
+	\usebibmacro{name:first-last}{\namepartfamily}{\namepartgiven}{\namepartprefix}{\namepartsuffix}%
+	\fi
+	\usebibmacro{name:andothers}%
+	\ifnumequal{\value{listcount}}{\value{liststop}}{'s}{}}
+\DeclareFieldFormat{shorthand:poss}{%
+	\ifnameundef{labelname}{#1's}{#1}}
+\DeclareFieldFormat{citetitle:poss}{\mkbibemph{#1}'s}
+\DeclareFieldFormat{label:poss}{#1's}
+\newrobustcmd*{\citepossalias}{%
+	\AtNextCite{%
+		\DeclareNameAlias{labelname}{labelname:poss}%
+		\DeclareFieldAlias{shorthand}{shorthand:poss}%
+		\DeclareFieldAlias{citetitle}{citetitle:poss}%
+		\DeclareFieldAlias{label}{label:poss}}}
+\newrobustcmd*{\citeposs}{%
+	\citepossalias%
+	\textcite}
+\newrobustcmd*{\Citeposs}{\bibsentence\citeposs}
+\newrobustcmd*{\citeposss}{%
+	\citepossalias%
+	\textcites}
+
+\addbibresource{internship.bib} %added
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+		T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+
+\renewcommand{\arraystretch}{1.7}
+
+%
+% break urls
+%
+\PassOptionsToPackage{hyphens}{url}
+
+%
+% When using babel or polyglossia with biblatex, loading csquotes is recommended
+% to ensure that quoted texts are typeset according to the rules of your main language.
+%
+\usepackage{csquotes}
+
+\usepackage{tabularx}
+\usepackage{diagbox} %table split headers
+%\usepackage{longtable}
+\usepackage{array}
+%\usepackage{rotating}
+\usepackage{eqparbox}
+\usepackage{makecell, caption, booktabs}
+\usepackage{pifont}
+
+\usepackage{xargs} 
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\usepackage{cleveref}
+\crefname{section}{section}{sections}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{table}{tables}
+\crefname{lstlisting}{listing}{listings}
+\Crefname{lstlisting}{Listing}{Listings}
+
+%
+% captions
+%
+\definecolor{caption-color}{HTML}{777777}
+\usepackage[font={stretch=1.2}, textfont={color=caption-color}, position=top, skip=4mm, labelfont=bf, singlelinecheck=false, justification=centering]{caption}
+\setcapindent{0em}
+
+%
+% blockquote
+%
+\definecolor{blockquote-border}{RGB}{221,221,221}
+\definecolor{blockquote-text}{RGB}{119,119,119}
+\usepackage{mdframed}
+\newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
+\renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
+\item\relax\color{blockquote-text}\ignorespaces}{\unskip\unskip\endlist\end{customblockquote}}
+
+%
+% Source Sans Pro as the de­fault font fam­ily
+% Source Code Pro for monospace text
+%
+% 'default' option sets the default
+% font family to Source Sans Pro, not \sfdefault.
+%
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+    \usepackage[default]{sourcesanspro}
+  \usepackage{sourcecodepro}
+  \else % if not pdftex
+    \usepackage[default]{sourcesanspro}
+  \usepackage{sourcecodepro}
+
+  % XeLaTeX specific adjustments for straight quotes: https://tex.stackexchange.com/a/354887
+  % This issue is already fixed (see https://github.com/silkeh/latex-sourcecodepro/pull/5) but the
+  % fix is still unreleased.
+  % TODO: Remove this workaround when the new version of sourcecodepro is released on CTAN.
+  \ifxetex
+    \makeatletter
+    \defaultfontfeatures[\ttfamily]
+      { Numbers   = \sourcecodepro@figurestyle,
+        Scale     = \SourceCodePro@scale,
+        Extension = .otf }
+    \setmonofont
+      [ UprightFont    = *-\sourcecodepro@regstyle,
+        ItalicFont     = *-\sourcecodepro@regstyle It,
+        BoldFont       = *-\sourcecodepro@boldstyle,
+        BoldItalicFont = *-\sourcecodepro@boldstyle It ]
+      {SourceCodePro}
+    \makeatother
+  \fi
+  \fi
+
+%
+% heading color
+%
+\definecolor{heading-color}{RGB}{40,40,40}
+\addtokomafont{section}{\color{heading-color}}
+% When using the classes report, scrreprt, book,
+% scrbook or memoir, uncomment the following line.
+%\addtokomafont{chapter}{\color{heading-color}}
+
+%
+% variables for title and author
+%
+\usepackage{titling}
+\title{\textit{} en « boîte noire »}
+\author{\name{Volodia PAROL-GUARINO}}
+
+%
+% tables
+%
+
+%
+% remove paragraph indention
+%
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+%
+%
+% Listings
+%
+%
+
+
+%
+% general listing colors
+%
+\definecolor{listing-background}{HTML}{F7F7F7}
+\definecolor{listing-rule}{HTML}{B3B2B3}
+\definecolor{listing-numbers}{HTML}{B3B2B3}
+\definecolor{listing-text-color}{HTML}{000000}
+\definecolor{listing-keyword}{HTML}{435489}
+\definecolor{listing-keyword-2}{HTML}{1284CA} % additional keywords
+\definecolor{listing-keyword-3}{HTML}{9137CB} % additional keywords
+\definecolor{listing-identifier}{HTML}{435489}
+\definecolor{listing-string}{HTML}{00999A}
+\definecolor{listing-comment}{HTML}{8E8E8E}
+
+\lstdefinestyle{eisvogel_listing_style}{
+  language         = java,
+  xleftmargin      = 0.6em,
+  framexleftmargin = 0.4em,
+  backgroundcolor  = \color{listing-background},
+  basicstyle       = \color{listing-text-color}\linespread{1.0}\small\ttfamily{},
+  breaklines       = true,
+  frame            = single,
+  framesep         = 0.19em,
+  rulecolor        = \color{listing-rule},
+  frameround       = ffff,
+  tabsize          = 4,
+  numberstyle      = \color{listing-numbers},
+  aboveskip        = 1.0em,
+  belowskip        = 0.1em,
+  abovecaptionskip = 0em,
+  belowcaptionskip = 1.0em,
+  keywordstyle     = {\color{listing-keyword}\bfseries},
+  keywordstyle     = {[2]\color{listing-keyword-2}\bfseries},
+  keywordstyle     = {[3]\color{listing-keyword-3}\bfseries\itshape},
+  sensitive        = true,
+  identifierstyle  = \color{listing-identifier},
+  commentstyle     = \color{listing-comment},
+  stringstyle      = \color{listing-string},
+  showstringspaces = false,
+  escapeinside     = {/*@}{@*/}, % Allow LaTeX inside these special comments
+  literate         =
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+  {…}{{\ldots}}1 {≥}{{>=}}1 {≤}{{<=}}1 {„}{{\glqq}}1 {“}{{\grqq}}1
+  {”}{{''}}1
+}
+\lstset{style=eisvogel_listing_style}
+
+%
+% Java (Java SE 12, 2019-06-22)
+%
+\lstdefinelanguage{Java}{
+  morekeywords={
+    % normal keywords (without data types)
+    abstract,assert,break,case,catch,class,continue,default,
+    do,else,enum,exports,extends,final,finally,for,if,implements,
+    import,instanceof,interface,module,native,new,package,private,
+    protected,public,requires,return,static,strictfp,super,switch,
+    synchronized,this,throw,throws,transient,try,volatile,while,
+    % var is an identifier
+    var
+  },
+  morekeywords={[2] % data types
+    % primitive data types
+    boolean,byte,char,double,float,int,long,short,
+    % String
+    String,
+    % primitive wrapper types
+    Boolean,Byte,Character,Double,Float,Integer,Long,Short
+    % number types
+    Number,AtomicInteger,AtomicLong,BigDecimal,BigInteger,DoubleAccumulator,DoubleAdder,LongAccumulator,LongAdder,Short,
+    % other
+    Object,Void,void
+  },
+  morekeywords={[3] % literals
+    % reserved words for literal values
+    null,true,false,
+  },
+  sensitive,
+  morecomment  = [l]//,
+  morecomment  = [s]{/*}{*/},
+  morecomment  = [s]{/**}{*/},
+  morestring   = [b]",
+  morestring   = [b]',
+}
+
+\lstdefinelanguage{XML}{
+  morestring      = [b]",
+  moredelim       = [s][\bfseries\color{listing-keyword}]{<}{\ },
+  moredelim       = [s][\bfseries\color{listing-keyword}]{</}{>},
+  moredelim       = [l][\bfseries\color{listing-keyword}]{/>},
+  moredelim       = [l][\bfseries\color{listing-keyword}]{>},
+  morecomment     = [s]{<?}{?>},
+  morecomment     = [s]{<!--}{-->},
+  commentstyle    = \color{listing-comment},
+  stringstyle     = \color{listing-string},
+  identifierstyle = \color{listing-identifier}
+}
+
+
+\lstdefinelanguage{json}{
+    numbers=left,
+    numberstyle=\small,
+    frame=single,
+    rulecolor=\color{listing-rule},
+    showspaces=false,
+    showtabs=false,
+    breaklines=true,
+    postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{gray}\hookrightarrow\space}},
+    breakatwhitespace=true,
+    basicstyle=\ttfamily\small,
+    upquote=true,
+    morestring=[b]",
+    stringstyle=\color{listing-string},
+    literate=
+     *{0}{{{\color{listing-keyword}0}}}{1}
+      {1}{{{\color{listing-keyword}1}}}{1}
+      {2}{{{\color{listing-keyword}2}}}{1}
+      {3}{{{\color{listing-keyword}3}}}{1}
+      {4}{{{\color{listing-keyword}4}}}{1}
+      {5}{{{\color{listing-keyword}5}}}{1}
+      {6}{{{\color{listing-keyword}6}}}{1}
+      {7}{{{\color{listing-keyword}7}}}{1}
+      {8}{{{\color{listing-keyword}8}}}{1}
+      {9}{{{\color{listing-keyword}9}}}{1}
+      {\{}{{{\color{listing-keyword}{\{}}}}{1}
+      {\}}{{{\color{listing-keyword}{\}}}}}{1}
+      {[}{{{\color{listing-keyword}{[}}}}{1}
+      {]}{{{\color{listing-keyword}{]}}}}{1},
+}
+
+%
+% header and footer
+%
+\usepackage{fancyhdr}
+
+\fancypagestyle{eisvogel-header-footer}{
+  \fancyhead{}
+  \fancyfoot{}
+  \lhead[2021]{\textit{Fuzzing} en « boîte noire »}
+  \chead[]{}
+  \rhead[Fuzzing en boîte noire]{2021}
+  \lfoot[\thepage]{\name{Volodia PAROL-GUARINO}}
+  \cfoot[]{}
+  \rfoot[\name{Volodia PAROL-GUARINO}]{\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+\pagestyle{eisvogel-header-footer}
+\backgroundsetup{
+scale=1,
+color=black,
+opacity=0.2,
+angle=0,
+contents={%
+  \includegraphics[width=\paperwidth,height=\paperheight]{assets/background.png}
+  }%
+}
+
+\usepackage{textpos}
+\usepackage{appendix}
+
+\usepackage[toc ,acronym]{glossaries}
+\makeglossaries
+
+%%
+%% end added
+%%
+
+\begin{document}
+
+%%
+%% begin titlepage
+%%
+\begin{titlepage}
+\newgeometry{top=2cm, right=4cm, bottom=3cm, left=2cm}
+\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{assets/front.png}};
+\newcommand{\colorRule}[3][black]{\textcolor[HTML]{#1}{\rule{#2}{#3}}}
+\begin{flushleft}
+\noindent
+\\[-1em]
+\color[HTML]{FFFFFF}
+\makebox[0pt][l]{\colorRule[435488]{1.3\textwidth}{0pt}}
+\par
+\noindent
+
+% The titlepage with a background image has other text spacing and text size
+{
+  \setstretch{2}
+  \vfill
+  \vskip -8em
+  \noindent {\huge \textbf{\textsf{\textit{Fuzzing} « en boîte noire »}}}
+    \vskip 1em
+  {\Large \textsf{Stage d'été 4\textsuperscript{ème} année INFO}}
+    \vskip 2em
+  \noindent {\Large \textsf{\name{Volodia PAROL-GUARINO}}\vskip 0.3em \textsf{2021}}
+  \vfill
+}
+
+\noindent
+\includegraphics[width=100pt, center]{assets/logo.png}
+\color[HTML]{000000}
+\begin{center}
+\textit{Tuteur de stage}: \name{Philippe CHOUTEAU} -- \textit{Lieu :} Mediakind Rennes
+\end{center}
+
+\end{flushleft}
+\end{titlepage}
+\restoregeometry
+
+%%
+%% end titlepage
+%%
+\clearpage
+\pagestyle{empty}
+\noindent
+\
+\vfil
+\vfil
+{\fontsize{9}{10}\selectfont 
+\begin{center}
+Remerciements
+\end{center}
+
+\begin{center}
+Je témoigne ma reconnaissance à l'équipe dont j'ai eu la chance d'être membre. Je remercie \name{Philippe CHOUTEAU} et \name{Yann RADENAC} pour m'avoir accompagné, écouté, conseillé et intégré à l'équipe. J'exprime mes considérations à \name{Poras VEDI}, mon collègue stagiaire dans la même équipe.
+
+Je remercie l'ensemble du groupe « \textit{New grads \& Interns} » avec qui j'ai eu la chance d'échanger informellement pendant mon télétravail.
+\end{center}
+}
+\vfil
+\newpage
+\clearpage
+
+\renewcommand{\appendixtocname}{Annexes}
+
+\renewcommand{\appendixpagename}{Annexes}
+
+\renewcommand{\lstlistlistingname}{Table des extraits de code}
+\renewcommand{\lstlistingname}{Extrait}
+
+\pagenumbering{gobble}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\clearpage
+}
+\pagenumbering{gobble}
+{
+\hypersetup{linkcolor=}
+\listoffigures
+\hypersetup{linkcolor=}
+\lstlistoflistings
+}
+\thispagestyle{empty}
+\newpage
+\clearpage
+
+\pagestyle{eisvogel-header-footer}
+\pagenumbering{arabic}
+\include{glossary}
+\include{content}
+
+\pagenumbering{roman}
+
+%\include{annexes}
+
+\clearpage
+\printglossary[type=\acronymtype, title={Acronymes}]
+
+\clearpage
+\printglossary[title={Glossaire}]
+
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{Références}
+%\renewcommand\refname{Références}
+%\bibliography{internship}
+
+\clearpage \ifodd\value{page}\hbox{}\pagenumbering{gobble}\newpage\fi
+\pagestyle{empty}
+\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{assets/back.png}};
+\noindent
+\
+\vfil
+{\fontsize{9}{10}\selectfont 
+\begin{center}
+Résumé
+\end{center}
+
+\begin{quotation}
+Le fuzzing est un outil de test de bout-à-bout dont les bénéfices sont entrés dans les mœurs \cite{10.1145/96267.96279}. Il est efficace pour des tests de robustesse avec connaissance -- ou non -- du code source. Le fuzzing est attractif puisqu'une fois lancé il « trouve » des bugs automatiquement. C'est ainsi qu'il est perçu par la QA de Mediakind. L'entreprise internationale est mondialement reconnue pour ses services de traitement du flux audiovisuel : encodage, distribution, vod, pubs… La plupart des solutions utilisées par ses clients sont « dans le cloud ». 
+
+Initialement, c'est sur les micro-services composant certains produits que le sujet du stage portait. Le fuzzing devait être réalisé en les compilant avec des outils industriels \cite{AFLplusplus-Woot20}. Trop de dépendances -- de couplage -- ont mené cette piste a être abandonnée. L'alternative -- moins efficace -- est le fuzzing « boîte noire ». Son avantage : il ne nécessite qu'un accès aux fuzzer du produit cible. Elles sont modélisées par des grammaires formelles données aufuzzer. Elles permettent de générer des entrées respectant une syntaxe combinée à de l'aléatoire. Ce mélange espère atteindre la cible en profondeur. Son retour permet de décider d'un bug ou non. 
+
+Dans ma mission j'ai transformé le script de mon collègue stagiaire en un outil dans la manche de la QA. À la fin de mon stage, l'application est structurée et peut s'exécuter sur les plate-formes fuzzer de la QA. La génération des données est un succès : des bugs mineurs ont déjà été détectés. Cependant, quand le fuzzing passe à l'échelle, la quantité de données créées est trop importante et redondante pour une interprétation manuelle. Ce sont des problématiques « big data » qui permettent de trouver des bugs plus « gros ». En abrégeant mon stage après trois mois en faveur de mes études, je n'ai pas entamer les recherches dans ce sens.
+\end{quotation}
+
+\vspace*{2cm}
+
+\begin{center}
+Abstract
+\end{center}
+
+\begin{quotation}
+fuzzing is an end-to-end testing tool. It already has proven useful \cite{10.1145/96267.96279}. The testing method is efficient to test applications robustessness, with or without relying on the source code. fuzzing is tempting because it finds bugs automatically. That is how Mediakind's QA perceives it. The global company is known for its multimedia stream processing services: encoding, distribution, on-demand video, ads… Most of those are now cloud based.
+
+At first, the interneship aimed to fuzz the micro-services composing those services. It was relying on industrial solutions \cite{AFLplusplus-Woot20} to do heavy-lifting at compile-time. However, too much dependencies and coupling have been observed to be solved in such a short time. The alternative is to switch to a black-boxfuzzer instead. The benefits are not as good, but only an fuzzer access is required. Those fuzzer are modelled using formal grammars given to thefuzzer. They generate inputs fed to the fuzzer that target corner-cases by being partially random to reach deep enough in the target. The ouputs is used tell if a bug has been identified.
+
+During my mission, I transformed my intern colleague's script to a tool available for the QA. At the end of mly internship, this application is structured and executes on the QA's fuzzer platforms. Generation is a success and has already identified minor bugs. However, scaling up is problematic. The amount of generated data is too much to be analyzed by hand. It would require big data tools to find bigger bugs. While I would have had time to start exploring this way, I chose to prematurely end the internship to start a second master's degree.
+\end{quotation}
+}
+
+\vfil
+\end{document}
