@@ -47,12 +47,12 @@
 %
 \documentclass[
   11pt,
-  french,
+  english,
   paper=a4,
 ,captions=tableheading
 ]{scrartcl}
 
-\iffalse
+\iftrue
 \newcommand{\name}[1]{#1}
 \else
 \newcommand{\name}[1]{Michel}
@@ -144,25 +144,28 @@
   \renewcommand*\familydefault{\sfdefault}
     % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
   \usepackage{polyglossia}
-  \setmainlanguage[]{french}
+  \setmainlanguage[]{english}
 \else
-  \usepackage[shorthands=off,main=french]{babel}
+  \usepackage[shorthands=off,main=english]{babel}
 \fi
 
 %\usepackage[numbers]{natbib}
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex}
 %\bibliographystyle{plain-fr}
 
-\title{\textit{Fuzzing} en « boîte noire » \thanks{Les remerciements}}
+
+
+\usepackage{titling}
+\title{Function placement for FaaS applications in the fog}
 \usepackage{etoolbox}
 \makeatletter
 \providecommand{\subtitle}[1]{% add subtitle to \maketitle
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{Stage d'été 4\textsuperscript{ème} année INFO}
+\subtitle{PFE-INFO-2022-52}
 \author{\name{Volodia PAROL-GUARINO}}
-\date{2021}
+\date{2022}
 
 
 
@@ -218,10 +221,6 @@
 \newrobustcmd*{\citeposss}{%
 	\citepossalias%
 	\textcites}
-
-\addbibresource{internship.bib} %added
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-		T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 
 \renewcommand{\arraystretch}{1.7}
@@ -322,12 +321,6 @@
 % scrbook or memoir, uncomment the following line.
 %\addtokomafont{chapter}{\color{heading-color}}
 
-%
-% variables for title and author
-%
-\usepackage{titling}
-\title{\textit{} en « boîte noire »}
-\author{\name{Volodia PAROL-GUARINO}}
 
 %
 % tables
@@ -496,9 +489,9 @@
 \fancypagestyle{eisvogel-header-footer}{
   \fancyhead{}
   \fancyfoot{}
-  \lhead[2021]{\textit{Fuzzing} en « boîte noire »}
+  \lhead[2022]{Function placement for FaaS applications in the fog}
   \chead[]{}
-  \rhead[Fuzzing en boîte noire]{2021}
+  \rhead[Function placement for FaaS applications in the fog]{2022}
   \lfoot[\thepage]{\name{Volodia PAROL-GUARINO}}
   \cfoot[]{}
   \rfoot[\name{Volodia PAROL-GUARINO}]{\thepage}
@@ -519,7 +512,11 @@ contents={%
 \usepackage{textpos}
 \usepackage{appendix}
 
-\usepackage[toc ,acronym]{glossaries}
+\addbibresource{internship} %added
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+		T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\usepackage[toc,acronym]{glossaries}
 \makeglossaries
 
 %%
@@ -548,19 +545,19 @@ contents={%
   \setstretch{2}
   \vfill
   \vskip -8em
-  \noindent {\huge \textbf{\textsf{\textit{Fuzzing} « en boîte noire »}}}
+  \noindent {\huge \textbf{\textsf{Function placement for\\FaaS applications in the Fog}}}
     \vskip 1em
-  {\Large \textsf{Stage d'été 4\textsuperscript{ème} année INFO}}
+  {\Large \textsf{PFE-INFO-2022-52}}
     \vskip 2em
-  \noindent {\Large \textsf{\name{Volodia PAROL-GUARINO}}\vskip 0.3em \textsf{2021}}
+  \noindent {\Large \textsf{\name{Volodia PAROL-GUARINO}}\vskip 0.3em \textsf{2022}}
   \vfill
 }
 
 \noindent
-\includegraphics[width=100pt, center]{assets/logo.png}
+\includegraphics[width=300pt, center]{assets/logo.png}
 \color[HTML]{000000}
 \begin{center}
-\textit{Tuteur de stage}: \name{Philippe CHOUTEAU} -- \textit{Lieu :} Mediakind Rennes
+\textit{Supervisor}: \name{Nikos PARLAVANTZAS} -- \textit{Place :} MYRIADS team at IRISA/INRIA Rennes
 \end{center}
 
 \end{flushleft}
@@ -578,25 +575,29 @@ contents={%
 \vfil
 {\fontsize{9}{10}\selectfont 
 \begin{center}
-Remerciements
+Thanks
 \end{center}
 
 \begin{center}
-Je témoigne ma reconnaissance à l'équipe dont j'ai eu la chance d'être membre. Je remercie \name{Philippe CHOUTEAU} et \name{Yann RADENAC} pour m'avoir accompagné, écouté, conseillé et intégré à l'équipe. J'exprime mes considérations à \name{Poras VEDI}, mon collègue stagiaire dans la même équipe.
+I cheerfully thank \name{Nikos PARLAVANTZAS} for all the advice and support throughout this internship and, I hope, in our future collaboration.
 
-Je remercie l'ensemble du groupe « \textit{New grads \& Interns} » avec qui j'ai eu la chance d'échanger informellement pendant mon télétravail.
+I thank my fellow internship colleagues, a community worth being part of.
+
+I want to show appreciation to all the participants—teachers and students—of the SIF master I had a chance to work with.
+
+I am indebted to the INSA and all the people involved for these wonderful 5 years that made me who I am.
 \end{center}
 }
 \vfil
 \newpage
 \clearpage
 
-\renewcommand{\appendixtocname}{Annexes}
+%\renewcommand{\appendixtocname}{Annexes}
 
-\renewcommand{\appendixpagename}{Annexes}
+%\renewcommand{\appendixpagename}{Annexes}
 
-\renewcommand{\lstlistlistingname}{Table des extraits de code}
-\renewcommand{\lstlistingname}{Extrait}
+%\renewcommand{\lstlistlistingname}{Table des extraits de code}
+%\renewcommand{\lstlistingname}{Extrait}
 
 \pagenumbering{gobble}
 {
@@ -628,14 +629,16 @@ Je remercie l'ensemble du groupe « \textit{New grads \& Interns} » avec qui j'
 %\include{annexes}
 
 \clearpage
-\printglossary[type=\acronymtype, title={Acronymes}]
+%\printglossary[type=\acronymtype, title={Acronymes}]
+\printglossary[type=\acronymtype]
 
 \clearpage
-\printglossary[title={Glossaire}]
+%\printglossary[title={Glossaire}]
+\printglossary
 
 \clearpage
 \phantomsection
-\addcontentsline{toc}{section}{Références}
+\addcontentsline{toc}{section}{References}
 %\renewcommand\refname{Références}
 %\bibliography{internship}
 

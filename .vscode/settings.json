@@ -1,0 +1,22 @@
+{
+    "files.exclude": {
+        "*.acn": true, 
+        "*.ist": true, 
+        "*.blg": true, 
+        "*.aux": true, 
+        "*.bbl": true, 
+        "*.fdb*": true, 
+        "*.fts": true, 
+        "*.glo": true, 
+        "*.gls*": true, 
+        "*.lof": true, 
+        "*.lol": true, 
+        "*.log": true, 
+        "*.toc": true, 
+        "*.run*": true, 
+        "*.fls": true, 
+        "*.synctex*": true, 
+        "*.github*": true, 
+        "*.vscode*": true, 
+    }
+  }
