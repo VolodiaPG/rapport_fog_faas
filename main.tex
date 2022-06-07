@@ -808,11 +808,9 @@ Our criteria would be
 
 Economic efficiency aims to examine whether the Fog node earns enough “money” to be lucrative for its owner. Profitability would be an incentive for the node to stay in the network. One experience could look at “what happens when unremunerative nodes leave the grid because they went bankrupt?”
 
-\todo{finish correcting from here}
-
 \subsection{Other work accomplished}
 
-Developing the framework was not the first work to be started. First I had to be at ease with the literature of the fields this project interacts with. This means I wanted to be reassured about what already has been accomplished in the bibliographic report in terms of:
+Developing the framework was not the first work to be started. Initially, I had to be at ease with the literature of the fields this project interacts with. I wanted to go furhter about what was previously accomplished in the bibliographic report in terms of:
 \begin{enumerate}
 	\item placement algorithm;\label{enumerate:placement}
 	\item already tested/simulated auctions;\label{enumerate:alreadytested}
@@ -820,34 +818,34 @@ Developing the framework was not the first work to be started. First I had to be
 	\item finding Fog applications to run on a framework.\label{enumerate:fogapplications}
 \end{enumerate}
 
-This meant a number of hours dedicated to find an answer to those questions and go further than the bibliographic report. \cref{enumerate:placement, enumerate:alreadytested, enumerate:frameworklimitations} lead to the initiative of a new framework fitting our particular needs and profiting from advantages such as Grid'5000—that kind of test bed is not usual in the available literature.
+This meant a number of hours dedicated to discover an answer to those questions and go further than the bibliographic report. \cref{enumerate:placement, enumerate:alreadytested, enumerate:frameworklimitations} lead to the initiative of a new framework fitting our particular needs and profiting from advantages such as Grid'5000—that kind of test bed is not usual in the domain literature.
 
-\cref{enumerate:fogapplications} led to find \improvement{Find BeFaaS citation}. This paper uses an openly available Fog application. Though it is still artificial—image recognition is basically pixel remapping on an image in order to “simulate” that. It is the closest I found to a Fog application. Of course a number of \gls{FaaS} applications are available. However one would have to go through all the different technologies to find code compatible with a platform. This entanglement is particularly visible with open private Cloud solutions—such as AWS'. Meaning reusing the code is not possible without both rewriting it and logically replacing its components. Finally, the main issue with this approach is the fact it is custom tailored for the Fog. What we want is to first test the Fog for Fog applications and only then test it with normal applications to finalize its integration to the current Cloud offerings.
+\cref{enumerate:fogapplications} led to uncover \improvement{Find BeFaaS citation}. This paper uses an openly available Fog application. Though it is still artificial—image recognition is basically pixel remapping on an image in order to “simulate” recognition. It is the closest I observed to a Fog application. Of course a number of \gls{FaaS} applications are available. However one would have to go through all the different technologies to find code compatible with a platform. This entanglement is particularly visible with open private Cloud solutions—such as AWS'. Meaning reusing the code is not possible without both redoing it and logically replacing its components, e.g., migrate storage solutions and triggers. Ultimately, the main issue with this approach is that it  is not custom tailored for the Fog. What we want is to first study Fog applications made for the platform and then test it normal applications to complete the Fog integration with current Cloud offerings.
 
 Finally, we went with \improvement{cite BeFaas here} and actually rewrote their simple application with Rust in order to:
 \begin{itemize}
-	\item get rid of their library integration that they made for their testing;
+	\item get rid of their library incorporation that they made for their experiments;
 	\item get rid of Terraform, as it would have been an annoying additional layer;
-	\item get rid of JavaScript, as this would be unlikely to be a “high-performance” language used for applications running under constraints and likely paying for their resource consumptions.
+	\item get rid of JavaScript, as this would be a doubtful choice for a “high-performance” language employed for applications running under constraints and likely paying for their resource consumptions.
 \end{itemize}
-In the end, the application was rewritten in Rust and that benefited the whole project as I also planned to use this language for the framework itself. Thus it was a good training and a good way to find the appropriate crates—modules—that I would use later in the framework (a good example is the crate I use for the \gls{REST} \gls{API} where I was hesitant to go with Rocket \improvement{cite Rocket?}, thus testing another option made me realize the benefits of using the other).
+In the end, the application was rewritten in Rust and that uplifted the whole project as I also planned to utilize this language for the framework itself. Hence it was an excellent training and way to find the appropriate crates—aka modules—that I would later utilize in the framework. A good example is the crate I retained for the \gls{REST} \gls{API}, with which I was hesitant to go at first, but after testing another option I realized the benefits of Rocket and so I went with it for the framework \improvement{cite Rocket?}.
 
 \subsubsection{Plans of evolution and future research work}
 
 “Flexible resource allocation for \gls{FaaS} applications in the Fog” is the title of my thesis.
 I earned the funding through the XXXXX. \todo{Put the name of the contest} thanks to the good advice of Nikos, under whose supervision I will research this topic.
 
-The main point in changing the first words in the sentence is to reflect the change of scope. Instead of just focusing on the function placement, which is a one-time event that occurs at the provision of the function; we now look at the life of the application in the Fog. Of course the application will be divided in functions, but then those will need to stay connected to each other, to move in the Fog to keep meeting their requirements. And by doing so, the auctioning process will need to integrate those changes, as to keep fairness during all operations for all users, etc.
+The main point in altering the first words in the sentence is to reflect the change of scope. Instead of just focusing on the function placement, which is a one-time event that occurs at the provision of the function; we now look at the life of the application in the Fog. Of course the application will be divided in functions, but then those will require to stay linked with each other, to move in the Fog to maintain meeting their specifications. And by doing so, the auctioning process will need to integrate those changes, as to keep fairness during all operations for all users, etc.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{./assets/terraforma.jpg}
 	\caption{What a Terra Forma observatory could look like.\\
-		\textit{A site combining both mobile and static connected sensors and platforms. © Virginie Girard, Laurent Longuevergne, Arnaud Elger }}
+		\textit{A site combining both mobile and static connected sensors and platforms. © Virginie Girard, Laurent Longuevergne, Arnaud Elger}}
 	\label{fig:terraforma}
 \end{figure}
 
-We also hope to participate in the Terra Forma \cite{longuevergne_terra_2022} CNRS-backed project to both help and experiment on a real Fog test bed. Indeed the project will monitor part of the French territory under a dense net of multiple \gls{IoT} sensors. We hope to demonstrate the power of the Fog reducing bandwidth consumption and enabling real-time decision taking (drone control, etc.). In such a project, we will be able to contribute our framework running in the real world, our placement mechanism as well an economically viable solution and, lastly, real Fog applications at scale—something scarce in the literature.
+We also want to participate in the Terra Forma \cite{longuevergne_terra_2022} CNRS-backed mission to both help and experiment on an actual Fog test bed. Indeed the project will monitor part of the French territory under a dense net of multiple \gls{IoT} sensors. We hope to demonstrate the power of the Fog reducing bandwidth consumption and enabling real-time decision taking (drone control, etc.). In such a project, we will be able to contribute our framework running in the real world, our placement mechanism as well as an economically viable solution and, lastly, true Fog applications at scale—something scarce in the literature.
 
 \section{Conclusion}
 % Financial cooperation as key
