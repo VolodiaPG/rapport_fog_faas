@@ -630,16 +630,14 @@ We also want to participate in the Terra Forma \cite{longuevergne_terra_2022} CN
 \section{Conclusion}
 % Financial cooperation as key
 
-\todo{add internship to conclusion}
+Serverless—and especially \gls{FaaS}—enables the transfer of resource provisioning responsibilities to the platform provider. Thus, this model enables orchestration optimizations in resource usage, data transfers, virtualization, etc. The paradigm could be viable in the Fog because functions are light enough to be provisioned on multiple geographically scattered constrained devices, and when placed strategically, scale dynamically over the network by design.
 
-Serverless, and especially \gls{FaaS}, enables the transfer of resource provisioning responsibilities to the platform provider. Thus, this model enables orchestration optimizations in resource-usage, data transfers, virtualization, etc. The model could be viable in the Fog because functions are light enough to be provisioned on multiple constrained devices, and when placed strategically, scale dynamically over the network by design.
-
-This report presents an overview of contributions made to the state of the art when it comes to function placement in highly distributed systems—either Fog or \gls{MEC}. These contributions address open questions such as \cite{kjorveziroski_iot_2021,xie_when_2021}:
+This report first presents an overview of contributions made to the state of the art when it comes to function placement in highly distributed systems—either Fog or \gls{MEC}. These contributions address open questions such as \cite{kjorveziroski_iot_2021,xie_when_2021}:
 \begin{enumerate}[(a)]
 	\item scheduling;
 	\item deployment;
 	\item performance;
-	\item cold-start;
+	\item cold start;
 	\item vendor lock-in;
 	\item security \& isolation;
 	\item improvement to function chaining / combination;
@@ -648,10 +646,11 @@ This report presents an overview of contributions made to the state of the art w
 	\item incentive mechanism;
 	\item exceptions and failure recovery.
 \end{enumerate}
-After synthesizing the knowledge in \cref{tab:placement}, new questions are raised about
+After synthesizing the knowledge in \cref{tab:placement}, new considerations are raised about
 \begin{enumerate}[(i)]
 	\item the role of \glspl{SLA} and the guarantees they could provide for the Fog and its users;
 	\item an auction-based model that would translate the complexity of users' needs in meaningful bids, helping to place truthfully and fairly functions on nodes;
 	\item the integration of \gls{FaaS} and their inherent constraints in the Fog;
 	\item the place of security and privacy.
 \end{enumerate}
+Ultimately, the report presents the accomplished work during the internship based on the integrated bibliographic report. Such work is the realization of a framework to experiment auction-enabled function placement in the Fog. Such a framework has been made open as numerous sharing initiative have been started: code documentation, the use of standard documentation \glspl{API}, project shared since day one. This framework has been established on extra research made toward a full comprehension of the task and challenges, supplementary to the bibliographic report itself. Additional work includes the port to Grid'5000 for experimental use and metrics harvesting, that will lead to a publication. A Fog application has also been developed as a basic trial for the readiness and load testing of the framework.
