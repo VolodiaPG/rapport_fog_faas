@@ -3,6 +3,7 @@
 %\usepackage[utf8]{inputenc}
 \usepackage{float}
 \usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+\usepackage{listings}
 \usepackage{hyperref}
 \definecolor{default-linkcolor}{HTML}{A50000}
 \definecolor{default-filecolor}{HTML}{A50000}
@@ -54,6 +55,8 @@
 \Crefname{section}{Section}{Sections}
 \Crefname{table}{Table}{Tables}
 \crefname{table}{table}{tables}
+\crefname{lstlisting}{listing}{listings}
+\Crefname{lstlisting}{Listing}{Listings}
 %\newcommand{\crefrangeconjunction}{--}
 % \newcommand{\creflastconjunction}{, and } % optional, for "Oxford comma"
 % \crefrangelabelformat{enumi}{#3#1#4--#5\crefstripprefix{#1}{#2}#6}
@@ -103,6 +106,34 @@
 
 
 \renewcommand{\arraystretch}{1.7}
+
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{HTML}{a50000}
+\definecolor{backcolour}{HTML}{ffffff}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{codepurple},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+%	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
 
 
 %numeroter les pages
@@ -751,8 +782,8 @@ I coded this framework in Rust. The use of this innovative language present seve
 	\item Rust enables the developer to be confident in their code, e.g., where Python allows typographic errors in its code, Rust forbids them by default;
 	\item the compiler is helpful: it can detect race condition on variable access in multithreading environment;
 	\item Rust toolkit—and its design—enables a great level of coding standard, making it perfect for community sharing;
-	\item Rust is efficient without being a low-level coding language such as C, making it ideal if the framework needs to accomplish high efficiency tasks such as routing \improvement{Add a citation to the appropriate section}.
-	\item
+	\item Rust is efficient without being a low-level coding language such as C, making it ideal if the framework needs to accomplish high efficiency tasks such as routing \improvement{Add a citation to the appropriate section};
+	\item Extendability through the utilization of WebAssembly in order to integrate modules that modify the behavior of the platform, for instance this would be especially useful for the decision-taking process on Fog nodes to give a bid. This would allow other languages than Rust on a small parcel of the software. Thus making the tester comfortable and keeping the clean practice of Rust processing the resulting data.
 \end{itemize}
 
 \todo{MAybe add things to that section}
@@ -778,10 +809,25 @@ This way we can profit from a rigorous test environment in which to run reproduc
 Employing Grid'5000 can be achieved in several ways. The first—the legacy one—is through SSH and the execution of a number of bash scripts that create and control both the environment and the flow of the experiment.
 Another manner has been introduced thanks to the development of EnosLib \cite{cherrueau_enoslib_2022}. This library allows the complete use of Grid'5000 as the legacy, with one catch. One does not have to cope with the documentation of Grid'5000 and learn its specific technical subtilities and tricks to make matters work. Everything is included in this Python library. Of course, documentation is still necessary to appreciate the various functionalities, but when lacking, one does have another way to solve their trouble. Instead of relying on bothering people through a mailing list, one can access the source code and understand the implementation. That way it usually takes less time than to explain the problem to a third party—particularly thanks to the code being commented.
 
-Thanks to this library, a command line wrapper can be created easily. The resulting script is more straightforward than utilizing a bunch of bash scripts, especially since it is run on the developer's hardware. Every SSH trick, copy, redirection and even standard installations are handled. For example, using Docker is as simple as instantiating a Python context stating to run Docker.\improvement{show code and how simple?}
+Thanks to this library, a command line wrapper can be created easily. The resulting script is more straightforward than utilizing a bunch of bash scripts, especially since it is run on the developer's hardware. Every SSH trick, copy, redirection and even standard installations are handled. For example, using Docker is as simple as instantiating a Python context stating to run Docker, see the code below in \cref{listing:dockerenos}.
+
+\begin{lstlisting}[language=Python, caption=EnosLib context example with Docker, label=listing:dockerenos]
+with en.Docker(agent=roles['builder']):    # Install Docker
+  try:
+    res = en.run_command(                  # Run a command
+      'docker build -t fog_node:latest .', # A bash command using Docker
+      roles=roles['builder'])              # Specify on what machines to act on
+  except EnosFailedHostsError as err:
+    pass
+\end{lstlisting}
+
 However, executing bash commands is still an available option, but now, one does not need to care about the specificities of the nodes such as their IP, regardless of whether they are running a virtual machine, etc. Commands are automatically dispatched to the appropriate machines given their role—a tag.
 
-So this fastens development time by a lot. Another compelling feature that I will be employing in the extremely near future is the data gathering. This library has been thought to be managing experiments, and as such, simplifies data collection. This engaging aspect is the use of Prometheus endpoints. \improvement{What is Prometheus. Intro needed}. Through the use of appropriate crates (libraries) in Rust I would be capable to produce endpoints on my framework. Those will be linked to EnosLib and log interesting metrics: latency between Fog nodes, load on the Fog node, number of instantiated functions, etc. And to connect those endpoints automatically to EnosLib, and at the end of the experiment I would be able to retrieve all those metrics in a simple way.
+So this fastens development time by a lot. Another compelling feature that I will be employing in the extremely near future is the data gathering. This library has been thought to be managing experiments, and as such, simplifies data collection. This engaging aspect is the use of Prometheus endpoints.
+
+Prometheus \cite{prometheus_authors_prometheus_nodate} is a monitoring solution providing the necessities to that reach that goal: time series logging, advanced queries, data visualization, storage, alerting, numerous integrations. This open-source project hosted by the Cloud-native Foundation collects and store metrics with their timestamps in a database. In our particular case of deploying software on multiple computing nodes, it makes it easy to centralize, accumulate all the measurements for later exploitation.
+
+With the use of appropriate crates (libraries) in Rust \cite{sully_rocket_prometheus_2022}, I would be capable to produce compatible endpoints on my framework. Those will be linked to EnosLib through Prometheus and record interesting metrics: latency between Fog nodes, load on the Fog node, number of instantiated functions, etc.
 
 \subsubsection{Our evaluation plan}
 
@@ -815,15 +861,17 @@ Developing the framework was not the first work to be started. Initially, I had 
 
 This meant a number of hours dedicated to discover an answer to those questions and go further than the bibliographic report. \cref{enumerate:placement, enumerate:alreadytested, enumerate:frameworklimitations} lead to the initiative of a new framework fitting our particular needs and profiting from advantages such as Grid'5000—that kind of test bed is not usual in the domain literature.
 
-\cref{enumerate:fogapplications} led to uncover \improvement{Find BeFaaS citation}. This paper uses an openly available Fog application. Though it is still artificial—image recognition is basically pixel remapping on an image in order to “simulate” recognition. It is the closest I observed to a Fog application. Of course a number of \gls{FaaS} applications are available. However one would have to go through all the different technologies to find code compatible with a platform. This entanglement is particularly visible with open private Cloud solutions—such as AWS'. Meaning reusing the code is not possible without both redoing it and logically replacing its components, e.g., migrate storage solutions and triggers. Ultimately, the main issue with this approach is that it  is not custom tailored for the Fog. What we want is to first study Fog applications made for the platform and then test it normal applications to complete the Fog integration with current Cloud offerings.
+\cref{enumerate:fogapplications} led to uncover BeFaaS \cite{grambow_befaas_2021}. This paper uses an openly available Fog application to benchmark \gls{FaaS} platforms. It proposes a traffic light application aware of the kind of vehicle (cars, ambulances, etc.) circulating through it and the weather conditions and takes traffic management decisions from those data. Though it is still an artificial application—the image recognition part is basically pixel remapping on a fake image in order to “simulate” the computational cost of recognition. It is the closest I observed to a Fog application. 
 
-Finally, we went with \improvement{cite BeFaas here} and actually rewrote their simple application with Rust in order to:
+Of course a number of \gls{FaaS} applications are available \cite{eskandani_wonderless_2021}. However one would have to go through all the different technologies to find code compatible with a platform. This entanglement is particularly visible with open private Cloud products—such as AWS' \cite{tarneberg_experiences_2016,eismann_state_2021}. Meaning reusing the code is not possible without both redoing it and logically replacing its components, e.g., migrate storage solutions and triggers. Ultimately, the main issue with this approach is that those applications are not custom tailored for the Fog. What we want is to first investigate Fog applications made for this platform and only then, test normal applications to complete the study of the state of Fog integration with current Cloud offerings.
+
+Finally, we went with BeFaaS \cite{grambow_befaas_2021} and actually rewrote their simple application with Rust in order to:
 \begin{itemize}
-	\item get rid of their library incorporation that they made for their experiments;
-	\item get rid of Terraform, as it would have been an annoying additional layer;
-	\item get rid of JavaScript, as this would be a doubtful choice for a “high-performance” language employed for applications running under constraints and likely paying for their resource consumptions.
+	\item get rid of their library incorporation that they created for their experiments—thus not using all the features (asynchronous calls) of our picked platform: OpenFaaS;
+	\item get rid of Terraform, as it would have been an annoying additional layer to manage for no benefits;
+	\item get rid of JavaScript, as this would be a doubtful choice for a “high-performance” language employed for applications running under constraints, and likely paying for their resource consumptions.
 \end{itemize}
-In the end, the application was rewritten in Rust and that uplifted the whole project as I also planned to utilize this language for the framework itself. Hence it was an excellent training and way to find the appropriate crates—aka modules—that I would later utilize in the framework. A good example is the crate I retained for the \gls{REST} \gls{API}, with which I was hesitant to go at first, but after testing another option I realized the benefits of Rocket and so I went with it for the framework \improvement{cite Rocket?}.
+In the end, the application was rewritten in Rust and that uplifted the whole project as I also planned to utilize this language for the framework itself. Hence it was an excellent training and way to find the appropriate crates—aka modules—that I would later utilize in the framework. A good example is the crate I retained for the \gls{REST} \gls{API}, with which I was hesitant to go at first, but after testing another option I realized the benefits of Rocket \cite{benitez_rocket_2022} and so I went with it for the framework.
 
 \subsubsection{Plans of evolution and future research work}
 
