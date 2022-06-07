@@ -6,9 +6,11 @@ Github Actions has been setup to automatically produce the PDF of the report. Th
 
 # Commands
 
-Use the justfile
+1. Use the justfile
+2. `just build`
 
+> Please build the biblio before sending to github actions
 
 # Requirements
 
-`yay -S texlive-latexindent-meta`
+`yay -S just texlive-latexindent-meta bibtex-tidy`

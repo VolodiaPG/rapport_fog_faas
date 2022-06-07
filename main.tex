@@ -99,8 +99,7 @@
   \citepossalias%
   \textcites}
 
-\addbibresource{biblio.bib} %added
-\addbibresource{biblio-internship.bib} %added
+\addbibresource{internship.bib} %added
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
@@ -272,7 +271,7 @@
 
 \section{Introduction}
 
-Exploitation of computing power at the Edge of networks is a step towards real-time applications \cite{rausch_towards_2021,lin_cloudfog_2017}, \gls{IoT}, data and energy efficiency \cite{ieee_standards_association_smart_2018}, data-exploitation through analysis \cite{openfog_consortium_real-time_2018}, to cite a few.
+Exploitation of computing power at the Edge of networks is a step towards real-time applications \cite{rausch_towards_2021,lin_cloudfog_2017}, \gls{IoT}, data and energy efficiency \cite{ieee_standards_association_ieee_2018}, data-exploitation through analysis \cite{openfog_consortium_real-time_2018}, to cite a few.
 
 Such an evolution is currently undergoing thanks to the emergence of models such as the \gls{ETSI} specified \gls{MEC}, innovations like \gls{NFV} and \gls{SDN}. However, \gls{MEC} strictly stops at the edge of telco's networks. Fog redefines the frontier. The concept is to utilize all resources along the things-to-Cloud continuum: each computing-enabled node between the data producer (\gls{IoT} devices, smartphones, etc.) and the Cloud, included, will be exploited. Thus, Fog nodes are constrained in their resources, bandwidth, physical location.
 
@@ -399,7 +398,7 @@ The introduction of serverless and \gls{FaaS} contributes to new challenges, esp
 		                & Avoid the requirements of installing games on the computers and utilize Fog nodes with hardware acceleration to render video-games \cite{lin_cloudfog_2017}.
 		\\
 		Smart cities
-		                & Integration of Fog nodes in smart buildings that would provide the exploitation architecture for new use cases towards better energy efficiency, lower operational costs, etc. thanks to the processing of existing sensors in buildings \cite{ieee_standards_association_smart_2018}.
+		                & Integration of Fog nodes in smart buildings that would provide the exploitation architecture for new use cases towards better energy efficiency, lower operational costs, etc. thanks to the processing of existing sensors in buildings \cite{ieee_standards_association_ieee_2018}.
 		\\
 		%		Supply chains 
 		%		& Create the ability for delivery drones to collaborate and make operational changes and adjustments in response to anomalies \cite{openfog_consortium_out_2018}.
@@ -538,7 +537,7 @@ This section is dedicated to the literature contributing to strategies for the p
 		Conclusion is that their work enables locality-sensitive function placement resulting in a better utilization of the network bandwidth, even when a trade-off of execution cost for application latency have been observed. The authors also conclude that improving placement quality counterbalances the loss in scheduler performance to do it.
 
 		%TODO maybe merge the two references, cf https://onlinelibrary.wiley.com/doi/full/10.1002/spe.3058 which is the newer version of the paper, so ...
-	\item[\citet{bermbach_towards_2020}] are interested in the issue of function placement in multiple geo-distributed sites in Fog fashion. From their perspective, a serverless -- particularly a \gls{FaaS} approach -- is relevant because provisioning is done in small slices instead of full containers or \glspl{VM}. Additionally, moving functions back and forth between Cloud and the Edge is easier due to their stateless natures. Their framework will use an auction-based approach, as they argue this kind of approach showed success in the past.
+	\item[\citet{bermbach_towards_2021}] are interested in the issue of function placement in multiple geo-distributed sites in Fog fashion. From their perspective, a serverless -- particularly a \gls{FaaS} approach -- is relevant because provisioning is done in small slices instead of full containers or \glspl{VM}. Additionally, moving functions back and forth between Cloud and the Edge is easier due to their stateless natures. Their framework will use an auction-based approach, as they argue this kind of approach showed success in the past.
 		Bidding is done when developing the function. Two bids are attached
 		\begin{enumerate}[(a)]
 			\item \emph{Data storage bid}, i.e., the price the developer is willing to pay for a node to store his executable per unit of time;
@@ -835,7 +834,7 @@ We plan to evaluate the framework to release a paper by the end of my internship
 
 \begin{description}
 	\item[Level 1]{is the comparison of our auctioning strategy with naive Fog fillings. Such fillings are loading the network from the top, or respectively, from the bottom. This way benefits of our method and proof of the extensibility of the framework can be gauged.}
-	\item[Level 2]{is the comparison against state-of-the-art placement algorithms. Our goal is to identify and measure key differences of our approach with \cite{bermbach_auctionwhisk_2022} and \cite{tasiopoulos_fogspot_2021}.}
+	\item[Level 2]{is the comparison against state-of-the-art placement algorithms. Our goal is to identify and measure key differences of our approach with \cite{tasiopoulos_fogspot_2019, bermbach_auctionwhisk_2021}.}
 \end{description}
 
 Our criteria would be
@@ -888,7 +887,7 @@ The main point in altering the first words in the sentence is to reflect the cha
 	\label{fig:terraforma}
 \end{figure}
 
-We also want to participate in the Terra Forma \cite{longuevergne_terra_2022} CNRS-backed mission to both help and experiment on an actual Fog test bed. Indeed the project will monitor part of the French territory under a dense net of multiple \gls{IoT} sensors. We hope to demonstrate the power of the Fog reducing bandwidth consumption and enabling real-time decision taking (drone control, etc.). In such a project, we will be able to contribute our framework running in the real world, our placement mechanism as well as an economically viable solution and, lastly, true Fog applications at scale—something scarce in the literature.
+We also want to participate in the Terra Forma \cite{longuevergne_terra_2022} CNRS-backed mission to both help and experiment on an actual Fog test bed. Indeed the project will monitor part of the French territory under a dense net of multiple \gls{IoT} sensors. We hope to demonstrate the power of the Fog reducing bandwidth consumption and enabling real-time decision taking (drone control, etc.). In such a project, we will be able to contribute our framework running in the real world, our placement mechanism as well as an economically viable solution and, lastly, true Fog applications at scale—a still scarce sight in the literature.
 
 \section{Conclusion}
 % Financial cooperation as key
