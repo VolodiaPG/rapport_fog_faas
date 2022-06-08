@@ -1,5 +1,11 @@
 \section{Introduction}
-
+\todo{longues listes}
+\todo{literature review trop longue, focus section 5—résultats}
+\todo{positions des sections}
+\todo{titres des sections}
+\todo{enlever la thèse}
+\todo{relecture générale}
+\improvement{logos}
 Exploitation of computing power at the Edge of networks is a step towards real-time applications \cite{rausch_towards_2021,lin_cloudfog_2017}, \gls{IoT}, data and energy efficiency \cite{ieee_standards_association_ieee_2018}, data utilization through analysis \cite{openfog_consortium_real-time_2018}, to cite a few.
 
 Such an evolution is currently undergoing thanks to the emergence of models such as the \gls{ETSI} specified \gls{MEC}, innovations like \gls{NFV} and \gls{SDN}. However, \gls{MEC} strictly stops at the edge of telco’s networks. Fog redefines the frontier. The concept is to utilize all resources along the things-to-Cloud continuum: each computing-enabled node between the data producer (\gls{IoT} devices, smartphones, etc.) and the Cloud, included, will be exploited. Thus, Fog nodes are constrained in their resources, bandwidth, physical location.
@@ -9,7 +15,7 @@ Because of those constraints, Fog first needs to follow a computing model to exe
 The goal of this report is on one hand to explore the current literature about platforms applying the \gls{FaaS} paradigm to the Fog. And on a second hand to explore the work done during the internship from the 7th of February to the 31st of July.
 
 We study new placement strategies for functions. Existing research \cite{kjorveziroski_iot_2021,xie_when_2021} has already pinpointed some open questions, revolving around:
-\begin{enumerate}[(1)]
+\begin{enumerate*}[(1)]
 	\item scheduling;
 	\item deployment;
 	\item performance;
@@ -21,7 +27,7 @@ We study new placement strategies for functions. Existing research \cite{kjorvez
 	\item resource awareness and service discovery;
 	\item incentive mechanism;
 	\item exceptions and failure recovery.
-\end{enumerate}
+\end{enumerate*}
 The first part of this report analyzes additional work, focusing specifically on placement architectures, methods and metrics, and flags compelling working directions and related challenges.
 
 One of the identified difficulties is that contracts—\acrfullpl{SLA} and \glspl{SLO}—are lacking, they would provide the developer with guarantees on latency, geographical location of the execution, bandwidth, etc. And so, multiple levels of exigences will exist, as well as a multitude of physical nodes and their owners. Concerning the large number of interests, we focus on auctions as a mechanism to truthfully and fairly place functions. Bids can represent a function execution’s value and expectations regarding the same limits as depicted in the \gls{SLA}. Auctions are also an established economic paradigm in the Cloud, thus introducing this aspect in the Fog. We believe Fog will be made of multiple \emph{landlords}—known as the node owners. Each one of them managing parts of a global, entangled network with the intent of maximizing their interests (revenue, utilization).
@@ -37,7 +43,7 @@ Ultimately, this internship is being done in the MYRIADS team at the INRIA/IRISA
 \section{Background}
 \label{sec:background}
 
-\subsection{Fog and related concepts}w
+\subsection{Fog and related concepts}
 
 Four concepts related to the Fog currently coexist. They all aim to provide computing power on nodes outside the Cloud, and closer to the data-source.
 
@@ -72,7 +78,7 @@ Four concepts related to the Fog currently coexist. They all aim to provide comp
 \end{description}
 
 The benefits are similar for all the paradigms \cite{ahmed_fog_2019, ai_edge_2018}:
-\begin{enumerate}[(1)]
+\begin{enumerate*}[(1)]
 	\item latency reduction;
 	\item bandwidth optimizations;
 	\item computational offloading;
@@ -82,7 +88,7 @@ The benefits are similar for all the paradigms \cite{ahmed_fog_2019, ai_edge_201
 	\item energy efficiency-enabling vector;
 	\item cost savings through platform acquisition;
 	\item content caching.
-\end{enumerate}
+\end{enumerate*}
 
 While all these concepts focus on exploiting the edge of the networks to achieve similar goals constrained by similar challenges, only Fog exploits all the continuum and considers Cloud as much as the edge—and further than it. However, only \gls{MEC} possesses a specification as of 2022. The Fog Consortium acknowledges it and recommends to the Fog contributors to avoid duplication of efforts and focus on aspects not optimized by other approaches. In the long term, the consortium hopes liaisons will form to bring the industry to a common ground \cite{ieee_standards_association_ieee_2018}.
 
@@ -196,38 +202,38 @@ This section is dedicated to the literature contributing to strategies for the p
 
 \begin{description}[leftmargin=10pt]
 	\item[\citet{cheng_fog_2019}] defines \textit{Fog functions} as a new \gls{FaaS} platform. The authors note data locality is important. Data are observed to be linked with variable
-		\begin{enumerate}[(i)]
+		\begin{enumerate*}[(i)]
 			\item entity size;
 			\item entity refresh rate;
 			\item task complexity;
 			\item task running-time;
 			\item task priority;
 			\item task novelty.
-		\end{enumerate}
+		\end{enumerate*}
 		The authors also identify what a data-intensive Fog framework should provide:
-		\begin{enumerate}[(a)]
+		\begin{enumerate*}[(a)]
 			\item data discovery and routing fine-grained to the content of the data;
 			\item function triggering solely based on the availability of the input data;
 			\item dynamic placement of either data or code to the best processing place;
 			\item data dependency as the function composition driver.
-		\end{enumerate}
+		\end{enumerate*}
 		Nodes are Edge-based or cloud-based. Discovery and orchestration is centralized onto a particular node. The orchestrator is aware of data flowing to its members. It then decides where to execute each function. Data is then routed to that node and processing takes place.
 
 	\item[\citeposs{baresi_paps_2019}] \gls{FaaS} platform is focused on low-latency, data-intensive use cases. \cite{baresi_towards_2019} identify multiple challenges to the creation of a \gls{MEC} platform by the research community, it comprises
-		\begin{enumerate}[(i)]
+		\begin{enumerate*}[(i)]
 			\item resource management;
 			\item placement \& migration of application components and services between platforms;
 			\item scheduling of computation and offloading from mobile and \gls{IoT} devices.
-		\end{enumerate}
+		\end{enumerate*}
 		The paper defines a \gls{SEP} that answers a list of requirements:
-		\begin{enumerate}[(a)]
+		\begin{enumerate*}[(a)]
 			\item low-latency computation offloading;
 			\item inter-platform collaboration to ensure \gls{SLA} deadlines;
 			\item latency optimization to enable real-time communications;
 			\item opportunistic data analysis for anticipation;
 			\item edge coordination to enforce location awareness;
 			\item stateful partitions to extend \gls{FaaS} support.
-		\end{enumerate}
+		\end{enumerate*}
 		The authors then proceed to create a prototype implementing each of those points. Their solution is deployed on OpenWhisk. They observe a need to reduce latency, especially in real-time scenarios.
 
 		\citet{baresi_paps_2019, baresi_paps_2021} extend this work with the \gls{PAPS} platform while advocating for a decentralized approach to increase speed of control.
@@ -242,11 +248,11 @@ This section is dedicated to the literature contributing to strategies for the p
 		Following the theory, and after a promising simulation, \citet{baresi_paps_2021} implements \gls{PAPS} on top of Kubernetes and OpenFaaS. Their conclusion is their partitioning allows for guarantees that decentralized heuristics cannot provide, while still doable in practice, unlike a fully centralized architecture. They also point out they can handle highly fluctuating workloads while acknowledging reactivity of nodes is a challenge due to their use of containers.
 
 	\item[\citet{cicconetti_decentralized_2021}] propose a decentralized platform to minimize response times while respecting short- and long-term fairness in stateless task assignations. Their platform does not extend to the Cloud and integrates by the standards of the \gls{MEC} model. An edge device is connected to an edge router that submits the stateless task request to an edge computer. The router decides autonomously where to forward the task in his known pool of compute-enabled nodes. The router proceeds to two actions. It updates the weights by measuring a rolling average of routed function response times submitted to computing nodes. Then it chooses a destination, avoiding congested paths thanks to data provided by a \gls{SDN} controller supervising the network. Three different algorithms have been evaluated to route tasks, namely:
-		\begin{enumerate}[(i)]
+		\begin{enumerate*}[(i)]
 			\item \label{cicconetti_li} \gls{LI}—always selects the minimum cost node;
 			\item \label{cicconetti_rp} \gls{RP}—selects a random node with a probability proportional to the weighted path to that node;
 			\item \label{cicconetti_rr} \gls{RR} combines the proportional benefits of \cref{cicconetti_rp} with the greediness of \cref{cicconetti_li}.
-		\end{enumerate}
+		\end{enumerate*}
 		\cref{cicconetti_rr} achieves both short- and long-term fairness, while \cref{cicconetti_rp} only the latter. \cref{cicconetti_li} is the worst performer.
 		The authors conclude \gls{SDN} plays a capital role in the system. Under load variations, performance is equally good as in regular distributed systems. Finally, exploration of hierarchical task forwarding in a simulated test-bed with OpenWhisk offers interesting scalability perspectives.
 
@@ -335,7 +341,7 @@ The result is \cref{tab:placement}, from which we can highlight limitations of e
 
 \begin{description}[leftmargin=10pt]
 	\item[Lack of \acrfullpl{SLA}] that would cover all the challenges posed by the evolution from Cloud to Fog \cite{chiang_fog_2016, bonomi_fog_2012} and the ones depicted in \cref{tab:placement}:
-		\begin{enumerate}[(1)]
+		\begin{enumerate*}[(1)]
 			\item \label{item:latency} low / deterministic latency, both at execution and preparation (data transfers for the inputs, outputs, and function themselves);
 			\item \label{item:geo} geographical location;
 			\item \label{item:network} network bandwidth;
@@ -345,7 +351,7 @@ The result is \cref{tab:placement}, from which we can highlight limitations of e
 			\item \label{item:costs} service costs (CPU usage, RAM usage, monetary (platform's uptime, usage, level of cooperation with other Fog landlords), etc.);
 			\item \label{item:wireless} wireless infrastructure;
 			\item \label{item:security} security.
-		\end{enumerate}
+		\end{enumerate*}
 		\Cref{item:latency} is fairly well represented as seen in \cref{tab:placement}. Looking at the same table, \cref{item:geo,item:network,item:uptime,item:heterogeneity,item:streaming,item:costs} are not well-supported. \Cref{item:security,item:wireless} are not supported to the best of our knowledge, even though the benefits of integration with radio based—broadcasted—transmissions could be interesting. Using \glspl{SLA} and \glspl{SLO} would make application developers know what guarantees they have—or not—on each point as well introducing an economic aspect in the platforms.
 
 	\item[Smarter auction-based placement mechanisms] would factorize all the complexity of resource availability, demand, interests and transactions (\glspl{SLA}, \glspl{SLO}) between providers and consumers as well as economics, and embed them in a collaborative dynamic that can be decentralized into multiple marketplaces. \Cref{tab:placement} shows auction mechanisms have been successfully proposed towards such a goal. One should now compare different auction mechanisms to enable real-time transactions guaranteeing fairness, truthfulness and other aspects like giving better access to the user providing the most value to the system of Fog nodes and users (reducing the bandwidth usage, executing a real-time application, etc.). \citet{milgrom_redesigning_2017} proposes depreciating licenses in 5G spectrum division to enable users with high valuations to reserve a channel while letting other users have an uncertainty-prone zero-guarantees usage. The model is dynamic enough for the reserved channel owners to change when their values are superseded by a competitor's, thus driving innovation in the particular case of the radio band usages. Truthfulness is guaranteed because the channel is only rented, meaning the user has to pay the value he gives to the band. Maybe such a model could be introduced in the Fog to allow nodes to have priority functions, that are more valuated, while letting other users the opportunistic, less-costly path.
@@ -391,12 +397,12 @@ The result is \cref{tab:placement}, from which we can highlight limitations of e
 \label{sec:takingaction}
 
 \gls{FaaS}-enabled Fog would allow an applied real world usage of the Fog. However, as depicted in \ref{sec:curated} we identified four main axes of necessary improvements to go this direction:
-\begin{enumerate}
-	\item introduce \glspl{SLA} that lets the users to set their expectations and have them respected
-	\item smarter auction-based placement mechanisms that enable full-scale incentives to both join and compete on the Fog
-	\item \gls{FaaS}-specific tools adapted to the Fog
-	\item security and privacy
-\end{enumerate}.
+\begin{enumerate*}[(i)]
+	\item introduce \glspl{SLA} that lets the users to set their expectations and have them respected;
+	\item smarter auction-based placement mechanisms that enable full-scale incentives to both join and compete in the Fog;
+	\item \gls{FaaS}-specific tools adapted to the Fog;
+	\item security and privacy.
+\end{enumerate*}
 As this is a research work, we expect “scientific comparison” to be listed
 
 Indeed, the community presents promising placement solutions but fails to both compare them against each other and to test them on real scenarios instead of relying extensively on simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework fit to be experimented upon in preference to being simulated. A second key point is to be able to face implementation issues that would—through simulation—not be observed and remedied.
@@ -486,15 +492,16 @@ I coded this strategy in a framework.
 
 We chose to start our especial framework from scratch. In short, no other solution could have allowed us to efficiently compare multiple placement approaches as well as by introducing our own.
 
-Our criteria were the followings:
-\begin{itemize}
-	\item not abandoned;
+Our criteria were the followings: \improvement{order}
+\begin{enumerate}[(1)]
+	\item actively maintained;
 	\item extensively and painlessly modifiable (network topology, distribution process for the functions);
-	\item ready to be deployed on a real test bed;
-	\item can exploit Grid'5000;
+	\item ready to be deployed on a real test bed (Grid'5000 and more);
 	\item easily measurable;
-	\item uses standard technologies so that we can benefit from already industrialized application samples and from the research literature about \gls{FaaS} optimizations methods. Thus using already updated components instead of relying on custom but simplistic implementations.
-\end{itemize}
+	\item uses standard technologies, so we can benefit from already industrialized application samples and from the research literature about \gls{FaaS} optimizations methods. Thus using already updated components instead of relying on custom but simplistic implementations.
+\end{enumerate}
+
+\improvement{Order}
 
 One key aspect we kept in mind was the time and efforts necessary to understand and repurpose a framework to fit our imperatives versus the time we would need to develop our own solution.
 
@@ -503,7 +510,7 @@ In the community, two frameworks caught our eyes.
 	\item[FogBus2 \cite{deng_fogbus2_2021}]{is a research project. However the authors chose to employ their unique implementation of the orchestration system instead of going with Kubernetes, directly resting on Docker. Furthermore, they do not advertise their framework as being suited for extensive modification that would be crucial in our case: auctions and the creation of the Marketplace are the first requirement. Thus, this framework is not sufficient for our needs.
 	      }
 	\item[Fogflow \cite{smartfog_fogflow_2022}]{ is a mature framework coming from the research world. It is the result of a two papers \cite{cheng_fogflow_2018, cheng_fog_2019} that make it what it is today: a wonderful open framework for early adopters of the Fog technology. Particularly since the project is part of the Fiware \cite{fiware_foundation_fiware_2021} backed by a number of great companies. However, for our needs, the framework is not appropriate. It is too complicated to understand fast, making modifications hard to deal with. Especially since we would have to implement the auctioning mechanisms on top of it, and enable messaging upon its existing stack. Even the underlying orchestrator is not standard. For these reasons, the framework is not interesting for us.}
-\end{description}
+\end{description}\improvement{Make this comparison better}
 
 Both of the choices look as if they are actively maintained, with an emphasize over \cite{smartfog_fogflow_2022} since the commits usually dates back days instead of months as in \cite{deng_fogbus2_2021}.
 However, neither option is  sufficient for us and we proceeded with developing our own solutions, fit to our needs. An additional benefit of this is the coupling of the framework with Grid'5000 as our testing and experimental ground.
@@ -511,16 +518,16 @@ However, neither option is  sufficient for us and we proceeded with developing o
 \subsubsection{A framework to rule them all}
 
 I implemented this framework in Rust. The use of this innovative language present several benefits, in no order:
-\begin{itemize}
-	\item multiple targeted architectures due to the exploitation of a modern toolchain. It favors simple compilation steps for x86 (when testing on Grid'5000) and ARM (when testing on Raspberry Pi clusters, in the future), theoretically by only having to compile on an ARM platform to support that platform;
-	\item Rust enables developers to be confident in their code, e.g., where Python allows typographic errors in its code, Rust forbids them by design;
-	\item helpfulness of the compiler, e.g., it can detect race condition on variable access in multithreading environment;
-	\item default high standard regarding code quality thanks to the Rust toolkit, making it perfect for community sharing and contributions. e.g., by default errors are handled and no exceptions rose, making the software far more reliable than the result of dynamic languages;
-	\item low-level code strengths with the expressivity and simplicity of high-level code, making it ideal if the framework needs to accomplish high efficiency unforeseen tasks—such as routing;
-	\item extendability through the utilization of WebAssembly, enabling diverse module integration to modify the behavior of the platform,  e.g., this would be especially useful for the decision-taking process on Fog nodes to give a bid. It would allow other languages than Rust on a small parcel of the software. Thus making the tester comfortable to experiment with various strategies in “production” and keep the clean practice of Rust processing the resulting data.
-\end{itemize}
+\begin{description}
+	\item[Multiple targeted architectures]due to the exploitation of a modern toolchain. It favors simple compilation steps for x86 (when testing on Grid’5000) and ARM (when testing on Raspberry Pi clusters, in the future), theoretically by only having to compile on an ARM platform to support that platform;
+	\item[Confidence in the code], e.g., Python allows typographic errors in its code, Rust forbids them by design. Borrowing mechanism fixes most of the complaints with other languages about the management of the data: it is simpler to track usages of variables and their modifications as they are references as “mutable”;
+	\item[Helpfulness of the compiler], e.g., it can detect race condition on variable access in multithreading environment;
+	\item[High default code standard]regarding quality thanks to the Rust toolkit, making it perfect for community sharing and contributions. e.g., the language forces errors to be handled and as a result, no exceptions are raised, ever. It makes the software far more reliable than when coded with dynamic languages or other languages that do not implement railway programming as a default;
+	\item[Power] as it possesses low-level code strengths with the expressivity and relative simplicity of high-level code. It is ideal if the framework needs to accomplish high efficiency—unforeseen—tasks such as routing, because that way it is easier to control and monitor the data flow of all topology with a single implementation;
+	\item[Extendability]through the utilization of WebAssembly, enabling diverse module integration to modify the behavior of the platform, e.g., this would be especially useful for the decision-taking process on Fog nodes to give a bid. It would grant other languages than Rust on a small parcel of the software. Thus making the tester comfortable to experiment with various strategies in “production” and keep the clean practice of Rust processing the resulting data.
+\end{description}
 
-Additionally, relying on industrial components such as Kubernetes, or in a lesser extent, OpenFaaS allow us to separate concerns in the framework to only concentrate on our contributions. As a matter of facts, it would event benefit us since we could implement researched improvements on the underlying. And doing so without actually touching our framework behaviors, especially for changes like function chaining and low-level fault tolerance (local crashes on the node itself).
+Additionally, relying on industrial-grade parts such as Kubernetes, or in a lesser extent, OpenFaaS allow us to separate concerns in the framework to only concentrate on our contributions. As a matter of facts, it would indeed be a benefit for our work since we can utilize the latest research on those well-known parts from the community without even touching our code. This would be especially useful for many features including function chaining and fault tolerance.
 
 \todo{Maybe add things to that section}
 
@@ -567,7 +574,7 @@ With the use of appropriate crates (libraries) in Rust \cite{sully_rocket_promet
 
 \subsubsection{Our evaluation plan}
 
-We plan to evaluate the framework to release a paper by the end of my internship \improvement{State the end of the internship in the introduction}. To do so, we divided our strategy into two levels, in order to at least be able to publish a straightforward statement to tell the community that this framework is in the works.
+We plan to evaluate the framework to release a paper by the end of my internship. To do so, we divided our strategy into two levels, in order to at least be able to publish a straightforward statement to tell the community that this framework is in the works.
 
 \begin{description}
 	\item[Level 1]{is the comparison of our auctioning strategy with naive Fog fillings. Such fillings are loading the network from the top, or respectively, from the bottom. This way benefits of our method and proof of the extensibility of the framework can be gauged.}
@@ -575,13 +582,13 @@ We plan to evaluate the framework to release a paper by the end of my internship
 \end{description}
 
 Our criteria would be
-\begin{itemize}
+\begin{enumerate*}[(1)]
 	\item deployment time;
 	\item \gls{QoS};
 	\item economic efficiency;
 	\item fairness of the auctions;
 	\item scaling potential.
-\end{itemize}
+\end{enumerate*}
 
 Economic efficiency aims to examine whether the Fog node earns enough “money” to be lucrative for its owner. Profitability would be an incentive for the node to stay in the network. One experience could look at “what happens when unremunerative nodes leave the grid because they went bankrupt?”
 
@@ -632,7 +639,7 @@ We also want to participate in the Terra Forma \cite{longuevergne_terra_2022} CN
 Serverless—and especially \gls{FaaS}—enables the transfer of resource provisioning responsibilities to the platform provider. Thus, this model enables orchestration optimizations in resource usage, data transfers, virtualization, etc. The paradigm could be viable in the Fog because functions are light enough to be provisioned on multiple geographically scattered constrained devices, and when placed strategically, scale dynamically over the network by design.
 
 This report first presents an overview of contributions made to the state of the art when it comes to function placement in highly distributed systems—either Fog or \gls{MEC}. These contributions address open questions such as \cite{kjorveziroski_iot_2021,xie_when_2021}:
-\begin{enumerate}[(a)]
+\begin{enumerate*}[(a)]
 	\item scheduling;
 	\item deployment;
 	\item performance;
@@ -644,7 +651,7 @@ This report first presents an overview of contributions made to the state of the
 	\item resource awareness and service discovery;
 	\item incentive mechanism;
 	\item exceptions and failure recovery.
-\end{enumerate}
+\end{enumerate*}
 After synthesizing the knowledge in \cref{tab:placement}, new considerations are raised about
 \begin{enumerate}[(i)]
 	\item the role of \glspl{SLA} and the guarantees they could provide for the Fog and its users;
