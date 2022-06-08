@@ -29,7 +29,7 @@ One of the identified difficulties is that contracts—\acrfullpl{SLA} and \glsp
 
 The second part of the report revolves around the work produced during the internship, towards a contribution of a framework implementing our own placement strategy based on auctions. This strategy is about Fog nodes bidding on the \gls{SLA} of a function submitted to them to designate a winner that will host that function. Another goal of the framework is to be sufficiently straightforward and documented to be modified to evaluate our approach with the existing literature about placement using auctions \cite{bermbach_auctionwhisk_2021,tasiopoulos_fogspot_2019}.
 
-The report is divided as follows. \Cref{sec:background} further differentiates Fog and \gls{MEC}, discuss \gls{FaaS} and provides application examples. \Cref{sec:platforms} presents \gls{FaaS} platforms. Then \cref{sec:placement} discusses literature about function placement in the Fog. Afterward, \cref{sec:curated} offers a curated list of identified challenges from the previously examined research. Finally, \cref{sec:takingaction} explains the course of the internship up to the current point—as it is not yet finished at the time of writing.
+The report is divided as follows. \Cref{sec:background} further differentiates Fog and \gls{MEC}, discuss \gls{FaaS} and provides application examples. \Cref{sec:platforms} presents \gls{FaaS} platforms and explains our choice of Fog framework to develop our placement strategy on. Then \cref{sec:placement} discusses literature about function placement in the Fog, identifies challenges from the previously examined research and introduces an additional consideration of the Fog node ownership before exposing our placement strategy. \Cref{sec:implementingourstrat} describes our implementation. Then \cref{sec:evaluating} offers an overview of our planned evaluation process. \cref{sec:additionalwork} focus on other work done before finally, \cref{sec:evofurure} brings future work directions.
 
 \varthreestars{}
 
@@ -171,7 +171,7 @@ Fog is envisioned as a way to avoid sending massive amounts data far away and is
 \end{enumerate}
 This variety of models caused by accessibility-related constraints on physical Fog nodes indicates a need for cooperation of the nodes, i.e., bring the ability to connect private nodes with public/community ones using a standard set of protocols and market methods to trade computing power and resources in real-time. Some propositions even consider the creation of an edge network not relying on \glspl{ISP} \cite{bermbach_towards_2021}.
 
-\section{Platforms}
+\section{Fog platforms}
 \label{sec:platforms}
 
 A variety of platforms exist to accommodate Fog with the current state of industrial applications. Most of them are focused on a private usage. The node is owned by only one user that exploits a small park of nodes for her only benefit. However, many options—especially the \gls{OSS}—ones can offer the feature of modification and extension needed to bring the Fog paradigm to the next step in an open/reproducible research way. For now, most of these platforms are derivatives of successful Cloud-based ones. This state-of-the-art leads to the technical challenges of running this kind of platform in a resource-constrained environment at the edge.
@@ -187,6 +187,41 @@ These proprietary platforms are published by Cloud giants. The list includes, bu
 Another axis of development focuses on a variety of Kubernetes extensions \cite{bocci_secure_2021}, to name a few: Fission, Kubeless, Knative, OpenFaaS, Nuclio.
 
 Other works have focused on the opposite problem. Instead of adapting the Cloud paradigm to the Edge, Edge-native platforms have started to appear. \citet{pfandzelter_tinyfaas_2020} shows better performances than Lean OpenWhisk. While the work is significant, could it ever reach the industrial maturity level of platforms such as OpenWhisk or Kubernetes once their complete adaption will be achieved? \citeposs{george_nanolambda_2020} NanoLambda is another example of a small platform placed at the Edge. Though not compared, it would extend the reach of Fog to Clusters of IoT devices by making \glspl{SoC} such as Espressif's ESP8266 \cite{noauthor_esp8266_nodate} able to host \gls{FaaS} platforms, thus enabling a closer layer of processing right inside \gls{IoT} networks.
+
+\subsection{Limitations of existing Fog frameworks}
+\label{sec:limitations}
+
+We chose to start our own framework from scratch. In short, no other solution could have allowed us to efficiently compare multiple placement approaches as well as by introducing our own.
+
+Our criteria were the followings:
+\begin{enumerate}[(1)]
+	\item extensively and painlessly modifiable (network topology, distribution process for the functions);
+	\item uses standard technologies, so we can benefit from already industrialized application samples and from the research literature about \gls{FaaS} optimizations methods. Thus using already updated components instead of relying on custom but simplistic implementations.
+	\item ready to be deployed on a real test bed (Grid'5000 and more);
+	\item easily measurable;
+	\item actively maintained;
+\end{enumerate}
+
+One key aspect we kept in mind was the time and efforts necessary to understand and repurpose a framework to fit our imperatives versus the time we would need to develop our own solution.
+
+In the community, two frameworks caught our eyes as they were compliant with most of these criteria.
+\begin{description}
+	\item[FogBus2 \cite{deng_fogbus2_2021}]{is a research project. However, authors chose to employ their unique implementation of an orchestration system instead of going with Kubernetes, directly resting on Docker. Furthermore, they do not advertise their framework as being suited for extensive modification, that being vital for our case.
+
+	            Thus, this framework is not sufficient for our needs.
+	      }
+	\item[Fogflow \cite{smartfog_fogflow_2022}]{is a mature framework coming from the research world. It is the result of a two papers \cite{cheng_fogflow_2018, cheng_fog_2019} that make it what it is today: a wonderful open framework for early adopters of the Fog technology. Particularly, since the project is part of the Fiware foundation \cite{fiware_foundation_fiware_2021} backed by a number of huge companies.
+
+	            However, for our needs, the framework is not appropriate. It is too complicated to understand fast, making modifications hard to deal with. Especially since we would have to implement the auctioning mechanisms on top of it, and enable messaging upon its existing stack. Even risking to go against the philosophy put into the framework. Additionally, the underlying orchestrator is not standard.
+
+	            For these reasons, the framework is not interesting for us.}
+\end{description}
+
+Both of the choices look as if they are actively maintained, with an emphasize over \cite{smartfog_fogflow_2022} since the commits usually dates back days instead of months as in \cite{deng_fogbus2_2021}.
+
+However, neither option is sufficient for us and we proceeded with developing our own solution, fit to our needs. An additional advantage of this is the coupling of the framework with Grid'5000 as our testing and experimental ground. The strength of this is easier control, access and harvest of produced data.
+
+\change{this part because it is appearing earlier}
 
 \section{Function placement}
 \label{sec:placement}
@@ -298,7 +333,7 @@ This section is dedicated to the literature contributing to strategies for the p
 
 Other platforms present active management of a node's function execution, e.g., reclaim resources or grant more, this is the case of \gls{LaSS} developed by \citet{wang_lass_2021}. More classical approaches are also taken, as \citeposs{elgamal_droplet_2018} DROPLET that uses an underlying centralized graph optimization algorithm to place functions.
 
-\section{Curated list of unresolved problems}
+\subsection{Unresolved problems}
 \label{sec:curated}
 
 %\newcommand{\tabred}{-4pt}
@@ -358,26 +393,26 @@ The result is \cref{tab:placement}, from which we can highlight limitations of e
 	\item[Security and privacy] as the baseline. Security of both hardware and software is required, to trust the node and the function executing on that node, i.e., making sure an ill-intentioned payload doesn't escape from its enclosure \cite{maurice_hello_2017}. Privacy is another point of interest that is especially relevant when designing auctions, as a node could take advantage of knowing the true valuation it was given by the function. Those two features that should be implemented \emph{by-design} are not currently supported in \cref{tab:placement}.
 \end{description}
 
-\section{Taking action}
-\label{sec:takingaction}
+% \section{Taking action}
+% \label{sec:takingaction}
 
-\gls{FaaS}-enabled Fog would allow an applied real world usage of the Fog. However, as depicted in \cref{sec:curated} we identified four main axes of necessary improvements to go this direction:
-\begin{enumerate*}[(i)]
-	\item introduce \glspl{SLA} that let users set their expectations and have them respected;
-	\item smarter auction-based placement mechanisms that enable full-scale incentives to both join and compete in the Fog;
-	\item \gls{FaaS}-specific tools adapted to the Fog;
-	\item security and privacy.
-\end{enumerate*}
+% \gls{FaaS}-enabled Fog would allow an applied real world usage of the Fog. However, as depicted in \cref{sec:curated} we identified four main axes of necessary improvements to go this direction:
+% \begin{enumerate*}[(i)]
+% 	\item introduce \glspl{SLA} that let users set their expectations and have them respected;
+% 	\item smarter auction-based placement mechanisms that enable full-scale incentives to both join and compete in the Fog;
+% 	\item \gls{FaaS}-specific tools adapted to the Fog;
+% 	\item security and privacy.
+% \end{enumerate*}
 
-Indeed, the research community presents promising placement solutions but fails to both compare them against each others and to test them on real scenarios instead of relying extensively on exclusive simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework adapted to be experimented on instead of being simulated. A second key point is to be able to face implementation issues, document and fix them as the framework goes.
+% Indeed, the research community presents promising placement solutions but fails to both compare them against each others and to test them on real scenarios instead of relying extensively on exclusive simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework adapted to be experimented on instead of being simulated. A second key point is to be able to face implementation issues, document and fix them as the framework goes.
 
-In the next subsections, we examine our proposed placement mechanism. We will elaborate on the work done on our own open framework. Finally, we will detail how we plan to evaluate this solution and platform against state-of-the-art behaviors.
+% In the next subsections, we examine our proposed placement mechanism. We will elaborate on the work done on our own open framework. Finally, we will detail how we plan to evaluate this solution and platform against state-of-the-art behaviors.
 
-\subsection{Placing functions in the Fog}
+% \section{Placing functions in the Fog}
 
-This internship focuses on the execution of a new idea for placing functions in the Fog using economics as the main layer of dialogue between actors, much like what is already in place in the Cloud. After introducing our view of the Fog, we will detail our placement behaviors, how and why we chose to implement our own framework and the evaluation contributions regarding this work.
+% This internship focuses on the execution of a new idea for placing functions in the Fog using economics as the main layer of dialogue between actors, much like what is already in place in the Cloud. After introducing our view of the Fog, we will detail our placement behaviors, how and why we chose to implement our own framework and the evaluation contributions regarding this work.
 
-\subsubsection{Introducing Fog node ownership and auctions}
+\subsection{Fog node ownership and auctions}
 
 The Fog is a distributed network made of Fog nodes—computers—that work together to bring latency and bandwidth (among others) benefits to the Cloud customer. In time, the Fog will be so entangled with the Cloud that clients should not be able to discern between executing their applications on the Fog or on the Cloud only. At least when they do not have any explicit requirements making them Fog-reliant. This signifies pricing should as well be indistinguishable from the current offerings and as easy to understand. This also means logistics should be on point: Fog nodes are present everywhere not to degrade the usage made by any applications explicitly depending on them.
 
@@ -389,7 +424,7 @@ In our work, we consider Fog nodes are owned by different economic actors. This 
 
 Considering ownership of Fog nodes, as proposed earlier, a good mechanism to introduce contest in a controlled, independent and objective manner is through \emph{auctions}. Well-designed auctions can lead to a maximization of social welfare—increase utility/perks for everyone involved—, let participants freely choose their price while making it pointless to lie about the value of the commodities they publicly show. One last interesting point is the fairness of the auctions, not constantly electing the same winner when multiple have similar bids. In our case, this would not always mean to allocate the same function on the same Fog node when two functions are similar in terms of requirements and bids \cite{kuo_proportionnet_2020}.
 
-\subsubsection{Placing functions thanks to auctions}
+\subsection{Placing functions thanks to auctions}
 
 Placing functions is a challenge. Adding that Fog nodes are independent actors that choose to join the network increases difficulty. Especially since Fog nodes are able to specify their prices and autonomously choose their bidding behaviors. Auctions help to make sure competition is maintained and as such, costs are not artificially set and do not harm the final customer and the interest in using the network.
 
@@ -462,49 +497,16 @@ Our placement algorithm work in four main steps\footnote{Thanks to “AmethystDe
 
 \improvement{Add an example of SLA an response}
 
-\subsection{Implementing our strategy in a framework}
+\section{Implementing our placement strategy}
+\label{sec:implementingourstrat}
 
 \change{Move to the literature review/platforms}
 
 Having detailed our placement strategy, we noticed that a lot of the literature focuses on simulations. We wanted to add value to the research field by actually experimenting the Fog with a real implementation, especially since we can access the Grid'5000 test bed \cite{noauthor_getting_nodate} to run experiments at scale.
 
-Our first thought was to employ an existing framework and augment it with our modifications. However we ended up implementing our own solution.
+Our first thought was to employ an existing framework and augment it with our modifications. However we ended up implementing our own solution as depicted by \cref{sec:limitations}.
 
-\subsubsection{Limitations of existing frameworks}
-
-We chose to start our own framework from scratch. In short, no other solution could have allowed us to efficiently compare multiple placement approaches as well as by introducing our own.
-
-Our criteria were the followings:
-\begin{enumerate}[(1)]
-	\item extensively and painlessly modifiable (network topology, distribution process for the functions);
-	\item uses standard technologies, so we can benefit from already industrialized application samples and from the research literature about \gls{FaaS} optimizations methods. Thus using already updated components instead of relying on custom but simplistic implementations.
-	\item ready to be deployed on a real test bed (Grid'5000 and more);
-	\item easily measurable;
-	\item actively maintained;
-\end{enumerate}
-
-One key aspect we kept in mind was the time and efforts necessary to understand and repurpose a framework to fit our imperatives versus the time we would need to develop our own solution.
-
-In the community, two frameworks caught our eyes as they were compliant with most of these criteria.
-\begin{description}
-	\item[FogBus2 \cite{deng_fogbus2_2021}]{is a research project. However, authors chose to employ their unique implementation of an orchestration system instead of going with Kubernetes, directly resting on Docker. Furthermore, they do not advertise their framework as being suited for extensive modification, that being vital for our case.
-
-	            Thus, this framework is not sufficient for our needs.
-	      }
-	\item[Fogflow \cite{smartfog_fogflow_2022}]{is a mature framework coming from the research world. It is the result of a two papers \cite{cheng_fogflow_2018, cheng_fog_2019} that make it what it is today: a wonderful open framework for early adopters of the Fog technology. Particularly, since the project is part of the Fiware foundation \cite{fiware_foundation_fiware_2021} backed by a number of huge companies.
-
-	            However, for our needs, the framework is not appropriate. It is too complicated to understand fast, making modifications hard to deal with. Especially since we would have to implement the auctioning mechanisms on top of it, and enable messaging upon its existing stack. Even risking to go against the philosophy put into the framework. Additionally, the underlying orchestrator is not standard.
-
-	            For these reasons, the framework is not interesting for us.}
-\end{description}
-
-Both of the choices look as if they are actively maintained, with an emphasize over \cite{smartfog_fogflow_2022} since the commits usually dates back days instead of months as in \cite{deng_fogbus2_2021}.
-
-However, neither option is sufficient for us and we proceeded with developing our own solution, fit to our needs. An additional advantage of this is the coupling of the framework with Grid'5000 as our testing and experimental ground. The strength of this is easier control, access and harvest of produced data.
-
-\change{this part because it is appearing earlier}
-
-\subsubsection{Technological stack}
+\subsection{Technological stack}
 
 I implemented this framework in Rust. The use of this innovative language present several benefits, in no order:
 \begin{description}
@@ -520,7 +522,7 @@ Additionally, relying on industrial-grade parts such as Kubernetes, or in a less
 
 As a matter of facts, it possesses another benefit for our work since we can utilize the latest research contributions on those well-known parts without even touching our code. This would be especially useful for many features including function chaining and fault tolerance.
 
-\subsubsection{Benefits and limitations}
+\subsection{Benefits and limitations}
 
 The development of our own framework comes with benefits and a price.
 
@@ -534,7 +536,7 @@ Another clarification is the absence of any security and payment mechanism. Inde
 
 Finally, coding in Rust has a cost in time. It has a good number of perks, but it costs time to reach a first—always—working code, after that only logic error in the code are left. It is not really clear if this really represents a gain in time, or has the opposite impact. Tt actually feels like one is spending more time to reach a code that compiles. Time spent in other languages on annoying and frustrating unforeseen errors and behaviors as the code executes. So it is not really clear to my eye what impacts it does have purely regarding time.
 
-\subsubsection{Running the framework}
+\subsection{Running the framework}
 
 We planned from the beginning to execute this framework on Grid'5000.
 
@@ -548,13 +550,13 @@ Another manner has been introduced thanks to the development of EnosLib \cite{ch
 Thanks to this library, a command line wrapper can be created easily. The resulting script is more straightforward than utilizing a bunch of bash scripts, especially since it is run on the developer's hardware. Every SSH trick, copy, redirection and even standard installations are handled. For example, using Docker is as simple as instantiating a Python context stating to run Docker, see the code below in \cref{listing:dockerenos}.
 
 \begin{lstlisting}[language=Python, caption=EnosLib context example with Docker, label=listing:dockerenos]
-	with en.Docker(agent=roles['builder']):    # Install Docker
-	try:
-	res = en.run_command(                  # Run a command
-	'docker build -t fog_node:latest .', # A bash command using Docker
-	roles=roles['builder'])              # Specify on what machines to act on
-	except EnosFailedHostsError as err:
-	pass
+with en.Docker(agent=roles['builder']):    # Install Docker
+  try:
+    res = en.run_command(                  # Run a command
+      'docker build -t fog_node:latest .', # A bash command using Docker
+       roles=roles['builder'])             # What machines to act on
+except EnosFailedHostsError as err:
+  pass
 \end{lstlisting}
 
 However, executing bash commands is still an available option, but now, one does not need to care about the specificities of the nodes such as their IP, regardless of whether they are running a virtual machine, etc. Commands are automatically dispatched to the appropriate machines given their role—a tag.
@@ -565,7 +567,8 @@ Prometheus \cite{prometheus_authors_prometheus_nodate} is a monitoring solution 
 
 With the use of appropriate crates (libraries) in Rust \cite{sully_rocket_prometheus_2022}, I would be capable to produce compatible endpoints on my framework. Those will be linked to EnosLib through Prometheus and record interesting metrics: latency between Fog nodes, load on the Fog node, number of instantiated functions, etc.
 
-\subsubsection{Evaluating our solution}
+\section{Evaluating our solution}
+\label{sec:evaluating}
 
 We plan to evaluate the framework to release a paper by the end of my internship. To do so, we divided our strategy into two levels, in order to at least be able to publish a straightforward statement to tell the community that this framework is in the works.
 
@@ -585,7 +588,8 @@ Our criteria would be
 
 Economic efficiency aims to examine whether the Fog node earns enough “money” to be lucrative for its owner. Profitability of a node would be an incentive to stay in the network. One experience could look at “what happens when nodes leave the grid because they went bankrupt earning no money?”
 
-\subsection{Side work}
+\section{Additional work}
+\label{sec:additionalwork}
 
 Developing the framework was not the work I had to perform. Initially, I had to be at ease with the literature of the fields this project interacts with. I wanted to go furhter about what was previously accomplished in the bibliographic report in terms of:
 \begin{enumerate}
@@ -609,7 +613,8 @@ Finally, we went with BeFaaS \cite{grambow_befaas_2021} and actually rewrote the
 \end{itemize}
 In the end, the application was rewritten in Rust and that uplifted the whole project as I also planned to utilize this language for the framework itself. Hence, it was an excellent training and way to find the appropriate crates—aka modules—that I would later utilize in the framework. A good example is the crate I retained for the \gls{REST} \gls{API}, with which I was hesitant to employ at first, but after testing another option I realized the benefits of Rocket \cite{benitez_rocket_2022} (Prometheus and OpenAPI v3 integrations through small crates) and so I went with it for the framework.
 
-\subsection{Evolutions and future research work}
+\section{Evolutions and future research work}
+\label{sec:evofurure}
 
 \thesis{“Flexible resource allocation for \gls{FaaS} applications in the Fog” is the title of my thesis.
 	I earned the funding through the XXXXX. \todo{Put the name of the contest} thanks to the good advice of Nikos, under whose supervision I will research this topic.}
@@ -666,5 +671,3 @@ Technologically I have employed Rust and experienced more than I did previously 
 I explored a topic that got my interest during the my SIF master scholarship: the Fog. And put that in perspective with many more concepts such as economics and \gls{FaaS}.
 
 Thanks to this internship I have learned a massive amount of knowledge about synthezing and researching in the scientific literature. I also learned a much more autonomous way of working, I previously mostly experienced Agile methods which are much more reliant on constant sharing of most information.
-
-Thanks to this research experience I consider applying for a PhD position at MYRIADS. 
