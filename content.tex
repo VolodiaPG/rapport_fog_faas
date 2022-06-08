@@ -1,5 +1,4 @@
 \section{Introduction}
-\todo{longues listes}
 \todo{literature review trop longue, focus section 5—résultats}
 \todo{positions des sections}
 \todo{titres des sections}
@@ -492,16 +491,14 @@ I coded this strategy in a framework.
 
 We chose to start our especial framework from scratch. In short, no other solution could have allowed us to efficiently compare multiple placement approaches as well as by introducing our own.
 
-Our criteria were the followings: \improvement{order}
+Our criteria were the followings:
 \begin{enumerate}[(1)]
-	\item actively maintained;
 	\item extensively and painlessly modifiable (network topology, distribution process for the functions);
+	\item uses standard technologies, so we can benefit from already industrialized application samples and from the research literature about \gls{FaaS} optimizations methods. Thus using already updated components instead of relying on custom but simplistic implementations.
 	\item ready to be deployed on a real test bed (Grid'5000 and more);
 	\item easily measurable;
-	\item uses standard technologies, so we can benefit from already industrialized application samples and from the research literature about \gls{FaaS} optimizations methods. Thus using already updated components instead of relying on custom but simplistic implementations.
+	\item actively maintained;
 \end{enumerate}
-
-\improvement{Order}
 
 One key aspect we kept in mind was the time and efforts necessary to understand and repurpose a framework to fit our imperatives versus the time we would need to develop our own solution.
 
@@ -618,10 +615,10 @@ In the end, the application was rewritten in Rust and that uplifted the whole pr
 
 \subsubsection{Plans of evolution and future research work}
 
-“Flexible resource allocation for \gls{FaaS} applications in the Fog” is the title of my thesis.
-I earned the funding through the XXXXX. \todo{Put the name of the contest} thanks to the good advice of Nikos, under whose supervision I will research this topic.
+\thesis{“Flexible resource allocation for \gls{FaaS} applications in the Fog” is the title of my thesis.
+I earned the funding through the XXXXX. \todo{Put the name of the contest} thanks to the good advice of Nikos, under whose supervision I will research this topic.}
 
-The main point in altering the first words in the sentence is to reflect the change of scope. Instead of just focusing on the function placement, which is a one-time event that occurs at the provision of the function; we now look at the life of the application in the Fog. Of course the application will be divided in functions, but then those will require to stay linked with each other, to move in the Fog to maintain meeting their specifications. And by doing so, the auctioning process will need to integrate those changes, as to keep fairness during all operations for all users, etc.
+Future work will change the scope of the topic. Instead of only focusing on the function placement, which currenlty is seen as one-time event occuring when a function needs to be provisioned; we would now consider the life of the full application in the Fog. Of course the application will still be divided in \gls{FaaS} functions. Those will require to stay linked with each other, to be moved around in the Fog in order to maintain meeting their requirements. And by doing so, the auctioning process will need to be modified to integrate those changes, to keep fairness during all operations for all users, etc.
 
 \begin{figure}[H]
 	\centering
@@ -631,7 +628,7 @@ The main point in altering the first words in the sentence is to reflect the cha
 	\label{fig:terraforma}
 \end{figure}
 
-We also want to participate in the Terra Forma \cite{longuevergne_terra_2022} CNRS-backed mission to both help and experiment on an actual Fog test bed. Indeed the project will monitor part of the French territory under a dense net of multiple \gls{IoT} sensors. We hope to demonstrate the power of the Fog reducing bandwidth consumption and enabling real-time decision taking (drone control, etc.). In such a project, we will be able to contribute our framework running in the real world, our placement mechanism as well as an economically viable solution and, lastly, true Fog applications at scale—a still scarce sight in the literature.
+Eventually, the project could participate in the Terra Forma \cite{longuevergne_terra_2022} CNRS-backed mission to both contribute in the effort bringing the adavantages of the Fog on the terrain and to experiment on an actual Fog test bed. Indeed the operation will monitor part of the French territory under a dense network of multiple \gls{IoT} sensors. We hope to demonstrate the power of the Fog reducing bandwidth consumption and enabling real-time decision taking (drone control, etc.) with this potential collaboration. Thanks to such a project, we will be able to contribute to the community our framework running in the real world, our placement mechanism as well as an economically viable solution and, lastly, true Fog applications at scale—still a scarce sight in the literature.
 
 \section{Conclusion}
 % Financial cooperation as key
@@ -659,4 +656,7 @@ After synthesizing the knowledge in \cref{tab:placement}, new considerations are
 	\item the integration of \gls{FaaS} and their inherent constraints in the Fog;
 	\item the place of security and privacy.
 \end{enumerate}
-Ultimately, the report presents the accomplished work during the internship based on the integrated bibliographic report. Such work is the realization of a framework to experiment auction-enabled function placement in the Fog. Such a framework has been made open as numerous sharing initiative have been started: code documentation, the use of standard documentation \glspl{API}, project shared since day one. This framework has been established on extra research made toward a full comprehension of the task and challenges, supplementary to the bibliographic report itself. Additional work includes the port to Grid'5000 for experimental use and metrics harvesting, that will lead to a publication. A Fog application has also been developed as a basic trial for the readiness and load testing of the framework.
+
+Ultimately, the report presents the accomplished work during the internship based on the integrated bibliographic report. Such work is the realization of a framework to experiment auction-enabled function placement in the Fog.
+
+Such a framework has been made open as numerous sharing initiative have been started: code documentation, the use of standard documentation \glspl{API}, project shared since day one. This framework has been established on extra research made toward a full comprehension of the task and challenges, supplementary to the bibliographic report itself. Additional work includes the port to Grid'5000 for experimental use and metrics harvesting, that will lead to a publication. A Fog application has also been developed as a basic trial for the readiness and load testing of the framework.

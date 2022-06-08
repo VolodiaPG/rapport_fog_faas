@@ -58,6 +58,12 @@
 \newcommand{\name}[1]{Michel}
 \fi
 
+\iffalse
+\newcommand{\thesis}[1]{#1}
+\else
+\newcommand{\thesis}[1]{}
+\fi
+
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{lmodern}
 \usepackage{setspace}
@@ -630,9 +636,10 @@ I am indebted to the INSA and all the people involved for these wonderful 5 year
 \input{glossary}
 \input{content}
 
+\newpage
+
 \pagenumbering{roman}
 
-\newpage
 \appendix
 \appendixpage
 \addappheadtotoc
