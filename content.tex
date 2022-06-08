@@ -1,3 +1,5 @@
+\newcommand{\varthreestars}{\begin{center}\begin{tabular}{c}$\ast$\\[-2ex] $\ast\enspace \ast $\end{tabular}\end{center}}
+
 \section{Introduction}
 \todo{literature review trop longue, focus section 5—résultats}
 \todo{relecture générale}
@@ -8,7 +10,9 @@ Such an evolution is currently undergoing thanks to the emergence of models such
 
 Because of those constraints, Fog first needs to follow a computing model to execute tasks. Such paradigms could be microservices, stream processing or serverless. \gls{FaaS}, a subset of serverless is studied in this report. This model divides an application in small-scale “function” slices. It is easy to understand a function as a stateless unit of processing. As such, it requires to be downloaded, executed and fed data. And because they are only slices of an application, functions can be placed more efficiently by the platforms themselves.
 
-The goal of this report is on one hand to explore the current literature about platforms applying the \gls{FaaS} paradigm to the Fog. And on a second hand to explore the work done during the internship from the 7th of February to the 31st of July.
+The goal of this report is on one hand to explore the current literature about platforms applying the \gls{FaaS} paradigm to the Fog. And on a second hand to explore the work done during the internship from the 7\textsuperscript{th} of February to the 31\textsuperscript{st} of July.
+
+\todo{Add SLA example}
 
 We study new placement strategies for functions. Existing research \cite{kjorveziroski_iot_2021,xie_when_2021} has already pinpointed some open questions, revolving around:
 \begin{enumerate*}[(1)]
@@ -34,7 +38,9 @@ The second part of the report revolves around the work produced during the inter
 
 The report is divided as follows. \Cref{sec:background} further differentiates Fog and \gls{MEC}, discuss \gls{FaaS} and provides application examples. \Cref{sec:platforms} presents \gls{FaaS} platforms. Then \cref{sec:placement} discusses literature about function placement in the Fog. Afterward, \cref{sec:curated} offers a curated list of identified challenges from the previously examined research. Finally, \cref{sec:takingaction} explains the course of the internship up to the current point—as it is not yet finished at the time of writing.
 
-Ultimately, this internship is being done in the MYRIADS team at the INRIA/IRISA Rennes. Both of those public research facilities are specialized in computer sciences. They host more than 30 teams for a combined of more than 700 personnels, spanning fields such as human-computer interactions, cybersecurity, machine learning, and distributed computing. The last one represents the scope of the team I am in. Our research interests revolve around high-performance computing, stream processing Cloud, Fog, energy concerns about that, to name a few.
+\varthreestars{}
+
+This internship is being done in the MYRIADS team at the INRIA/IRISA Rennes. Both of those public research facilities are specialized in computer sciences. They host more than 30 teams for a combined of more than 700 personnels, spanning fields such as human-computer interactions, cybersecurity, machine learning, and distributed computing. This last topic represents the scope of the team I am part of for this internship. Our research interests revolve around high-performance computing, stream processing, Cloud, Fog, energy concerns around computing at scale, to name the most prominants.
 
 \section{Background}
 \label{sec:background}
@@ -165,7 +171,7 @@ Fog is envisioned as a way to avoid sending massive amounts data far away and is
 
 \citet{ahmed_fog_2019} also identify Fog deployment models, similar to the Cloud landscape. Those models can be classified into:
 \begin{enumerate}[(a)]
-	\item \emph{private Fog} where execution exclusivity is for one user, as well as the hardware's responsibility;
+	\item \emph{private Fog}, where execution exclusivity is for one user, as well as the hardware's responsibility;
 	\item \emph{public Fog}, the opposite, usable by the grand public;
 	\item \emph{community Fog}, exclusive to the member of a community;
 	\item \emph{hybrid Fog}, which is a mix of all the previous and usually serves scaling purposes.
@@ -362,103 +368,115 @@ The result is \cref{tab:placement}, from which we can highlight limitations of e
 \section{Taking action}
 \label{sec:takingaction}
 
-\gls{FaaS}-enabled Fog would allow an applied real world usage of the Fog. However, as depicted in \ref{sec:curated} we identified four main axes of necessary improvements to go this direction:
+\gls{FaaS}-enabled Fog would allow an applied real world usage of the Fog. However, as depicted in \cref{sec:curated} we identified four main axes of necessary improvements to go this direction:
 \begin{enumerate*}[(i)]
-	\item introduce \glspl{SLA} that lets the users to set their expectations and have them respected;
+	\item introduce \glspl{SLA} that let users set their expectations and have them respected;
 	\item smarter auction-based placement mechanisms that enable full-scale incentives to both join and compete in the Fog;
 	\item \gls{FaaS}-specific tools adapted to the Fog;
 	\item security and privacy.
 \end{enumerate*}
-As this is a research work, we expect “scientific comparison” to be listed
+Moreover, as this is a research work, we expect “scientific comparison” to part of the list.
 
-Indeed, the community presents promising placement solutions but fails to both compare them against each other and to test them on real scenarios instead of relying extensively on simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework fit to be experimented upon in preference to being simulated. A second key point is to be able to face implementation issues that would—through simulation—not be observed and remedied.
+Indeed, the research community presents promising placement solutions but fails to both compare them against each others and to test them on real scenarios instead of relying extensively on exclusive simulations. Thus it is not clear what to expect from the Fog as of today. This is the first reason why we choose to participate to the community effort producing a framework adapted to be experimented on instead of being simulated. A second key point is to be able to face implementation issues, document and fix them as the framework goes.
 
 In the next subsections, we examine our proposed placement mechanism. We will elaborate on the work done on our own open framework. Finally, we will detail how we plan to evaluate this solution and platform against state-of-the-art behaviors.
 
 \subsection{Placing functions in the Fog}
 
-This internship focuses on the execution of a new idea for situating functions in the Fog using economics as the main layer of dialogue between actors, much like what is already in place in the Cloud. After introducing our view of the Fog, we will detail our placement behaviors, how and why we chose to implement our own framework and the evaluation contributions regarding this work.
+This internship focuses on the execution of a new idea for placing functions in the Fog using economics as the main layer of dialogue between actors, much like what is already in place in the Cloud. After introducing our view of the Fog, we will detail our placement behaviors, how and why we chose to implement our own framework and the evaluation contributions regarding this work.
 
-\subsubsection{Context and challenges}
+\subsubsection{Introducing Fog node ownership and auctions}
 
 The Fog is a distributed network made of Fog nodes—computers—that work together to bring latency and bandwidth (among others) benefits to the Cloud customer. In time, the Fog will be so entangled with the Cloud that clients should not be able to discern between executing their applications on the Fog or on the Cloud only. At least when they do not have any explicit requirements making them Fog-reliant. This signifies pricing should as well be indistinguishable from the current offerings and as easy to understand. This also means logistics should be on point: Fog nodes are present everywhere not to degrade the usage made by any applications explicitly depending on them.
 
-This indicates a need to escape the “vendor lock-in” nightmare, where large resource providers are on a single market. But as everyone proposes the same kind of service, each still manages to do it in a proprietary manner, making a multiple-provider scenario hard to reach. This is what we are currently observing in the Cloud, with global companies consuming the Cloud and trying to rely on other providers to avoid downtime, security issues and profit from the best features of both platforms.
+This indicates a need to escape the “vendor lock-in” nightmare, where large resource providers are on a single market. But as everyone proposes overall the same kind of service, they also manage to do it in a proprietary fashion, making a multiple-provider backed Cloud scenario hard to reach. This is what we are currently observing in the Cloud, with global companies largely consuming Cloud services and trying to rely on multiple providers at the same time. That way they can avoid downtimes and security issues while profiting from the best features of those different platforms.
 
-Such a problem in Fog would be highly inefficient. It would only signify two things: either all providers are presents at the same location, thus putting a lot of Fog nodes at the same place for no further benefits than pure pecuniary competition. Or it would mean that geographical zones would be exclusive of a handful providers. In each case, it would be a nightmare for the customer to deploy an application at a European-level, for example.
+Such a situation in Fog would be highly inefficient. It would only signify two things: either all providers are present at the same location, competing for the same users. Thus it physically puts a lot of Fog nodes at the same place for no further benefits than pure pecuniary competition. Or it would mean that geographical zones would be exclusive of a handful providers. In any case, it would be a nightmare for the customer to deploy an application, for example, at a European-level dealing with exclusive offers all over the place.
 
-In our work, we consider Fog nodes are owned by different economic actors. This way, both private (enterprises) and public (cities) can provide computational resources to the community, while expecting sufficient gains to be able to sustain this sharing, and to make profits. The more Fog nodes join the network, the more rivalry and the more affordable it is for purchasers to execute applications. We consider that any provider can be in competition, but employing a standard platform to do so, so that it does not hurt the client nor makes the technology useless.
+In our work, we consider Fog nodes are owned by different economic actors. This way, both private (companies) and public (cities) can provide computational resources to the community, while expecting sufficient gains to be able to sustain this sharing, and to make profits. The more Fog nodes join the network, the more rivalry and the more affordable it is for purchasers to execute applications. We consider that any provider can be in competition, but employing a standard platform to do so, so that it does not hurt the client nor makes the technology useless or repetitive. Actually if more nodes are at the same location, it would mean a greater additive competition as all customers benefit from added resources to the same shared platform.
 
-Considering this ownership of fog nodes, as proposed earlier, a good mechanism to introduce contest in a controlled, independent and objective manner are \emph{auctions}. Well-designed auctions can lead to a maximization of social welfare—increase utility for everyone involved—, let participants freely choose their price while making it pointless to lie about the value of the commodities. One last interesting technique is the fairness of the auctions, aka not constantly electing the same winner when multiple have similar bids. In our case, this would not always mean to allocate the same function on the same Fog node when two functions are similar in terms of requirements and bids \cite{kuo_proportionnet_2020}.
+Considering ownership of Fog nodes, as proposed earlier, a good mechanism to introduce contest in a controlled, independent and objective manner is through \emph{auctions}. Well-designed auctions can lead to a maximization of social welfare—increase utility/perks for everyone involved—, let participants freely choose their price while making it pointless to lie about the value of the commodities they publicly show. One last interesting point is the fairness of the auctions, not constantly electing the same winner when multiple have similar bids. In our case, this would not always mean to allocate the same function on the same Fog node when two functions are similar in terms of requirements and bids \cite{kuo_proportionnet_2020}.
 
 \subsubsection{Placing functions thanks to auctions}
 
-Placing functions is a challenge. Adding that Fog nodes are independent actors that choose to join the network increases difficulty. Especially since Fog nodes are able to specify their prices and autonomously choose their behaviors. Auctions help to make sure competition is maintained and as such, costs are not artificially set and do not harm the final customer.
+Placing functions is a challenge. Adding that Fog nodes are independent actors that choose to join the network increases difficulty. Especially since Fog nodes are able to specify their prices and autonomously choose their bidding behaviors. Auctions help to make sure competition is maintained and as such, costs are not artificially set and do not harm the final customer and the interest in using the network.
 
-Auctions also support translating what metrics are considered important by a Fog node in a single number: the price—that being virtual or real. As an example, Fog nodes near the \gls{IoT} sources—at the edge of the network—could have more concerns about energy usage than fog nodes running off data centers, and so, make high power-consuming clients pay more.
+Auctions also support translating what metrics are considered important by a Fog node in a single number: the price—that being virtual or real. As an example, Fog nodes near the \gls{IoT} sources—at the edge of the network—could have more concerns about energy usage than Fog nodes running off data centers, and so, make high power-consuming functions pay more.
 
 With money in the equation, Fog nodes will not believe each other, as such we need to introduce the first ingredient of our architecture: the \emph{Marketplace}. It is the only software that is trusted by all Fog nodes.
 
-This piece of the framework is the place that will handle the auctioning process and so, the designation of a winner. We do not care about payment at the time, this method being purely for testing purposes\footnote{However, we still anticipate the implementation of such behavior, which is why we introduce this trusted third-party.}.
+This piece of the framework is the place that will handle the auctioning process and so, the designation of a winner. We do not care about payment at the time, this method being purely for testing purposes\footnote{However, we still anticipate the implementation of such behavior, which is why we introduce this trusted third party.}.
 
-The Marketplace is the component of the framework which is accessible to the public. It can be thought as a middleware acting as a top gateway to the consumer that wants to deploy and administer their functions.
+The Marketplace is the only component of the framework accessible to the public. It can be thought as a middleware acting as a top gateway to consumers who want to deploy and administer their functions.
 
-As the marketplace offers to only oversee functions, clients may need a higher-level solution to coordinate their applications, introducing the “Deployment Manager.” This piece of software would—in the future—be responsible of handling the deployment of the client's application on the Fog. It would be aware of what \gls{IoT} devices are expected as it would know which ones are currently connected to the Fog. Its role would then be to ask the Marketplace to provision functions as it would be deemed necessary from their programming. The idea is to externalize the application managing from the Fog network separates it from the function execution concerns. That way, in case of failure or incapacity to provision part of the application, the task would be handled by a policy specified by the client. This would especially be relevant for the case of a critical application needing to be aware of its ability or inability to be executed. And in such cases transmit the information to a human, for example. Or in a more basic fashion needs to consider changing its requirements to be more adequate to fit the current state of the Fog.
+As the marketplace only offers to oversee functions, clients may need a higher-level solution to coordinate their applications, introducing the “Deployment Manager.” This piece of software would—in the future—be responsible of handling the deployment of the client's application on the Fog. It would be aware of what \gls{IoT} devices are expected for the application to fully work, as it knows which ones are currently connected to the Fog. Its role would then be to ask the Marketplace to provision functions as deemed necessary from its programmed policies. The idea is to externalize the application management outside the Fog network. Thus separating it from the function—application—execution concerns. That way, in case of failure or incapacity to provision part of the application, the task would be handled by a policy specified by the client. This would especially be relevant for the case of a critical application needing to be aware of its ability or inability to be executed. And in such cases transmit the information to a human, for example this would be the case of health-related applications. Or in a more basic fashion the application would consider changing its requirements to be more adequate to fit the current state of the Fog.
 
-Because we are developing from scratch, we simplified the Fog network topology to be a tree instead of a graph.
+Because this is the beginning of this project, we simplified the Fog network topology to be a tree instead of a graph as it would more likely be in the reality.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{./assets/OurPlacementOriginal-Page-1.png}
 	\caption[Step 0—\gls{IoT} devices just connected]{step 0—\gls{IoT} devices just connected\\
-		\textit{Cameras and a drone make the deployment manager aware of their presence by “pinging” it}}
+		\textit{Cameras and a drone make the Deployment Manager aware of their presence by “pinging” it}}
 	\label{fig:our_placement0}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{./assets/OurPlacementOriginal-Page-2.png}
 	\caption[Step 1—\gls{SLA} creation and distribution]{step 1—\gls{SLA} creation and distribution\\
-		\textit{The Deployment Manager identifies missing functions to be deployed and creates a \gls{SLA} contract describing their requirements (CPU, RAM, latency, etc.). Then sends it to a Fog node that relays to other Fog nodes until a requirement breaks.}}
+		\textit{The Deployment Manager identifies missing functions needing to be deployed and creates a \gls{SLA} contract describing their requirements (CPU, RAM, latency, etc.). Then sends it to a Fog node that relays the \gls{SLA} to neighboring Fog nodes until a requirement breaks.}}
 	\label{fig:our_placement1}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{./assets/OurPlacementOriginal-Page-3.png}
 	\caption[step 2—Bidding]{step 2—Bidding\\
-		\textit{Upon receiving the \gls{SLA}, each Fog node bid on it and return their price to the marketplace. This represents what they think the function will cost to be executed.}}
+		\textit{Upon receiving the \gls{SLA}, each Fog node bids on it and return a price to the marketplace. This value represents what they think the function will cost the node to be executed.}}
 	\label{fig:our_placement2}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\textwidth]{./assets/OurPlacementOriginal-Page-4.png}
 	\caption[Step 3—Payment and provisioning]{step 3—Payment and provisioning\\
-		\textit{Once all bids have been received by the Marketplace, auctions are held a winning Fog node is given back to the Deployment Manager. The function is then instantiated as specified in the \gls{SLA}.}}
+		\textit{Once all bids have been received by the Marketplace, auctions are held and a winning Fog node is given back to the Deployment Manager. The function is then instantiated as specified in the \gls{SLA}.}}
 	\label{fig:our_placement3}
 \end{figure}
 
-Our placement algorithm work in four main steps\footnote{Thanks to “AmethystDesign”, “Amethyst Prime”, “SBTS2018”, “bsd” and “freepik” for their images downloaded from “flaticon.com”}:
+Our placement algorithm work in four main steps\footnote{Thanks to “AmethystDesign”, “Amethyst Prime”, “SBTS2018”, “bsd” and “freepik” for their icons downloaded from “flaticon.com”}:
 
 \begin{description}
-	\item[Step 0]{( \cref{fig:our_placement0}) simply answers to the question: “How do the application is made aware the necessary \gls{IoT} devices have joined to run properly?”
-	            The response is through a simple “ping” informing the Deployment Manager that part of its hardware is connected and it may need to take a decision to integrate it in the deployed application.
+	\item[Step 0]{(\cref{fig:our_placement0}) simply answers to the question: “How does the application is made aware that the necessary \gls{IoT} devices have joined to run properly?”
+	            The response is through a simple “ping” informing the Deployment Manager that part of its hardware is connected and it may need to take a decision to integrate it in the already deployed application.
 	      }
-	\item[Step 1]{( \cref{fig:our_placement1}) is about the creation of and \gls{SLA}. When the Deployment Manager wants to provision a new function on the Fog network, it will be their responsibility to split their applications and constitute functions that will be run on the Fog. Those functions are then described by a \gls{SLA} wrapping multiple requirements such as CPU, RAM, latency.
+	\item[Step 1]{(\cref{fig:our_placement1}) is about the creation of and \gls{SLA}. When the Deployment Manager wants to provision a new function on the Fog network, it will be their responsibility to split their applications and constitute functions that will be run on the Fog. Those functions are then described by a \gls{SLA} wrapping multiple requirements such as CPU, RAM, latency.
 
 	            This contract represents guarantees to the execution of the function. A key point is that we consider everything has a price in the Fog, as such, any need will be able to be provided. However the cost may be infinitely high…
 
 	            Once the \gls{SLA} is ready, it is sent to the Marketplace which starts the auctioning process. The first action taken is to dispatch the contract to an arbitrary Fog node in the network. Every node will then relay the \gls{SLA} until one requirement is broken.
 	      }
-	\item[Step 2]{ (\cref{fig:our_placement2}) is the bidding process. Every fog node looks at the \gls{SLA} and bids. Thanks to an appropriate auctioning mechanism, it will represent the actual value—the truthful value—of the function through the eyes of the Fog node. We chose to go with second-price auctions, so as to have those properties when bidding on a single function. However, it is not maintained regarding multiple auctions for the same goods, like in our case. Thus in future works, we will need to consider another auctioning process. Once this process has been done, the bid is returned to the Marketplace.}
-	\item[Step 3]{ (\cref{fig:our_placement3})is the final step. Here, the Marketplace received all the bids of all the suitable Fog node to execute the function. The auction takes place and the winner is given to the Deployment Manager for further action. Two options are available: not to purchase and find another strategy to achieve its goal. Or to pay the Marketplace that in turn will remunerate the Fog node that will provision the function and so, make the application work. Of course, payment will not travel to the Fog node but in parallel in order to save on precious bandwidth.}
+	\item[Step 2]{(\cref{fig:our_placement2}) is the bidding process. Every Fog node looks at the \gls{SLA} and bids. Thanks to an appropriate auctioning mechanism, it will represent the actual value—the truthful value—of the function through the eyes of the Fog node.
+
+	            We chose to go with second-price auctions for the internship, so as to have this property when bidding on a single function as well as fairness. However, this property is not maintained regarding multiple auctions for the same goods, like in our case. Thus in future works, we will need to consider another auctioning process.
+
+	            Once this process has been done, the bid is returned to the Marketplace.}
+	\item[Step 3]{(\cref{fig:our_placement3}) is the final step. Here, the Marketplace received all the bids of all suitable Fog nodes candidate for running the function. The auction takes place and the winner returned to the Deployment Manager for further action.
+
+	            Two options are now available:
+	            \begin{itemize}
+		            \item not to do the purchase and find another strategy to achieve its goal;
+		            \item pay the Marketplace that in turn will remunerate the Fog node that will provision the function and so, make the application work.
+	            \end{itemize}}
 \end{description}
 
-\improvement{finishing word?}
+\improvement{Add an example of SLA an response}
 
 \subsection{Implementing our strategy in a framework}
 
-Having detailed our placement strategy, we remarked a lot of the literature focuses on simulations. We wanted to add value to the experimentation field by actually testing with a real implementation, especially since we can access the Grid'5000 testbed \cite{noauthor_getting_nodate} to run experiments at scale.
+\change{Move to the literature review/platforms}
 
-Our first thought was to employ an existing framework to augment it with our modifications. However we ended up implementing it ourselves.
+Having detailed our placement strategy, we remarked a lot of the literature focuses on simulations. We wanted to add value to the research field by actually experimenting the Fog with a real implementation, especially since we can access the Grid'5000 test bed \cite{noauthor_getting_nodate} to run experiments at scale.
+
+Our first thought was to employ an existing framework and augment it with our modifications. However we ended up implementing our own solution.
 
 \subsubsection{Limitations of existing frameworks}
 
@@ -475,53 +493,65 @@ Our criteria were the followings:
 
 One key aspect we kept in mind was the time and efforts necessary to understand and repurpose a framework to fit our imperatives versus the time we would need to develop our own solution.
 
-In the community, two frameworks caught our eyes because they were compliant with most of those criteria.
+In the community, two frameworks caught our eyes as they were compliant with most of these criteria.
 \begin{description}
-	\item[FogBus2 \cite{deng_fogbus2_2021}]{is a research project. However the authors chose to employ their unique implementation of the orchestration system instead of going with Kubernetes, directly resting on Docker. Furthermore, they do not advertise their framework as being suited for extensive modification that would be crucial in our case: auctions and the creation of the Marketplace are the first requirement. Thus, this framework is not sufficient for our needs.
+	\item[FogBus2 \cite{deng_fogbus2_2021}]{is a research project. However, authors chose to employ their unique implementation of an orchestration system instead of going with Kubernetes, directly resting on Docker. Furthermore, they do not advertise their framework as being suited for extensive modification, that being vital for our case.
+
+	            Thus, this framework is not sufficient for our needs.
 	      }
-	\item[Fogflow \cite{smartfog_fogflow_2022}]{ is a mature framework coming from the research world. It is the result of a two papers \cite{cheng_fogflow_2018, cheng_fog_2019} that make it what it is today: a wonderful open framework for early adopters of the Fog technology. Particularly since the project is part of the Fiware \cite{fiware_foundation_fiware_2021} backed by a number of great companies. However, for our needs, the framework is not appropriate. It is too complicated to understand fast, making modifications hard to deal with. Especially since we would have to implement the auctioning mechanisms on top of it, and enable messaging upon its existing stack. Even the underlying orchestrator is not standard. For these reasons, the framework is not interesting for us.}
+	\item[Fogflow \cite{smartfog_fogflow_2022}]{is a mature framework coming from the research world. It is the result of a two papers \cite{cheng_fogflow_2018, cheng_fog_2019} that make it what it is today: a wonderful open framework for early adopters of the Fog technology. Particularly, since the project is part of the Fiware foundation \cite{fiware_foundation_fiware_2021} backed by a number of huge companies.
+
+	            However, for our needs, the framework is not appropriate. It is too complicated to understand fast, making modifications hard to deal with. Especially since we would have to implement the auctioning mechanisms on top of it, and enable messaging upon its existing stack. Even risking to go against the philosophy put into the framework. Additionally, the underlying orchestrator is not standard.
+
+	            For these reasons, the framework is not interesting for us.}
 \end{description}\improvement{Make this comparison better}
 
 Both of the choices look as if they are actively maintained, with an emphasize over \cite{smartfog_fogflow_2022} since the commits usually dates back days instead of months as in \cite{deng_fogbus2_2021}.
 
-However, neither option is  sufficient for us and we proceeded with developing our own solution, fit to our needs. An additional advantage of this is the coupling of the framework with Grid'5000 as our testing and experimental ground. The strength of this is easier control, access and collection of produced data.
+However, neither option is sufficient for us and we proceeded with developing our own solution, fit to our needs. An additional advantage of this is the coupling of the framework with Grid'5000 as our testing and experimental ground. The strength of this is easier control, access and harvest of produced data.
 
-\subsubsection{Our solution}
+\change{this part because it is appearing earlier}
+
+\subsubsection{Technological stack}
 
 I implemented this framework in Rust. The use of this innovative language present several benefits, in no order:
 \begin{description}
 	\item[Multiple targeted architectures]due to the exploitation of a modern toolchain. It favors simple compilation steps for x86 (when testing on Grid’5000) and ARM (when testing on Raspberry Pi clusters, in the future), theoretically by only having to compile on an ARM platform to support that platform;
-	\item[Confidence in the code], e.g., Python allows typographic errors in its code, Rust forbids them by design. Borrowing mechanism fixes most of the complaints with other languages about the management of the data: it is simpler to track usages of variables and their modifications as they are references as “mutable”;
-	\item[Helpfulness of the compiler], e.g., it can detect race condition on variable access in multithreading environment;
-	\item[High default code standard]regarding quality thanks to the Rust toolkit, making it perfect for community sharing and contributions. e.g., the language forces errors to be handled and as a result, no exceptions are raised, ever. It makes the software far more reliable than when coded with dynamic languages or other languages that do not implement railway programming as a default;
-	\item[Power] as it possesses low-level code strengths with the expressivity and relative simplicity of high-level code. It is ideal if the framework needs to accomplish high efficiency—unforeseen—tasks such as routing, because that way it is easier to control and monitor the data flow of all topology with a single implementation;
-		\item[Extendability]through the utilization of WebAssembly, enabling diverse module integration to modify the behavior of the platform, e.g., this would be especially useful for the decision-taking process on Fog nodes to give a bid. It would grant other languages than Rust on a small parcel of the software. Thus making the tester comfortable to experiment with various strategies in “production” and keep the clean practice of Rust processing the resulting data.
+	\item[Confidence in the code], e.g., Python allows typographic errors in its code, Rust forbids them by design. The borrowing mechanism fixes most of the complaints with other languages (Java, etc.) about the management of the data: it is simpler to track usages of variables and their modifications as they are marked as “mutable”;
+	\item[Helpfulness of the compiler], e.g., it can detect race condition on variable access in multithreading environment and messages do not state “segmentation fault” with no additional information;
+	\item[High default code quality]thanks to Rust's design, making it perfect for community sharing and contributions. e.g., the language forces errors to be handled and as a result, no exceptions are raised, ever. It makes the software far more reliable and sage than when coded with dynamic languages or other languages that do not implement railway programming as a default;
+	\item[Power]as it possesses low-level language strengths with the expressivity and relative simplicity of high-level language. It is ideal if the framework needs to accomplish high efficiency—unforeseen—tasks such as routing (because that way it is easier to control and monitor the data flow of all topology with a single implementation);
+	\item[Extendability]through the utilization of WebAssembly, enabling diverse module integration to modify the behavior of the platform, e.g., this would be especially useful for the future of decision-taking process on Fog nodes that return the bid. It would allow to code in other languages than Rust on a small parcel of the software. Thus making the tester comfortable to experiment with various strategies in “production” and keep  processing the resulting data safe.
 \end{description}
 
-Additionally, relying on industrial-grade parts such as Kubernetes, or in a lesser extent, OpenFaaS allow us to separate concerns in the framework to only concentrate on our contributions. As a matter of facts, it would indeed be a benefit for our work since we can utilize the latest research on those well-known parts from the community without even touching our code. This would be especially useful for many features including function chaining and fault tolerance.
+Additionally, relying on industrial-grade parts such as Kubernetes, or in a lesser extent, OpenFaaS allow us to separate concerns in the framework to only concentrate on our contributions. 
 
-\todo{Maybe add things to that section}
+As a matter of facts, it possesses another benefit for our work since we can utilize the latest research contributions on those well-known parts without even touching our code. This would be especially useful for many features including function chaining and fault tolerance.
 
 \subsubsection{Benefits and limitations}
 
 The development of our own framework comes with benefits and a price.
 
-The utilization of Rust, a strongly typed language, favors the generation of standard OPEN API v3 documentation for the routes created for the \gls{REST} \gls{API}. Especially because it is so easy to go only from its typing system to a documentation presenting both the input and outputs object models to expect on the routes. This means the project can be shared as most of the endpoints are documented in their intentions and actions. Additionally, since the framework is implemented respecting the clean architecture, it eases the modification of the underlying technology, if necessary. For example, one would be able to extend the framework to use another orchestrator instead of Kubernetes—granted this would nevertheless take a great amount of time, but still, the whole application would not need to be changed. In fact, only the part that employs the communication with the orchestrator itself. This means the design enables the adjustment of the behavior of the framework regarding placement of functions, auctions, etc. A required feature when it comes to compare against state-of-the-art research placement algorithms.
+The utilization of Rust, a strongly typed language, favors the generation of standard OPEN API v3 documentation for the routes created for the \gls{REST} \gls{API}. Especially because it is so easy to go only from its typing system to a documentation presenting both the input and outputs object models to expect on the routes. This means the project can be shared as most of the endpoints are documented in their intentions and actions.
+
+Additionally, since the framework is implemented respecting the clean architecture precepts, it eases the modification of the underlying technology, if necessary. For example, one would be able to extend the framework to use another orchestrator instead of Kubernetes—granted this would nevertheless take a some time—but still, the whole application would not need to be changed. In fact, only the part that employs the communication with the orchestrator itself would be affected by the modifications. This means the design enables the adjustment of the behavior of the framework regarding the placement of functions, auctions, etc. A required feature when it comes to comparing against state-of-the-art research placement algorithms.
 
 The current implementation is not complete yet compared to the initial ideas. Time is a constraint. The main limitation—artificial—is the tree topology we use as a simplification. In the future, we will extend the approach to a tangible graph topology to reflect the possibilities of the real world.
 
 Another clarification is the absence of any security and monetary mechanism. Indeed, we simplified this aspect, deemed not crucial for the purpose of research. For example, the step of payment is not implemented because it would essentially introduce a difficulty for no extra benefits to the task of function placement.
 
+Finally, coding in Rust has a cost in time. It has a good number of perks, but it costs time to reach a first—always—working code, after that only logic error in the code are left. It is not really clear if this really represents a gain in time, or has the opposite impact. Tt actually feels like one is spending more time to reach a code that compiles. Time spent in other languages on annoying and frustrating unforeseen errors and behaviors as the code executes. So it is not really clear to my eye what impacts it does have purely regarding time.
+
 \subsubsection{Running the framework}
 
 We planned from the beginning to execute this framework on Grid'5000.
 
-Grid'5000 is a large-scale test bed for experimentations. It is a cluster of multiple data centers geographically scattered in research facilities, mainly in France. Every site offer from tens to hundreds of computing nodes ready for experiment. Each node is customizable from its kernel to the software that runs on it. Further configurations include networking and the size of the virtual instances, i.e., the resources reserved.
+Grid'5000 is a large-scale test bed for experimentations. It is a cluster of multiple data centers geographically scattered in research facilities, mainly in France. Every site offer from tens to hundreds of computing nodes ready for an experiment. Each node is customizable from its kernel to the software that runs on it. Further configurations include networking and the size of the virtual instances, i.e., the resources reserved.
 
 This way we can profit from a rigorous test environment in which to run reproducible studies thanks to a level of control not available in public Clouds. Another key point is scalability. We can expand our Fog network to any arbitrary number of nodes to experimentally validate our concepts. The addition of both benefits enables us to select the resources allowed per Fog nodes, and network conditions in between the nodes. Thus, we can perfectly model the Fog experimentally. For our utilization, we primarily focus on bandwidth and latency. Indeed, the constraints on the resources will come after having proven the framework is able to run on a network stack matching the Fog.
 
 Employing Grid'5000 can be achieved in several ways. The first—the legacy one—is through SSH and the execution of a number of bash scripts that create and control both the environment and the flow of the experiment.
-Another manner has been introduced thanks to the development of EnosLib \cite{cherrueau_enoslib_2022}. This library allows the complete use of Grid'5000 as the legacy, with one catch. One does not have to cope with the documentation of Grid'5000 and learn its specific technical subtilities and tricks to make matters work. Everything is included in this Python library. Of course, documentation is still necessary to appreciate the various functionalities, but when lacking, one does have another way to solve their trouble. Instead of relying on bothering people through a mailing list, one can access the source code and understand the implementation. That way it usually takes less time than to explain the problem to a third party—particularly thanks to the code being commented.
+Another manner has been introduced thanks to the development of EnosLib \cite{cherrueau_enoslib_2022}. This library allows the complete use of Grid'5000 as the legacy, with one catch. One does not have to cope with the documentation of Grid'5000, learn its specific technical subtilities and tricks to make matters work. Everything is included in this Python library. Of course, documentation is still necessary to appreciate the various functionalities, but when lacking, one does have another way to solve their trouble. Instead of relying on bothering people through a mailing list, one can access the source code and understand the implementation. That way it usually takes less time than to explain the problem to a third party—particularly thanks to the code being commented and well written.
 
 Thanks to this library, a command line wrapper can be created easily. The resulting script is more straightforward than utilizing a bunch of bash scripts, especially since it is run on the developer's hardware. Every SSH trick, copy, redirection and even standard installations are handled. For example, using Docker is as simple as instantiating a Python context stating to run Docker, see the code below in \cref{listing:dockerenos}.
 
@@ -543,7 +573,7 @@ Prometheus \cite{prometheus_authors_prometheus_nodate} is a monitoring solution 
 
 With the use of appropriate crates (libraries) in Rust \cite{sully_rocket_prometheus_2022}, I would be capable to produce compatible endpoints on my framework. Those will be linked to EnosLib through Prometheus and record interesting metrics: latency between Fog nodes, load on the Fog node, number of instantiated functions, etc.
 
-\subsubsection{Evaulating our solution}
+\subsubsection{Evaluating our solution}
 
 We plan to evaluate the framework to release a paper by the end of my internship. To do so, we divided our strategy into two levels, in order to at least be able to publish a straightforward statement to tell the community that this framework is in the works.
 
@@ -561,7 +591,7 @@ Our criteria would be
 	\item scaling potential.
 \end{enumerate*}
 
-Economic efficiency aims to examine whether the Fog node earns enough “money” to be lucrative for its owner. Profitability would be an incentive for the node to stay in the network. One experience could look at “what happens when unremunerative nodes leave the grid because they went bankrupt?”
+Economic efficiency aims to examine whether the Fog node earns enough “money” to be lucrative for its owner. Profitability of a node would be an incentive to stay in the network. One experience could look at “what happens when unremunerative nodes leave the grid because they went bankrupt?”
 
 \subsection{Side work}
 
@@ -585,14 +615,14 @@ Finally, we went with BeFaaS \cite{grambow_befaas_2021} and actually rewrote the
 	\item get rid of Terraform, as it would have been an annoying additional layer to manage for no benefits;
 	\item get rid of JavaScript, as this would be a doubtful choice for a “high-performance” language employed for applications running under constraints, and likely paying for their resource consumptions.
 \end{itemize}
-In the end, the application was rewritten in Rust and that uplifted the whole project as I also planned to utilize this language for the framework itself. Hence it was an excellent training and way to find the appropriate crates—aka modules—that I would later utilize in the framework. A good example is the crate I retained for the \gls{REST} \gls{API}, with which I was hesitant to go at first, but after testing another option I realized the benefits of Rocket \cite{benitez_rocket_2022} and so I went with it for the framework.
+In the end, the application was rewritten in Rust and that uplifted the whole project as I also planned to utilize this language for the framework itself. Hence, it was an excellent training and way to find the appropriate crates—aka modules—that I would later utilize in the framework. A good example is the crate I retained for the \gls{REST} \gls{API}, with which I was hesitant to employ at first, but after testing another option I realized the benefits of Rocket \cite{benitez_rocket_2022} (Prometheus and OpenAPI v3 integrations through small crates) and so I went with it for the framework.
 
-\subsubsection{Evolutions and future research work}
+\subsection{Evolutions and future research work}
 
 \thesis{“Flexible resource allocation for \gls{FaaS} applications in the Fog” is the title of my thesis.
 	I earned the funding through the XXXXX. \todo{Put the name of the contest} thanks to the good advice of Nikos, under whose supervision I will research this topic.}
 
-Future work will change the scope of the topic. Instead of only focusing on the function placement, which currenlty is seen as one-time event occuring when a function needs to be provisioned; we would now consider the life of the full application in the Fog. Of course the application will still be divided in \gls{FaaS} functions. Those will require to stay linked with each other, to be moved around in the Fog in order to maintain meeting their requirements. And by doing so, the auctioning process will need to be modified to integrate those changes, to keep fairness during all operations for all users, etc.
+Future work will change the scope of the topic. Instead of only focusing on the function placement, which currenlty is seen as one-time event occuring when a function needs to be provisioned; we would now consider the life of the full application in the Fog. Of course the application will still be divided in \gls{FaaS} functions. Those will require to stay linked with each other, to be moved around in the Fog in order to maintain meeting their requirements. And by doing so, the auctioning process will need to be modified to integrate those changes, to retain the fairness property during all operations, for all users.
 
 \begin{figure}[H]
 	\centering
@@ -633,4 +663,16 @@ After synthesizing the knowledge in \cref{tab:placement}, new considerations are
 
 Ultimately, the report presents the accomplished work during the internship based on the integrated bibliographic report. Such work is the realization of a framework to experiment auction-enabled function placement in the Fog.
 
-Such a framework has been made open as numerous sharing initiative have been started: code documentation, the use of standard documentation \glspl{API}, project shared since day one. This framework has been established on extra research made toward a full comprehension of the task and challenges, supplementary to the bibliographic report itself. Additional work includes the port to Grid'5000 for experimental use and metrics harvesting, that will lead to a publication. A Fog application has also been developed as a basic trial for the readiness and load testing of the framework.
+Such a framework has been made open as numerous sharing initiative have been started: code documentation, the use of standard documentation \glspl{API}, project shared since day one. This framework has been established on extra research made toward a full comprehension of the task and challenges, supplementary to the bibliographic report itself.
+
+Additional work includes the port to Grid'5000 for experimental use and metrics harvesting, that will lead to a publication. A Fog application has also been developed as a basic trial for the readiness and load testing of the framework.
+
+\varthreestars
+
+Technologically I have employed Rust and experienced more than I did previously in my own projects. I end up convinced the paradigm it uses is rather promising for a great lot of use cases.
+
+I explored a topic that got my interest during the my SIF master scholarship: the Fog. And put that in perspective with many more concepts such as economics and \gls{FaaS}.
+
+Thanks to this internship I have learned a massive amount of knowledge about synthezing and researching in the scientific literature. I also learned a much more autonomous way of working, I previously mostly experienced Agile methods which are much more reliant on constant sharing of most information.
+
+Thanks to this research experience I consider applying for a PhD position at MYRIADS. 
