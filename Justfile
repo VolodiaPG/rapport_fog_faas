@@ -16,6 +16,9 @@ insa:
 # Indent the code of main.tex
 indent:
 	latexindent -m -w content.tex
+	latexindent -m -w appendix.tex
+	latexindent -m -w abstract.tex
+	latexindent -m -w resume.tex
 
 # Tidy the bib and generate the file used for the report
 tidy:

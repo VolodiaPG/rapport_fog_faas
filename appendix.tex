@@ -1,0 +1,66 @@
+\subsection{Timeline of the internship}
+
+\Cref{fig:ganttinternship} highlights the progress of the internship, as well as the framework's with regard to the INSA and SIF master deadlines.
+
+\begin{description}
+    \item{“Familiarization with research”} describes the phase of the internship where I polished the bibliographic report to further look into the specificities of the frameworks, and to find a case of Fog application I could port to OpenFaaS. Finally, I adapted one from a benchmark that would use similar platforms.
+    \item{“Work on algorithm”} is about the development of both the auction guided algorithm, the topology and the framework that incorporate those ideas. This resulted in the first—messy—version of the framework, that then got refined into what I am currently working with.
+    \item{“Evaluation”} will be about the production of results to analyze the performances of our solution. It will make good use of the fact this framework is running on Grid'5000.
+\end{description}
+
+\begin{figure}[H]
+	\centering
+	\begin{ganttchart}[%Specs
+			x unit = 1cm,  %<---------------------- New x unit 
+			y unit title=0.5cm,
+			y unit chart=0.7cm,
+			vgrid,
+			% hgrid,
+			title height=1,
+			%     title/.style={fill=none},
+			title label font=\bfseries\footnotesize,
+			% bar/.style={fill=blue},
+			bar height=0.7,
+			%   progress label text={},
+			group right shift=0,
+			group top shift=0.7,
+			group height=.3,
+			group peaks width={0.2},
+			inline]{1}{11}
+		%labels
+
+		\gantttitle[]{2022}{11} \\                 % title 
+		\gantttitle{Feb}{1}
+		\gantttitle{Mar}{1}
+		\gantttitle{Apr}{1}
+		\gantttitle{May}{1}
+		\gantttitle{Jun}{1}
+		\gantttitle{Jul}{1}\\
+
+		% Setting group if any
+
+		\ganttgroup[inline=false]{Internship}{1}{6}\\
+
+		\ganttbar[progress=100,inline=false]{Familiarization with research}{1}{2} \\
+		\ganttbar[progress=80,inline=false]{Work on algorithm}{2}{5} \\
+		\ganttbar[progress=0,inline=false]{Evaluation}{5}{6} \\
+		\ganttmilestone[inline=false]{Publication?}{6} \\
+
+		\ganttgroup[inline=false]{Framework}{1}{6} \\
+
+		\ganttbar[progress=100,inline=false]{Fog application adaptation}{2}{2} \\
+		\ganttbar[progress=100,inline=false]{Draft framework}{3}{4} \\
+		\ganttbar[progress=80,inline=false]{Framework}{4}{5} \\
+		\ganttmilestone[inline=false]{Runs on Grid'5000}{4} \\
+
+		\ganttgroup[inline=false]{Scholar deadlines}{1}{5} \\
+
+		\ganttmilestone[inline=false]{INSA \& SIF reports}{5} \\
+		\ganttmilestone[inline=false]{INSA \& SIF defences}{5} \\
+		\ganttmilestone[inline=false]{PhD position defences}{5} \\
+
+	\end{ganttchart}
+
+	\caption[Gantt diagram of the internship]{Gantt diagram of the internship}
+	\label{fig:ganttinternship}
+\end{figure}

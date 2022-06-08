@@ -512,6 +512,7 @@ contents={%
 
 \usepackage{textpos}
 \usepackage{appendix}
+\usepackage{pgfgantt}
 
 \addbibresource{internship} %added
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -625,13 +626,16 @@ I am indebted to the INSA and all the people involved for these wonderful 5 year
 \input{glossary}
 \input{content}
 
-% \pagenumbering{roman}
+\pagenumbering{roman}
 
-%\include{annexes}
+\newpage
+\appendix
+\appendixpage
+\addappheadtotoc
+\input{appendix}
 
 \clearpage
 
-\printbibliography
 % \input{glossary}
 % %\printglossary[type=\acronymtype, title={Acronymes}]
 % \printglossary[type=\acronymtype]
@@ -640,11 +644,10 @@ I am indebted to the INSA and all the people involved for these wonderful 5 year
 %\printglossary[title={Glossaire}]
 % \printglossary
 
-% \clearpage
-% \phantomsection
-% \addcontentsline{toc}{section}{References}
-%\renewcommand\refname{Références}
-%\bibliography{internship}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\printbibliography
 
 \clearpage \ifodd\value{page}\hbox{}\pagenumbering{gobble}\newpage\fi
 \pagestyle{empty}
@@ -674,29 +677,4 @@ Résumé
 }
 
 \vfil
-
-% \noindent
-% \
-% \vfil
-% {\fontsize{9}{10}\selectfont 
-% \begin{center}
-% Résumé
-% \end{center}
-
-% \begin{quotation}
-% Toto
-% \end{quotation}
-
-% \vspace*{2cm}
-
-% \begin{center}
-% Abstract
-% \end{center}
-
-% \begin{quotation}
-% toto
-% \end{quotation}
-% }
-
-% \vfil
 \end{document}
