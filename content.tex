@@ -1,9 +1,6 @@
 \newcommand{\varthreestars}{\begin{center}\begin{tabular}{c}$\ast$\\[-2ex] $\ast\enspace \ast $\end{tabular}\end{center}}
 
 \section{Introduction}
-\todo{literature review trop longue, focus section 5—résultats}
-\todo{relecture générale}
-\improvement{logos}
 Exploitation of computing power at the Edge of networks is a step towards real-time applications \cite{rausch_towards_2021,lin_cloudfog_2017}, \gls{IoT}, data and energy efficiency \cite{ieee_standards_association_ieee_2018}, data utilization through analysis \cite{openfog_consortium_real-time_2018}, to cite a few.
 
 Such an evolution is currently undergoing thanks to the emergence of models such as the \gls{ETSI} specified \gls{MEC}, innovations like \gls{NFV} and \gls{SDN}. However, \gls{MEC} strictly stops at the edge of telco’s networks. Fog redefines the frontier. The concept is to utilize all resources along the things-to-Cloud continuum: each computing-enabled node between the data producer (\gls{IoT} devices, smartphones, etc.) and the Cloud, included, will be exploited. Thus, Fog nodes are constrained in their resources, bandwidth, physical location.
@@ -11,8 +8,6 @@ Such an evolution is currently undergoing thanks to the emergence of models such
 Because of those constraints, Fog first needs to follow a computing model to execute tasks. Such paradigms could be microservices, stream processing or serverless. \gls{FaaS}, a subset of serverless is studied in this report. This model divides an application in small-scale “function” slices. It is easy to understand a function as a stateless unit of processing. As such, it requires to be downloaded, executed and fed data. And because they are only slices of an application, functions can be placed more efficiently by the platforms themselves.
 
 The goal of this report is on one hand to explore the current literature about platforms applying the \gls{FaaS} paradigm to the Fog. And on a second hand to explore the work done during the internship from the 7\textsuperscript{th} of February to the 31\textsuperscript{st} of July.
-
-\todo{Add SLA example}
 
 We study new placement strategies for functions. Existing research \cite{kjorveziroski_iot_2021,xie_when_2021} has already pinpointed some open questions, revolving around:
 \begin{enumerate*}[(1)]
@@ -504,7 +499,7 @@ In the community, two frameworks caught our eyes as they were compliant with mos
 	            However, for our needs, the framework is not appropriate. It is too complicated to understand fast, making modifications hard to deal with. Especially since we would have to implement the auctioning mechanisms on top of it, and enable messaging upon its existing stack. Even risking to go against the philosophy put into the framework. Additionally, the underlying orchestrator is not standard.
 
 	            For these reasons, the framework is not interesting for us.}
-\end{description}\improvement{Make this comparison better}
+\end{description}
 
 Both of the choices look as if they are actively maintained, with an emphasize over \cite{smartfog_fogflow_2022} since the commits usually dates back days instead of months as in \cite{deng_fogbus2_2021}.
 
