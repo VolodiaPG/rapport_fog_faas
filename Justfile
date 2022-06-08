@@ -3,7 +3,9 @@ default:
 	@just --list
 
 # Build the files
-build: tidy insa sif
+build: tidy
+	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode insa.tex
+	cp insa.pdf rapport_PAROL-GUARINO_Volodia.pdf
 
 # Build the SIF report
 sif:
