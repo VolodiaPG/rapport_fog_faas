@@ -7,6 +7,7 @@ build: tidy
 	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode insa.tex
 	latexmk -pdf -file-line-error -halt-on-error -interaction=nonstopmode sif.tex
 	cp insa.pdf rapport_PAROL-GUARINO_Volodia.pdf
+	cp sif.pdf report_PAROL-GUARINO_Volodia.sif.pdf
 
 # Build the SIF report
 sif:

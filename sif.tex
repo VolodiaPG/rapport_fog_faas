@@ -1,3 +1,6 @@
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames*,x11names*,table}{xcolor}
 \documentclass[11pt]{sdm}
 %\usepackage{xcolor}
 %\usepackage[utf8]{inputenc}
@@ -10,16 +13,18 @@
 \definecolor{default-citecolor}{HTML}{A50000}
 \definecolor{default-urlcolor}{HTML}{A50000}
 \hypersetup{
+    pdftitle={Function placement for FaaS applications in the Fog},
+    pdfauthor={Volodia PAROL-GUARINO},
+    pdflang={en},
     colorlinks=true,
     linkcolor=default-linkcolor,
     filecolor=default-filecolor,
     citecolor=default-citecolor,
     urlcolor=default-urlcolor,
+    allcolors=default-citecolor,
     breaklinks=true,
-    pdftitle={Function placement for FaaS applications in the Fog},
-    pdfauthor={Volodia PAROL-GUARINO},
-    pdflang={en},
     }
+\urlstyle{same} % disable monospaced font for URLs
 
 \usepackage{pdfpages}
 \usepackage{amsmath,amssymb,amsfonts}
@@ -224,13 +229,15 @@
 % 	This bibliographic report will concentrate on finding open working directions from the literature, paving the way toward an M.Sc. internship. We will pay attention to the metrics taken into account, acknowledging the algorithms as well as making a case for auctions. \\
 % 	We think auction -- and bidding -- paired with a good contracting such as \glspl{SLA} would translate the needs of an application's functions and enable efficient exploitation of the Fog by correctly provisioning those functions. Furthermore, it would provide an introduction in Fog's economics as well as considering \gls{FaaS} challenges (cold-start, function storage, input data) and make security and privacy a priority.
 % }
-\hypersetup{linkcolor=}
+% \hypersetup{linkcolor=}
 \abstract{
 \input{abstract}
 }
 
 
 % \makeglossaries   
+\glsdisablehyper
+
 \input{glossary}
 
 
